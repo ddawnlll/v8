@@ -11,6 +11,7 @@ Validates:
 8. End-to-end BenchmarkRunner execution with resolve_gates=True.
 """
 
+import hashlib
 import inspect
 import json
 from decimal import Decimal
@@ -19,6 +20,7 @@ from pathlib import Path
 import pytest
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
+from v8_next.adapters.shadow_ingest import make_venue_attestation
 from v8_next.domain.market import Candle
 from v8_next.evaluation.benchmark_receipt import (
     BenchmarkLedger,
@@ -210,7 +212,7 @@ def test_g4_synthetic_falsification_adversarial_shock(real_candles: list[Candle]
 
 
 def test_g5_selection_control_dsr_and_wrc():
-    """G5: Verify DSR >= 0.95 and p <= 0.05 under Rule 12 multiple testing."""
+    """A passing stress diagnostic cannot certify an undocumented selection family."""
     from v8_next.evaluation.statistics_plan import CANONICAL_G5_BLOCK_SIZE, g5_plan
 
     pnls = [0.03, 0.025, 0.04, 0.01, 0.035, 0.02, 0.05, 0.015, 0.03, 0.045] * 3
@@ -222,8 +224,10 @@ def test_g5_selection_control_dsr_and_wrc():
         seed=42,
     )
     state, metrics = evaluate_g5_selection_control(pnls, plan=plan)
-    assert state == GateState.PASS
-    assert metrics["passed"] is True
+    assert state == GateState.BLOCKED
+    assert metrics["passed"] is False
+    assert metrics["stress_diagnostic_passed"] is True
+    assert metrics["selection_family_status"] == "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY"
     assert metrics["dsr_confidence"] >= 0.95
     assert metrics["adjusted_bonferroni_pvalue"] <= 0.05
     assert metrics["own_sample_count"] == 30
@@ -323,8 +327,8 @@ def test_g7_refuses_the_runs_own_historical_tail(real_candles: list[Candle], tmp
         )
 
 
-def test_g8_live_realization_modes(tmp_path: Path):
-    """G8: Verify D-152 §5 Diagnostic Fold (NOT_APPLICABLE) and live fills (PASS)."""
+def test_g8_live_realization_modes(tmp_path: Path, monkeypatch) -> None:
+    """G8: public paper stays diagnostic; settlement needs attestation + reconciliation."""
     # 1. Candidate / Research phase without live venue
     state, metrics = evaluate_g8_live_realization(live_fills_path=None)
     assert state == GateState.NOT_APPLICABLE
@@ -334,7 +338,18 @@ def test_g8_live_realization_modes(tmp_path: Path):
     # settlement. It must NOT reach PASS however valid its columns look.
     fills_file = tmp_path / "fills.jsonl"
     fills_file.write_text(
-        json.dumps({"fill_id": "F-001", "instrument": "BTCUSDT", "price": 105000, "qty": 0.01}) + "\n"
+        json.dumps(
+            {
+                "fill_id": "F-001",
+                "instrument": "BTCUSDT",
+                "price": 105000,
+                "qty": 0.01,
+                "side": "BUY",
+                "venue_time_ns": 1,
+                "order_id": "O-001",
+            }
+        )
+        + "\n"
     )
     state_paper, metrics_paper = evaluate_g8_live_realization(live_fills_path=fills_file)
     assert state_paper == GateState.NOT_APPLICABLE
@@ -343,27 +358,58 @@ def test_g8_live_realization_modes(tmp_path: Path):
     assert metrics_paper["fills_count"] == 1
     assert "PUBLIC_PAPER_TECHNICAL_EVIDENCE_ONLY" in metrics_paper["reason"]
 
-    # 2b. Only an authenticated venue statement with an account identity is
-    # allowed to read as settled.
+    # 2b. A caller label plus an account id is not authenticity.
     with pytest.raises(ValueError, match="account identity"):
         evaluate_g8_live_realization(
             live_fills_path=fills_file,
             provenance="authenticated_venue_statement",
         )
-    state_live, metrics_live = evaluate_g8_live_realization(
+    state_unverified, metrics_unverified = evaluate_g8_live_realization(
         live_fills_path=fills_file,
         provenance="authenticated_venue_statement",
         account_id="acct-unit-test",
     )
+    assert state_unverified == GateState.BLOCKED
+    assert metrics_unverified["mode"] == "UNVERIFIED_PROVENANCE"
+
+    # 2c. A trusted-ingestion attestation is necessary but not sufficient: with
+    # no account snapshot there is no reconciliation, so no PASS.
+    monkeypatch.setenv("V8_VENUE_ATTESTATION_KEY", "test-key")
+    sha = hashlib.sha256(fills_file.read_bytes()).hexdigest()
+    receipt = make_venue_attestation(
+        fills_sha256=sha, account_id="acct-unit-test", key="test-key"
+    )
+    attestation_path = tmp_path / "fills.attestation.json"
+    attestation_path.write_text(json.dumps(receipt))
+    state_unreconciled, metrics_unreconciled = evaluate_g8_live_realization(
+        live_fills_path=fills_file,
+        provenance="authenticated_venue_statement",
+        account_id="acct-unit-test",
+        attestation_path=attestation_path,
+        account=None,
+    )
+    assert state_unreconciled == GateState.BLOCKED
+    assert metrics_unreconciled["mode"] == "RECONCILIATION_MISSING"
+
+    # 2d. Attested + reconciled reaches PASS, and only then is it labelled reconciled.
+    account = {
+        "account_id": "acct-unit-test",
+        "balance_total": "10000 USDT",
+        "positions": [{"side": "LONG", "quantity": "0.01"}],
+        "orders": [{"status": "FILLED"}],
+        "currency": "USDT",
+    }
+    state_live, metrics_live = evaluate_g8_live_realization(
+        live_fills_path=fills_file,
+        provenance="authenticated_venue_statement",
+        account_id="acct-unit-test",
+        attestation_path=attestation_path,
+        account=account,
+    )
     assert state_live == GateState.PASS
     assert metrics_live["mode"] == "LIVE_VENUE_SETTLED"
-    assert metrics_live["fills_count"] == 1
-    assert metrics_live["authority"] == "VENUE_STATEMENT"
-    # No account supplied: PASS must be explicitly labeled unreconciled,
-    # never mistaken for a matched realization.
-    assert metrics_live["account_reconciled"] is False
-    assert metrics_live["reconciliation"] == "UNRUN_NO_ACCOUNT"
-
+    assert metrics_live["account_reconciled"] is True
+    assert metrics_live["reconciliation"]["reconciled"] is True
 
 def test_g9_claim_registry_and_certificate_authority(tmp_path: Path):
     """G9: ClaimRegistry verifies ledger hash chain and issues signed StatutoryClaimRecord."""

@@ -7,6 +7,7 @@ runs against the real tape and is a measurement, not a mechanics check.
 
 from __future__ import annotations
 
+import os
 from decimal import Decimal
 from pathlib import Path
 
@@ -31,7 +32,10 @@ from v8_next.evaluation.multitape import FundingRow, load_multitape
 
 HOUR_MS = 3_600_000
 HOUR_NS = 3_600 * 10**9
-MULTI_TAPE = Path("/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl")
+MULTI_TAPE = Path(os.environ.get(
+    "V8_MULTI_TAPE_PATH",
+    str(Path(__file__).resolve().parents[2] / "research/tape/multi-1h-4y/tape.jsonl"),
+))
 
 
 def row(instrument: str, hours_from_epoch_start: int, rate: str) -> FundingRow:

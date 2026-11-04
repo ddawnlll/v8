@@ -132,6 +132,60 @@ class StatisticsPlan:
         return payload
 
 
+@dataclass(frozen=True)
+class SelectionFamily:
+    """A provenance-bound record of what was actually searched.
+
+    Four stress transformations of one strategy are not a selection family, and
+    a caller's assertion that it searched ``N`` variants is not evidence either.
+    This record can only be built from a concrete member list plus the instant
+    the family was registered; its identity is derived from that content, so a
+    gate can report the exact family a correction covered and cannot be handed
+    a bare trial count.
+    """
+
+    family_id: str
+    members: tuple[str, ...]
+    registered_ns: int
+    basis: str
+
+    def __post_init__(self) -> None:
+        if not self.family_id.strip():
+            raise ValueError("selection family needs an id")
+        if not self.members:
+            raise ValueError("selection family needs at least one member")
+        if len(set(self.members)) != len(self.members):
+            raise ValueError("selection family members must be unique")
+        if any(not m.strip() for m in self.members):
+            raise ValueError("selection family members must be named")
+        if self.registered_ns <= 0:
+            raise ValueError("selection family must carry its registration instant")
+        if not self.basis.strip():
+            raise ValueError("selection family needs a stated basis")
+
+    def identity(self) -> str:
+        return "sha256:" + hashlib.sha256(
+            canonical(
+                {
+                    "family_id": self.family_id,
+                    "members": list(self.members),
+                    "registered_ns": self.registered_ns,
+                    "basis": self.basis,
+                }
+            ).encode()
+        ).hexdigest()
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "family_id": self.family_id,
+            "members": list(self.members),
+            "member_count": len(self.members),
+            "registered_ns": self.registered_ns,
+            "basis": self.basis,
+            "identity": self.identity(),
+        }
+
+
 def g5_plan(
     family: str,
     *,

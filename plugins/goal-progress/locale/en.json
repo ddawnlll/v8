@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Goal Progress",
+    "description": "Shows a percentage meter for the current goal above the composer, based on completed tasks or on goal rounds already started."
+  }
+}

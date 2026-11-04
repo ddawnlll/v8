@@ -1,0 +1,14 @@
+ M .pi/.goals-pool-snapshot.json
+ M .pi/goals/.goal-ledger-checkpoint.json
+?? .pi/goals/active_goal_2026110417590083_mw28sfon-wqemtm.md
+?? docs/v9/REVIEW_COUNCIL_RFC_1.3.1_TR.md
+?? plugins/
+?? v8-next/audit_out/followup_remediation_2026-11-04/1fa78e89612a7728e8d86a85c44797bd2b6e1e48
+fix/v8-next-critical-execution-gate-integrity
+f084d99bc7fceb8b10490f8f0e203b6bd7004f5eb07b450536acd59e5b5b5ab4  v8-next/AUDIT_FOLLOWUPS_2026-10-31.md
+58e1582344a0e9ebc71efec3ae1d579b4c72b2dbed9aa53e32db8ea0cbd18530  v8-next/pyproject.toml
+b3ee5c3836d26b8e6a598f6a9ffe1b50213939bd00efaceb0397d19b9f2b698b  v8-next/uv.lock
+
+Baseline: .venv/bin/python -m pytest -q tests/test_data_integrity_regressions.py tests/test_online_funding.py tests/test_gate_resolution.py tests/test_execution_safety_20261103.py; exit 0; see baseline_tests.log
+nautilus-trader=2.0.0rc4 pytest=9.1.1 arch=8.0.0 duckdb=2.0.0 numpy=2.5.3
+Relevant contract: docs/contracts/V8_NEXT_IMPLEMENTATION_SCOPE.md; inputs: AUDIT_FOLLOWUPS_2026-10-31.md, pyproject.toml, uv.lock

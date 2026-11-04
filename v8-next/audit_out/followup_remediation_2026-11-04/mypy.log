@@ -1,0 +1,22 @@
+src/v8_next/world/foundry.py:104: error: Unused "type: ignore" comment  [unused-ignore]
+src/v8_next/certification.py:187: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/certification.py:188: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/certification.py:189: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/certification.py:190: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/certification.py:191: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/certification.py:192: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/certification.py:193: error: Argument 1 to "float" has incompatible type "float | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/adapters/expert_strategy.py:742: error: Argument 1 to "int" has incompatible type "int | None"; expected "str | Buffer | SupportsInt | SupportsIndex | SupportsTrunc"  [arg-type]
+src/v8_next/adapters/expert_strategy.py:759: error: Argument 1 to "float" has incompatible type "Decimal | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/adapters/expert_strategy.py:760: error: Argument 1 to "float" has incompatible type "Decimal | None"; expected "str | Buffer | SupportsFloat | SupportsIndex"  [arg-type]
+src/v8_next/audit/pipeline.py:136: error: Module has no attribute "WinDLL"  [attr-defined]
+src/v8_next/audit/pipeline.py:143: error: Module has no attribute "windll"  [attr-defined]
+src/v8_next/adapters/swing_engine.py:397: error: Returning Any from function declared to return "Decimal | None"  [no-any-return]
+src/v8_next/app/paper.py:438: error: Module has no attribute "locking"  [attr-defined]
+src/v8_next/app/paper.py:438: error: Module has no attribute "LK_NBLCK"  [attr-defined]
+src/v8_next/app/paper.py:453: error: Module has no attribute "locking"  [attr-defined]
+src/v8_next/app/paper.py:453: error: Module has no attribute "LK_UNLCK"  [attr-defined]
+src/v8_next/app/portfolio.py:251: error: Unsupported operand types for * ("float" and "None")  [operator]
+src/v8_next/app/portfolio.py:251: note: Right operand is of type "float | None"
+Found 19 errors in 7 files (checked 208 source files)
+EXIT_CODE=1

@@ -1,0 +1,3 @@
+- insert:
+    - id: goal-progress
+      name: '@local/goal-progress'

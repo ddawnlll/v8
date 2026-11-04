@@ -15,9 +15,10 @@ from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.multitape import PARQUET_TAPE_NAME
 
-QUAD_DIR = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+QUAD_DIR = tape_path("quad-1h-12m")
 QUAD_JSONL = QUAD_DIR / "tape.jsonl"
 
 

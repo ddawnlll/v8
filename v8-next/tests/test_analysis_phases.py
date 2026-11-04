@@ -15,9 +15,10 @@ from pathlib import Path
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.analysis import phases as P
 
-TAPE = Path("/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl")
+TAPE = tape_path("multi-1h-4y", "tape.jsonl")
 
 KEY = "trend_pullback|BTCUSDT|LONG|mean_legal_hindsight_gap"
 KEY2 = "trend_pullback|BTCUSDT|LONG|mean_actual_vs_no_trade"

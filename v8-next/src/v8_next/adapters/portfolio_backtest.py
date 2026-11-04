@@ -14,6 +14,7 @@ reported; rows outside the window are excluded, never extrapolated.
 
 from __future__ import annotations
 
+from bisect import bisect_right
 from dataclasses import dataclass, replace
 from decimal import Decimal
 from typing import Any
@@ -74,6 +75,100 @@ BASE_CURRENCIES = {
     "SOLUSDT": "SOL",
     "XRPUSDT": "XRP",
 }
+
+
+def _causal_funding_proxy(
+    candles: tuple[Candle, ...], boundary_ns: int, ends: list[int] | None = None
+) -> Decimal | None:
+    """Historical close-time proxy, never a venue mark or certified availability.
+
+    When availability is unknown, close-time availability is modeled only. A
+    proxy older than its own bar duration is rejected rather than filled forever.
+
+    Bars are chronological, so the eligible close is found by bisecting the end
+    timestamps instead of scanning the whole leg per settlement: the previous
+    linear scan made a four-year tape repair cost seconds per portfolio run.
+    """
+    if not candles:
+        return None
+    if ends is None:
+        ends = [candle.end_ns for candle in candles]
+    index = bisect_right(ends, boundary_ns) - 1
+    while index >= 0:
+        candle = candles[index]
+        if candle.available_ns is None or candle.available_ns <= boundary_ns:
+            if boundary_ns - candle.end_ns > candle.end_ns - candle.start_ns:
+                return None
+            return candle.close
+        index -= 1
+    return None
+
+
+def _plan_funding_events(
+    funding: tuple[FundingRow, ...],
+    legs: dict[str, tuple[Candle, ...]],
+    window_start: int | None,
+    window_end: int | None,
+) -> tuple[list[tuple[int, int, FundingRow, InstrumentId, Decimal]], dict[str, int]]:
+    """Decide when each settlement becomes chargeable; count what cannot be.
+
+    A venue settlement is knowable no earlier than its boundary and no earlier
+    than local receipt. Charging a delayed record at its boundary would date its
+    cash effect before it was observable; dropping it would hide the cost. It is
+    therefore charged at ``max(boundary, receipt)`` and the shift is counted.
+    """
+    counters = {
+        "out_of_window": 0,
+        "unknown_leg": 0,
+        "missing_mark": 0,
+        "receipt_shifted": 0,
+        "receipt_unknown": 0,
+        "duplicate_boundary": 0,
+    }
+    prepared: list[tuple[int, int, FundingRow, InstrumentId, Decimal]] = []
+    seen: set[tuple[str, int]] = set()
+    ends_by_instrument: dict[str, list[int]] = {}
+    for row in funding:
+        boundary = row.funding_time_ms * 1_000_000
+        if window_start is None or window_end is None:
+            counters["out_of_window"] += 1
+            continue
+        if not window_start <= boundary <= window_end:
+            counters["out_of_window"] += 1
+            continue
+        fund_iid = InstrumentId.from_str(f"{row.instrument}-PERP.BINANCE")
+        leg = legs.get(row.instrument)
+        if leg is None:
+            counters["unknown_leg"] += 1
+            continue
+        ends = ends_by_instrument.get(row.instrument)
+        if ends is None:
+            ends = [candle.end_ns for candle in leg]
+            ends_by_instrument[row.instrument] = ends
+        mark = _causal_funding_proxy(leg, boundary, ends)
+        if mark is None:
+            counters["missing_mark"] += 1
+            continue
+        # Two records for one instrument/boundary would charge the same opening
+        # twice; the venue charge is per boundary, so the repeat is reported.
+        key = (row.instrument, row.funding_time_ms)
+        if key in seen:
+            counters["duplicate_boundary"] += 1
+            continue
+        seen.add(key)
+        if row.received_ns is None:
+            counters["receipt_unknown"] += 1
+            effective = boundary
+        else:
+            effective = max(boundary, int(row.received_ns))
+            if effective > window_end:
+                counters["out_of_window"] += 1
+                continue
+            if effective != boundary:
+                counters["receipt_shifted"] += 1
+        prepared.append((effective, boundary, row, fund_iid, mark))
+    prepared.sort(key=lambda item: (item[0], str(item[3]), item[1]))
+    return prepared, counters
 
 
 def base_currency(raw_symbol: str) -> str:
@@ -352,35 +447,23 @@ def run_portfolio_backtest(
             engine.add_data(ordered)
             trades_fed = len(ordered)
 
+        prepared, funding_counts = _plan_funding_events(funding, legs, window_start, window_end)
+        out_of_window = funding_counts["out_of_window"]
+        unknown_leg = funding_counts["unknown_leg"]
+        missing_mark = funding_counts["missing_mark"]
+        receipt_shifted = funding_counts["receipt_shifted"]
+        unknown_receipt = funding_counts["receipt_unknown"]
         settlements = 0
-        out_of_window = 0
-        unknown_leg = 0
-        for row in funding:
-            boundary = row.funding_time_ms * 1_000_000
-            if window_start is None or window_end is None:
-                out_of_window += 1
-                continue
-            if not window_start <= boundary <= window_end:
-                out_of_window += 1
-                continue
-            fund_iid = InstrumentId.from_str(f"{row.instrument}-PERP.BINANCE")
-            leg = legs.get(row.instrument)
-            if leg is None:
-                unknown_leg += 1
-                continue
-            mark = next((float(c.close) for c in leg if c.end_ns >= boundary), None)
-            if mark is None:
-                unknown_leg += 1
-                continue
-            engine.add_data([MarkPriceUpdate(fund_iid, Price(mark, 2), boundary, boundary)])
+        for effective, boundary, row, fund_iid, mark in prepared:
+            engine.add_data([MarkPriceUpdate(fund_iid, Price(float(mark), 2), boundary, boundary)])
             engine.add_data(
                 [
                     FundingRateUpdate(
                         fund_iid,
                         row.funding_rate,
-                        boundary,
-                        boundary,
-                        next_funding_ns=boundary,
+                        effective,
+                        effective,
+                        next_funding_ns=effective,
                     )
                 ]
             )
@@ -444,10 +527,26 @@ def run_portfolio_backtest(
             "funding_dropped_at_load": funding_dropped,
             "funding_out_of_window": out_of_window,
             "funding_unknown_leg": unknown_leg,
+            "funding_missing_mark": missing_mark,
+            "funding_mark_basis": "OHLC_CLOSE_ASOF_BOUNDED_HISTORICAL_MODEL_NOT_VENUE_MARK",
+            "funding_receipt_shifted": receipt_shifted,
+            "funding_receipt_unknown": unknown_receipt,
+            "funding_attribution_basis": (
+                "CHARGE_AT_MAX"
+                "(BOUNDARY,RECEIPT)"
+            ),
             "funding_coverage": (
                 "NO_FUNDING_ROWS"
                 if not funding
-                else ("DROPPED_RECORDS" if (funding_dropped or unknown_leg) else "FULL")
+                else (
+                    "DROPPED_RECORDS"
+                    if (funding_dropped or unknown_leg or missing_mark)
+                    else (
+                        "FULL_BOUNDARY_RECEIPT_ATTRIBUTED"
+                        if not unknown_receipt
+                        else "FULL_WITH_UNKNOWN_RECEIPT_TIME"
+                    )
+                )
             ),
         }
     finally:

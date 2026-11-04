@@ -17,7 +17,6 @@ Nothing here asserts economic performance.
 from __future__ import annotations
 
 from decimal import Decimal
-from pathlib import Path
 
 import pytest
 
@@ -25,8 +24,9 @@ from v8_next.adapters.expert_strategy import (
     ExpertStrategyConfig,
     run_expert_strategy_backtest,
 )
+from v8_next.adapters.tape_paths import tape_path
 
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 MAKER_FEE = Decimal("0.0002")
 TAKER_FEE = Decimal("0.0005")
 

@@ -32,6 +32,12 @@ uv run --project v8-next --extra dev ruff check v8-next/src v8-next/tests
 uv run --project v8-next --extra dev mypy v8-next/src
 ```
 
+The F6 catalog builder resolves its tape from an explicit `tape_path`, then
+`V8_TAPE_PATH`, then `research/tape/quad-1h-12m` relative to the repository
+root. Relative overrides are repository-relative, not shell-CWD-relative. A
+missing tape raises `FileNotFoundError`; it is not verification evidence.
+`V8_MULTI_TAPE_PATH` can select the separate optional swing-cost test tape.
+
 The example fee rates and initial balance are explicit simulation assumptions,
 not a statement of the user's actual commission schedule or capital. Capture
 uses public REST only. Choose a new directory for each capture. Historical

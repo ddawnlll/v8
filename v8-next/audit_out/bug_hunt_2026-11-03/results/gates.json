@@ -1,0 +1,35 @@
+{
+  "g3": {
+    "same_50pct_loss_open_position": {
+      "state": "PASS",
+      "max_drawdown": 5e-05
+    },
+    "same_50pct_loss_realized": {
+      "state": "BLOCKED",
+      "max_drawdown": 0.5
+    },
+    "result": "FAIL"
+  },
+  "g7": {
+    "always_wrong_candidate": {
+      "state": "PASS",
+      "e_process_raw": 0.9517,
+      "drift": 0.048307,
+      "exposure_bars": 99
+    },
+    "zero_exposure_candidate": {
+      "state": "PASS",
+      "e_process_raw": 1.0,
+      "exposure_bars": 0
+    },
+    "result": "FAIL"
+  },
+  "g8": {
+    "state": "PASS",
+    "mode": "LIVE_VENUE_SETTLED",
+    "authority": "VENUE_STATEMENT",
+    "account_reconciled": false,
+    "result": "FAIL"
+  },
+  "overall": "FAIL"
+}

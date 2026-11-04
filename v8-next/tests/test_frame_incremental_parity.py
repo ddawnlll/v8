@@ -12,14 +12,14 @@ the full path, so verdicts stay identical.
 from __future__ import annotations
 
 from decimal import Decimal
-from pathlib import Path
 from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.domain.market import Candle, CausalFrame, frame_at, frame_at_incremental
 
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 INSTRUMENT = "BTCUSDT-PERP.BINANCE"
 
 

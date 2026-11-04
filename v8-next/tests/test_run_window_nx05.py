@@ -19,6 +19,7 @@ from pathlib import Path
 import pytest
 
 from v8_next.adapters.expert_strategy import ExpertStrategyConfig
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.gate_resolution import DEFAULT_TAPE_PATH, load_tape_candles
 from v8_next.evaluation.run_window import (
     WINDOW_MANIFEST_VERSION,
@@ -35,7 +36,7 @@ from v8_next.evaluation.run_window import (
 )
 from v8_next.evaluation.runner import BenchmarkCase, BenchmarkRunner
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/multi-1h-4y/tape.jsonl")
+QUAD_TAPE = tape_path("multi-1h-4y", "tape.jsonl")
 JAN_2025_START_MS = 1_735_689_600_000  # 2025-01-01T00:00:00Z
 FEB_2025_START_MS = 1_738_368_000_000  # 2025-02-01T00:00:00Z
 HOUR_MS = 3_600_000

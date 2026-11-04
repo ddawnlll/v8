@@ -8,11 +8,12 @@ on consecutive bars, and the whole run is deterministic.
 from __future__ import annotations
 
 from decimal import Decimal
-from pathlib import Path
 
 import pytest
 
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+from v8_next.adapters.tape_paths import tape_path
+
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 
 
 def _candles(limit: int = 120):

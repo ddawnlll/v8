@@ -103,6 +103,43 @@ def build_funding_reconciliation(
     return reconciled
 
 
+def _refuse_unattributed_delayed_funding(
+    settlements: tuple[FinalFunding, ...], positions: list[dict[str, Any]]
+) -> None:
+    """Refuse a paper result whose delayed funding lands on the wrong position.
+
+    A settlement that arrives after its boundary is re-timed to receipt by the
+    accounting path. That is only sound when the position open at the boundary is
+    the same position open at receipt: then the charge is still associated with
+    the exposure that incurred it. If the exposure changed in between, the charge
+    would be attributed to a different trade and no exposure snapshot is
+    available to split it, so the run is refused instead of published.
+    """
+
+    def exposed_at(position: dict[str, Any], ns: int) -> bool:
+        opened = int(position["opened_ns"])
+        closed = int(position.get("closed_ns") or 0)
+        # Equal-time close/funding ordering is not established by this snapshot;
+        # treating the boundary instant as exposed is the conservative choice.
+        return opened <= ns and (closed == 0 or ns <= closed)
+
+    for settlement in settlements:
+        if settlement.received_ns == settlement.boundary_ns:
+            continue
+        relevant = [
+            (index, position)
+            for index, position in enumerate(positions)
+            if position["instrument_id"] == settlement.instrument_id
+        ]
+        at_boundary = {i for i, p in relevant if exposed_at(p, settlement.boundary_ns)}
+        at_receipt = {i for i, p in relevant if exposed_at(p, settlement.received_ns)}
+        if at_boundary != at_receipt:
+            raise ValueError(
+                "delayed funding boundary exposure accounting unavailable; "
+                "refusing an unreconciled paper result"
+            )
+
+
 def replay_account(
     manifests: list[Path],
     config: dict[str, Any],
@@ -237,13 +274,10 @@ def replay_account(
                 )
 
         quotes.sort(key=lambda q: (q.ts_init, str(q.instrument_id), q.ts_event))
-        # Prospective online funding: verified final settlements enter the engine
-        # at capture receipt, never backdated to their boundary. The pinned engine
-        # rejects past-clock data, so both event and receipt clocks are the
-        # knowledge time; the verified boundary/rate/mark are retained below for
-        # coverage accounting. A settlement with no open position at receipt is
-        # a native no-op; with exposure it debits the actually open quantity.
-        # Coverage-gated readmission below never certifies venue finality.
+        # Never apply a delayed settlement to a receipt-time native position.
+        # No backdated accounting updates enter the decision engine. Until an
+        # independently reconciled boundary-exposure ledger exists, position
+        # bearing delayed settlements cause the paper result to be refused.
         online_inputs: list[tuple[int, int, object]] = [(q.ts_init, 0, q) for q in quotes]
         funding_settlements = final_funding(
             manifests,
@@ -252,6 +286,8 @@ def replay_account(
             max(q.ts_init for q in quotes),
         )
         for settlement in funding_settlements:
+            if settlement.received_ns != settlement.boundary_ns:
+                continue
             instrument = InstrumentId.from_str(settlement.instrument_id)
             online_inputs.append(
                 (
@@ -308,6 +344,7 @@ def replay_account(
         if strategy.callback_failure is not None:
             raise ValueError(f"paper callback failed: {strategy.callback_failure}")
         state = economic_state(engine, Venue("BINANCE"), Currency.from_str("USDT"))
+        _refuse_unattributed_delayed_funding(funding_settlements, state["positions"])
         state["quote_count"] = len(quotes)
         state["instruments"] = sorted(instrument_manifests)
         state["campaign_status"] = (
@@ -332,7 +369,7 @@ def replay_account(
         state["online_funding_settlements_applied"] = sum(
             1
             for settlement in funding_settlements
-            if any(
+            if settlement.boundary_ns == settlement.received_ns and any(
                 position["instrument_id"] == settlement.instrument_id
                 and _open_at(position, int(settlement.received_ns))
                 for position in state["positions"]

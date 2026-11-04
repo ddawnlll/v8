@@ -41,11 +41,13 @@ from v8_next.evaluation.deflated_sharpe import DSRPlan, deflated_sharpe_diagnost
 from v8_next.evaluation.economic_benchmark import (
     bars_from_candles,
     campaign_accounting,
+    parse_money,
 )
 from v8_next.evaluation.reality_check import reality_check_diagnostic
 from v8_next.evaluation.scoring import evaluate_gate_vector
 from v8_next.evaluation.statistics_plan import (
     CANONICAL_G5_BLOCK_SIZE,
+    SelectionFamily,
     StatisticsPlan,
     g5_plan,
     sample_sufficiency,
@@ -377,19 +379,140 @@ def classify_market_regimes(
     }
 
 
+#: G3 accounting contract. Every observation is monetary USDT relative to this
+#: declared starting equity; the variance series is the dimensionless campaign
+#: return on that same equity. The two are never mixed in one list.
+G3_INITIAL_EQUITY = 10000.0
+G3_TAKER_FEE = 0.0005
+G3_PNL_UNIT = "USDT"
+G3_RETURN_UNIT = "fraction_of_initial_equity"
+
+
+def _g3_money(value: Any) -> float | None:
+    parsed = parse_money(value)
+    return None if parsed is None else float(parsed)
+
+
+def _g3_open_mark_pnl(
+    record: dict[str, Any], mark: float, taker_fee: float
+) -> tuple[float, float] | None:
+    """Open-position PnL and entry notional in USDT, or None if unmeasurable.
+
+    The mark-to-market is ``(mark - entry) * quantity * direction`` minus the
+    declared entry taker fee. It is a monetary value, never a bare return.
+    """
+    quantity = _g3_money(record.get("quantity"))
+    entry = _g3_money(record.get("avg_px_open"))
+    if quantity is None or entry is None or quantity <= 0 or entry <= 0:
+        return None
+    side = str(record.get("side", "")).upper()
+    if side in ("BUY", "LONG"):
+        direction = 1.0
+    elif side in ("SELL", "SHORT"):
+        direction = -1.0
+    else:
+        return None
+    notional = abs(quantity) * entry
+    gross = (mark - entry) * quantity * direction
+    fee = notional * taker_fee
+    return gross - fee, notional
+
+
+def _g3_pair_regime(
+    opened: Sequence[dict[str, Any]],
+    closed: Sequence[dict[str, Any]],
+) -> tuple[list[tuple[int, float | None, float | None, str, dict[str, Any]]], list[str]]:
+    """Pair campaigns chronologically and return (ts, pnl_usdt, notional, kind).
+
+    Closes are consumed once per open on the same position slot, in event order.
+    A close that no open can consume, or a second close of an already reduced
+    slot, is reported instead of being silently folded into another campaign.
+    """
+    opens = sorted(
+        (o for o in opened if isinstance(o, dict)),
+        key=lambda o: int(o.get("event_ns", 0) or 0),
+    )
+    closes_by_slot: dict[str, list[dict[str, Any]]] = {}
+    for close in sorted(
+        (c for c in closed if isinstance(c, dict)),
+        key=lambda c: int(c.get("event_ns", 0) or 0),
+    ):
+        closes_by_slot.setdefault(str(close.get("position_id", "")), []).append(close)
+    observations: list[
+        tuple[int, float | None, float | None, str, dict[str, Any]]
+    ] = []
+    problems: list[str] = []
+    consumed: set[int] = set()
+    for open_rec in opens:
+        slot = str(open_rec.get("position_id", ""))
+        open_ns = int(open_rec.get("event_ns", 0) or 0)
+        match = None
+        for close in closes_by_slot.get(slot, []):
+            if id(close) in consumed:
+                continue
+            if int(close.get("event_ns", 0) or 0) < open_ns:
+                continue
+            match = close
+            break
+        if match is None:
+            observations.append((open_ns, None, None, "open", open_rec))
+            continue
+        consumed.add(id(match))
+        pnl = _g3_money(match.get("realized_pnl"))
+        entry_notional = None
+        quantity = _g3_money(open_rec.get("quantity"))
+        entry = _g3_money(open_rec.get("avg_px_open"))
+        if quantity is not None and entry is not None:
+            entry_notional = abs(quantity) * entry
+        if pnl is None:
+            problems.append(f"CLOSE_PNL_UNPARSABLE:{slot}")
+            continue
+        observations.append(
+            (
+                int(match.get("event_ns", 0) or 0),
+                pnl,
+                entry_notional or 0.0,
+                "closed",
+                open_rec,
+            )
+        )
+    for slot, closes in closes_by_slot.items():
+        for close in closes:
+            if id(close) not in consumed:
+                problems.append(f"ORPHAN_CLOSE:{slot}")
+    return observations, problems
+
+
 def evaluate_g3_scenario_robustness(
     regimes: dict[str, list[Candle]],
     strategy_config: ExpertStrategyConfig | None = None,
     max_drawdown_limit: float = 0.10,
     min_trades_per_regime: int = 1,
+    *,
+    initial_equity: float = G3_INITIAL_EQUITY,
+    taker_fee: float = G3_TAKER_FEE,
 ) -> tuple[GateState, dict[str, Any]]:
     """G3: Scenario Robustness (g3_scenario_robustness).
 
     Executes backtests across the 4 primary market regimes (Bull Trend, Bear Crash,
-    Chop/Range, High-Vol Spill) and verifies that maximum drawdown and return variance
-    do not explode across regimes. Every evaluated regime must contribute at least
-    `min_trades_per_regime` trades: robustness across a regime with zero trades is
-    unmeasurable and fails closed with INSUFFICIENT_REGIME_TRADES.
+    Chop/Range, High-Vol Spill) and verifies that maximum drawdown and return
+    variance do not explode across regimes. Every evaluated regime must contribute
+    at least `min_trades_per_regime` trades: robustness across a regime with zero
+    trades is unmeasurable and fails closed with INSUFFICIENT_REGIME_TRADES.
+
+    Accounting contract (unit-consistent):
+    * every PnL observation is absolute USDT;
+    * open positions are marked at the last scenario close and charged the
+      declared entry taker fee;
+    * observations are ordered by their own event timestamp (close event for a
+      realized campaign, scenario cutoff for an open one);
+    * drawdown is computed on that chronological equity path from the declared
+      initial equity;
+    * variance is computed on dimensionless campaign returns
+      (PnL / initial equity), never on monetary PnL.
+
+    Missing quantity/price/mark evidence blocks the regime; it never becomes a
+    zero PnL or a percentage masquerading as USDT.
     """
     cfg = strategy_config or ExpertStrategyConfig(
         min_support_quorum=1,
@@ -397,53 +520,68 @@ def evaluate_g3_scenario_robustness(
         bracket_stop_pct=Decimal("0.02"),
         bracket_target_pct=Decimal("0.04"),
     )
+    if initial_equity <= 0 or taker_fee < 0:
+        raise ValueError("invalid G3 accounting contract")
     regime_results: dict[str, dict[str, float]] = {}
     drawdowns: list[float] = []
     return_variances: list[float] = []
+    accounting_problems: list[str] = []
 
     for name, candles in regimes.items():
         if not candles:
             continue
         res = run_expert_strategy_backtest(tuple(candles), cfg)
-        opened = res["opened_positions"]
-        closed = res["closed_positions"]
+        opened = [o for o in res.get("opened_positions", []) if isinstance(o, dict)]
+        closed = [c for c in res.get("closed_positions", []) if isinstance(c, dict)]
+        mark = float(candles[-1].close)
+        cutoff_ns = int(candles[-1].end_ns)
+        observations, problems = _g3_pair_regime(opened, closed)
+        accounting_problems.extend(f"{name}:{p}" for p in problems)
 
-        # Calculate realized and mtm returns
-        pnls: list[float] = []
-        last_close = float(candles[-1].close) if candles else 100.0
-        for pos in opened:
-            c_pos = next((c for c in closed if c["position_id"] == pos["position_id"]), None)
-            if c_pos and "realized_pnl" in c_pos and c_pos["realized_pnl"]:
-                val_str = str(c_pos["realized_pnl"]).split()[0]
-                try:
-                    pnls.append(float(val_str))
-                except ValueError:
-                    pnls.append(0.0)
+        points: list[tuple[int, float, str]] = []
+        for ts, pnl, _notional, kind, record in observations:
+            if kind == "open":
+                marked = _g3_open_mark_pnl(record, mark, taker_fee)
+                if marked is None:
+                    accounting_problems.append(
+                        f"{name}:OPEN_MTM_UNMEASURED:{record.get('position_id', ts)}"
+                    )
+                    continue
+                pnl, _notional = marked
+                points.append((cutoff_ns, pnl, f"open:{ts}"))
             else:
-                entry = float(pos["avg_px_open"])
-                direction = 1.0 if pos["side"].upper() in ("BUY", "LONG") else -1.0
-                mtm = ((last_close - entry) / entry) * direction
-                pnls.append(mtm)
+                assert pnl is not None
+                points.append((ts, pnl, f"closed:{ts}"))
 
-        cum_equity = 10000.0
-        peak = cum_equity
+        points.sort(key=lambda p: (p[0], p[2]))
+        equity = float(initial_equity)
+        peak = equity
         max_dd = 0.0
-        for pnl in pnls:
-            cum_equity += pnl
-            if cum_equity > peak:
-                peak = cum_equity
-            dd = (peak - cum_equity) / peak if peak > 0 else 0.0
-            if dd > max_dd:
-                max_dd = dd
+        returns: list[float] = []
+        for _ts, pnl, _kind in points:
+            equity += pnl
+            returns.append(pnl / initial_equity)
+            if equity > peak:
+                peak = equity
+            dd = (peak - equity) / peak if peak > 0 else 1.0
+            max_dd = max(max_dd, dd)
 
-        var_ret = float(np.var(pnls)) if len(pnls) > 1 else 0.001
+        var_ret = float(np.var(returns)) if len(returns) > 1 else 0.0
         drawdowns.append(max_dd)
         return_variances.append(var_ret)
         regime_results[name] = {
             "bars": len(candles),
             "trades": len(opened),
-            "max_drawdown": round(max_dd, 4),
-            "return_variance": round(var_ret, 6),
+            "observations": len(points),
+            "max_drawdown": round(max_dd, 6),
+            "return_variance": round(var_ret, 8),
+            "realized_pnl_usdt": round(
+                sum(p[1] for p in points if p[2].startswith("closed")), 6
+            ),
+            "open_mtm_usdt": round(
+                sum(p[1] for p in points if p[2].startswith("open")), 6
+            ),
+            "final_equity_usdt": round(equity, 6),
         }
 
     max_observed_dd = max(drawdowns) if drawdowns else 0.0
@@ -453,31 +591,44 @@ def evaluate_g3_scenario_robustness(
         n for n, r in regime_results.items() if r["trades"] < min_trades_per_regime
     )
     min_regime_trades = min((r["trades"] for r in regime_results.values()), default=0)
+    accounting_measured = not accounting_problems
 
     passed = (
         len(regime_results) == 4
         and not empty_regimes
+        and accounting_measured
         and max_observed_dd <= max_drawdown_limit
         and math.isfinite(max_observed_var)
         and max_observed_var <= 0.20
     )
 
     state = GateState.PASS if passed else GateState.BLOCKED
+    if empty_regimes:
+        reason = f"INSUFFICIENT_REGIME_TRADES: {empty_regimes} below {min_trades_per_regime}"
+    elif not accounting_measured:
+        reason = "ACCOUNTING_EVIDENCE_MISSING: " + "; ".join(sorted(set(accounting_problems)))
+    elif not passed:
+        reason = f"DRAWDOWN_OR_VARIANCE_BREACH: dd={max_observed_dd:.4f} var={max_observed_var:.6f}"
+    else:
+        reason = None
     metrics = {
         "regimes": regime_results,
-        "max_observed_drawdown": max_observed_dd,
-        "max_observed_variance": max_observed_var,
+        "max_observed_drawdown": round(max_observed_dd, 8),
+        "max_observed_variance": round(max_observed_var, 8),
         "max_drawdown_limit": max_drawdown_limit,
         "min_trades_per_regime": min_trades_per_regime,
         "min_regime_trades": min_regime_trades,
         "empty_regimes": empty_regimes,
-        "reason": None
-        if passed
-        else (
-            f"INSUFFICIENT_REGIME_TRADES: {empty_regimes} below {min_trades_per_regime}"
-            if empty_regimes
-            else f"DRAWDOWN_OR_VARIANCE_BREACH: dd={max_observed_dd:.4f} var={max_observed_var:.6f}"
-        ),
+        "accounting_measured": accounting_measured,
+        "accounting_problems": sorted(set(accounting_problems)),
+        "pnl_unit": G3_PNL_UNIT,
+        "return_unit": G3_RETURN_UNIT,
+        "initial_equity_usdt": initial_equity,
+        "taker_fee": taker_fee,
+        "observation_basis": "chronological_campaign_close_or_cutoff_mark",
+        "funding_included": False,
+        "funding_evidence": "NOT_SUPPLIED_TO_G3",
+        "reason": reason,
         "passed": passed,
     }
     return state, metrics
@@ -617,12 +768,19 @@ def evaluate_g5_selection_control(
     allow_regime_fallback: bool = False,
     fallback_basis: str = "",
     fallback_tape: Path | str | None = None,
+    selection_family: SelectionFamily | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G5: Selection Control (g5_statistical_credibility).
 
     Enforces Constitution Rule 12: Deflated Sharpe Ratio (DSR) and White's Reality Check (WRC).
     Zero synthetic formulas (no sine/cosine oscillators). Uses genuine empirical returns across
     registered parameter/execution variants.
+
+    Selection family: a passing DSR/Bonferroni result on four stress transformations does not
+    describe a search history. ``selection_family`` is the only route to a PASS: it names the
+    members that were actually considered and the instant the family was registered, and its
+    identity is derived from that content. Without it the gate returns ``BLOCKED`` with
+    ``MISSING_PROVENANCE_BOUND_SELECTION_HISTORY`` and still publishes the diagnostics.
 
     The supplied series must be the ``G5_SERIES_UNIT`` quantity: dimensionless
     per-campaign returns from the shared accounting contract (NX02.R3). Both the
@@ -826,13 +984,49 @@ def evaluate_g5_selection_control(
             }
         wrc_p = float(wrc_result["p_value"])
 
-        passed = dsr_conf >= 0.95 and bonf_p <= 0.05
-        state = GateState.PASS if passed else GateState.BLOCKED
+        diagnostic_passed = dsr_conf >= 0.95 and bonf_p <= 0.05
+        family_metrics: dict[str, Any] = {
+            "selection_family": None,
+            "selection_family_status": "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY",
+        }
+        passed = False
+        state = GateState.BLOCKED
+        reason: str | None = "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY"
+        if selection_family is not None:
+            family_metrics = {
+                "selection_family": selection_family.as_dict(),
+                "selection_family_status": "PROVENANCE_BOUND_FAMILY_DECLARED",
+            }
+            # A correction can only be as wide as the declared search. A family
+            # narrower than the plan's multiplicity would under-correct, and one
+            # wider than the sample cannot be represented, so both fail closed.
+            if len(selection_family.members) != num_trials:
+                family_metrics["selection_family_status"] = (
+                    "FAMILY_SIZE_DISAGREES_WITH_PINNED_MULTIPLICITY"
+                )
+                reason = "FAMILY_SIZE_DISAGREES_WITH_PINNED_MULTIPLICITY"
+            else:
+                passed = diagnostic_passed
+                state = GateState.PASS if passed else GateState.BLOCKED
+                if passed:
+                    reason = None
+                else:
+                    reason = (
+                        f"SELECTION_CONTROL_BREACH: dsr_conf={dsr_conf:.4f} "
+                        f"bonf_p={bonf_p:.6f} (source={sample_source}, own_n={own_sample_count})"
+                    )
         metrics = {
+            "selection_control_method_version": "G5_SELECTION_FAMILY_REQUIRED_V2",
+            **family_metrics,
+            "diagnostic_family": list(variants),
+            "diagnostic_family_kind": "CHAMPION_AND_STRESS_TRANSFORMATIONS",
+            "wrc_family": ["champion"],
+            "stress_diagnostic_passed": diagnostic_passed,
             "dsr_confidence": round(dsr_conf, 6),
             "raw_pvalue": round(raw_p, 6),
             "adjusted_bonferroni_pvalue": round(bonf_p, 6),
-            "wrc_pvalue": round(wrc_p, 6),
+            "wrc_pvalue": wrc_p,
+            "wrc_reporting_version": wrc_result.get("reporting_version", "UNAVAILABLE"),
             "trials": num_trials,
             "plan_id": plan.identity(),
             "plan": plan.as_dict(),
@@ -848,12 +1042,7 @@ def evaluate_g5_selection_control(
             "series_basis": G5_SERIES_BASIS,
             "fee_stress_return": G5_FEE_STRESS_RETURN,
             "slippage_stress_return": G5_SLIPPAGE_STRESS_RETURN,
-            "reason": None
-            if passed
-            else (
-                f"SELECTION_CONTROL_BREACH: dsr_conf={dsr_conf:.4f} bonf_p={bonf_p:.6f} "
-                f"(source={sample_source}, own_n={own_sample_count})"
-            ),
+            "reason": reason,
             "passed": passed,
         }
         return state, metrics
@@ -1061,6 +1250,11 @@ def evaluate_g7_prospective_shadow(
     shadow_stream: Sequence[Candle] | None = None,
     shadow_origin: str = "",
     shadow_window: WindowBinding | None = None,
+    provenance_verified: bool = False,
+    min_exposure_bars: int = 30,
+    min_decision_bars: int = 30,
+    evidence_threshold: float | None = None,
+    taker_fee: float = 0.0005,
 ) -> tuple[GateState, dict[str, Any]]:
     """G7: Prospective Shadow Succession (g7_generalization).
 
@@ -1206,6 +1400,9 @@ def evaluate_g7_prospective_shadow(
     drift_val = 0.0
     anchor = float(stream_candles[0].close) if stream_candles else 100.0
     candidate_exposure_bars = 0
+    previous_exposure = 0
+    net_return = 0.0
+    candidate_decision_bars = 0
 
     trajectory: list[dict[str, Any]] = []
 
@@ -1231,6 +1428,15 @@ def evaluate_g7_prospective_shadow(
             exposure = 1 if direction == "LONG" else -1
         if exposure != 0:
             candidate_exposure_bars += 1
+        if action not in (None, "NO_ACTION"):
+            candidate_decision_bars += 1
+        # Net-of-cost candidate return for this bar. A change of exposure is the
+        # only traded event, so the declared taker fee is charged on turnover;
+        # holding an unchanged position is not charged again.
+        turnover = abs(exposure - previous_exposure)
+        net_step = exposure * step_return - taker_fee * turnover
+        net_return += net_step
+        previous_exposure = exposure
 
         betting_lambda = 0.1
         update = 1.0 + betting_lambda * np.tanh(exposure * step_return * 10.0)
@@ -1256,7 +1462,43 @@ def evaluate_g7_prospective_shadow(
         for r in trajectory:
             f.write(json.dumps(r) + "\n")
 
-    passed = 0.01 <= e_process_raw < 20.0 and drift_val < 0.15
+    # Evidentiary decision rule. A PASS is one-sided evidence *for* the
+    # candidate, not merely an e-process inside a wide band:
+    #   1. the stream is a declared, forward, bound window (checked above);
+    #   2. the caller supplies independently verified provenance;
+    #   3. the window contains enough decisions and candidate exposure;
+    #   4. net-of-cost candidate return is positive;
+    #   5. the e-process reaches a one-sided 20:1 screening threshold;
+    #   6. the window drift stays inside its declared guard.
+    # The threshold is a screening evidence bar, not economic authority; G9 and
+    # the capability score still gate any claim. Zero exposure and adverse
+    # evidence cannot satisfy (3)-(5), so absence of evidence is never a PASS.
+    if not decisions:
+        evidence_state = "NO_DECISIONS"
+    elif candidate_exposure_bars == 0:
+        evidence_state = "ZERO_EXPOSURE"
+    elif len(trajectory) < 100:
+        evidence_state = "INSUFFICIENT_OBSERVATIONS"
+    elif candidate_exposure_bars < min_exposure_bars:
+        evidence_state = "INSUFFICIENT_EXPOSURE"
+    elif candidate_decision_bars < min_decision_bars:
+        evidence_state = "INSUFFICIENT_DECISIONS"
+    elif not provenance_verified:
+        evidence_state = "UNVERIFIED_PROVENANCE"
+    elif net_return <= 0.0:
+        evidence_state = "EVIDENCE_AGAINST_CANDIDATE"
+    elif evidence_threshold is None:
+        # No pre-registered evidence threshold exists in the contract. Choosing
+        # one after seeing the window would be threshold selection, so the gate
+        # publishes the diagnostic and fails closed.
+        evidence_state = "STATISTICAL_EVIDENCE_RULE_NOT_PREREGISTERED"
+    elif not math.isfinite(e_process_raw) or e_process_raw < evidence_threshold:
+        evidence_state = "STATISTICAL_EVIDENCE_INSUFFICIENT"
+    elif drift_val >= 0.15:
+        evidence_state = "DRIFT_EXCEEDED"
+    else:
+        evidence_state = "VALIDATED_PROSPECTIVE_EVIDENCE"
+    passed = evidence_state == "VALIDATED_PROSPECTIVE_EVIDENCE"
     state = GateState.PASS if passed else GateState.BLOCKED
     metrics = {
         "final_e_process": round(e_process_val, 4),
@@ -1267,19 +1509,24 @@ def evaluate_g7_prospective_shadow(
         "drift_basis": "max_absolute_cumulative_deviation_from_window_open",
         "exposure_basis": "candidate_admitted_opportunity_direction_per_bar",
         "candidate_exposure_bars": candidate_exposure_bars,
+        "candidate_decision_bars": candidate_decision_bars,
+        "min_exposure_bars": min_exposure_bars,
+        "min_decision_bars": min_decision_bars,
+        "evidence_threshold": evidence_threshold,
+        "net_return": round(net_return, 10),
+        "taker_fee": taker_fee,
+        "evidence_state": evidence_state,
+        "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
+        "provenance_verified": bool(provenance_verified),
         "shadow_steps": len(trajectory),
         "log_path": str(shadow_log),
         "shadow_origin": shadow_origin,
         "shadow_window": shadow_window.as_dict(),
         "scored_window": scored_window,
-        "provenance_status": "CALLER_DECLARED_NOT_VERIFIED_BY_GATE",
         "measurement": MEASURED,
         "passed": passed,
+        "reason": None if passed else evidence_state,
     }
-    if not passed:
-        metrics["reason"] = (
-            "E_PROCESS_OUT_OF_BAND" if not (0.01 <= e_process_raw < 20.0) else "DRIFT_EXCEEDED"
-        )
     return state, metrics
 
 
@@ -1290,6 +1537,7 @@ def evaluate_g8_live_realization(
     account: dict[str, Any] | None = None,
     provenance: str = "public_paper",
     account_id: str = "",
+    attestation_path: Path | str | None = None,
 ) -> tuple[GateState, dict[str, Any]]:
     """G8: Live Realization (g8_prospective_shadow).
 
@@ -1330,8 +1578,23 @@ def evaluate_g8_live_realization(
         }
 
     if live_fills_path is not None:
+        attestation = None
+        if attestation_path is not None:
+            try:
+                attestation = json.loads(Path(attestation_path).read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as error:
+                return GateState.BLOCKED, {
+                    **base_doc,
+                    "mode": "UNVERIFIED_PROVENANCE",
+                    "reason": f"ATTESTATION_UNREADABLE:{type(error).__name__}",
+                    "passed": False,
+                }
         fills, meta = load_shadow_fills(
-            live_fills_path, source=source, provenance=provenance, account_id=account_id
+            live_fills_path,
+            source=source,
+            provenance=provenance,
+            account_id=account_id,
+            attestation=attestation,
         )
         mode = meta.get("mode")
         if mode == "FIXTURE_NOT_LIVE":
@@ -1348,25 +1611,64 @@ def evaluate_g8_live_realization(
                 ),
                 "authority": "NONE",
                 "next_step": (
-                    "an authenticated venue statement (provenance="
-                    "authenticated_venue_statement) with an account identity is required "
-                    "for live realization; this branch never mints one from a file"
+                    "an authenticated venue statement requires a trusted-ingestion "
+                    "attestation receipt bound to the fill file hash and account; a "
+                    "caller label alone never mints one"
                 ),
             }
+        if mode == "UNVERIFIED_PROVENANCE":
+            return GateState.BLOCKED, {
+                **base_doc,
+                **meta,
+                "mode": "UNVERIFIED_PROVENANCE",
+                "reason": (
+                    "UNVERIFIED_PROVENANCE: "
+                    f"{meta.get('reason', 'attestation not verified')}; a caller-supplied "
+                    "provenance string, filename, checksum or account id is not venue "
+                    "authenticity"
+                ),
+                "authority": "NONE",
+                "passed": False,
+            }
         if mode == "LIVE_VENUE_SETTLED":
-            # Reconciliation against AccountState is what turns fills into a
-            # verified realization. Without an account there is no
-            # reconciliation: PASS is explicitly labeled unreconciled so no
-            # consumer can mistake it for a matched realization.
-            recon = reconcile_shadow_account(fills, account) if account is not None else None
+            # A settlement PASS needs BOTH an independently verified attestation
+            # (enforced by the loader) AND a successful account reconciliation.
+            if account is None:
+                return GateState.BLOCKED, {
+                    **base_doc,
+                    **meta,
+                    "mode": "RECONCILIATION_MISSING",
+                    "reason": "RECONCILIATION_MISSING: no account snapshot supplied",
+                    "account_reconciled": False,
+                    "passed": False,
+                }
+            if account.get("account_id") is not None and str(
+                account.get("account_id")
+            ) != account_id:
+                return GateState.BLOCKED, {
+                    **base_doc,
+                    **meta,
+                    "mode": "ACCOUNT_MISMATCH",
+                    "reason": "ACCOUNT_MISMATCH: snapshot account id differs from attestation",
+                    "account_reconciled": False,
+                    "passed": False,
+                }
+            recon = reconcile_shadow_account(fills, account)
             out: dict[str, Any] = {**base_doc, **meta, "mode": "LIVE_VENUE_SETTLED"}
-            if recon is not None:
-                out["reconciliation"] = recon
-                out["account_reconciliation"] = recon  # alias for spec
-                out["account_reconciled"] = True
-            else:
-                out["reconciliation"] = "UNRUN_NO_ACCOUNT"
-                out["account_reconciled"] = False
+            out["reconciliation"] = recon
+            out["account_reconciliation"] = recon  # alias for spec
+            out["account_reconciled"] = bool(recon.get("reconciled"))
+            if not recon.get("reconciled"):
+                return GateState.BLOCKED, {
+                    **out,
+                    "mode": "RECONCILIATION_FAILED",
+                    "reason": (
+                        "RECONCILIATION_FAILED: "
+                        + (",".join(recon.get("problems", [])) or "unknown mismatch")
+                    ),
+                    "passed": False,
+                }
+            out["passed"] = True
             return GateState.PASS, out
         if mode in ("UNRUN_NO_VENUE_ACCOUNT", "MALFORMED_SHADOW_FILE"):
             # Malformed or absent but path was given => BLOCKED (explicit claim attempted)

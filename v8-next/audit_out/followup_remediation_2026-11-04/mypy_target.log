@@ -1,0 +1,5 @@
+src/v8_next/app/paper.py:422: error: Module has no attribute "locking"  [attr-defined]
+src/v8_next/app/paper.py:422: error: Module has no attribute "LK_NBLCK"  [attr-defined]
+src/v8_next/app/paper.py:437: error: Module has no attribute "locking"  [attr-defined]
+src/v8_next/app/paper.py:437: error: Module has no attribute "LK_UNLCK"  [attr-defined]
+Found 4 errors in 1 file (checked 5 source files)

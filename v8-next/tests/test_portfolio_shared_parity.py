@@ -8,15 +8,15 @@ CLI flags/outputs unchanged. Skips when the tape is absent.
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.app.portfolio import build_shared_inputs
 from v8_next.evaluation import economic_benchmark as eb
 
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m/tape.jsonl")
+QUAD_TAPE = tape_path("quad-1h-12m", "tape.jsonl")
 
 
 def test_portfolio_shared_build_parity_on_real_window(cached_multitape: Any) -> None:

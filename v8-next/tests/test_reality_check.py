@@ -1,3 +1,4 @@
+import json
 from dataclasses import replace
 from decimal import Decimal
 
@@ -40,7 +41,8 @@ def test_compound_null_joint_draws_and_inclusive_ties(monkeypatch):
     # Both all-one-column draws have centered maximum exactly equal to the
     # observed maximum; strict > would incorrectly report zero exceedances.
     assert result["observed_max"] == 1
-    assert result["exceedances"] == 2 and result["p_value"] == 2 / 3
+    assert result["exceedances"] == 2 and result["p_value"] == 3 / 4
+    assert result["reporting_version"] == "PLUS_ONE_V1"
     assert result["argmax_variant"] == "a"
     assert result["effect_estimates"] == {
         name: {"mean_baseline_minus_variant_loss": 1.0, "bootstrap_mean_standard_error": 1.0}
@@ -56,6 +58,13 @@ def test_real_library_repeatability_clone_invariance_and_bad_alignment():
     plan = dict(frozen_ns=0, evaluation_end_ns=30, decision_ns=31, block_size=3, reps=199, seed=12)
     result = reality_check_diagnostic(baseline, {"a": candidate}, **plan)
     assert result == reality_check_diagnostic(baseline, {"a": candidate}, **plan)
+    legacy = reality_check_diagnostic(
+        baseline, {"a": candidate}, **plan, reporting_version="LEGACY_EXCEED_OVER_REPS_V1"
+    )
+    assert legacy["exceedances"] == result["exceedances"]
+    assert legacy["p_value"] == legacy["exceedances"] / legacy["reps"]
+    assert json.loads(json.dumps(result)) == result
+    assert result["method"] != legacy["method"]
     cloned = reality_check_diagnostic(baseline, {"b": candidate, "a": candidate}, **plan)
     assert result["p_value"] == cloned["p_value"]
     assert result["effect_estimates"]["a"] == pytest.approx(cloned["effect_estimates"]["b"])

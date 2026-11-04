@@ -37,6 +37,7 @@ from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import data_path
 from v8_next.app.cli import main as cli_main
 from v8_next.app.readiness import (
     GATE_AUDIT_CONTRACT_FIELDS,
@@ -68,7 +69,7 @@ from v8_next.evaluation.scoring import (
 #: the canonical ledger is read-only evidence for the evaluative test below. `artifacts/`
 #: is git-ignored, so a worktree checkout does not carry it: the primary checkout's copy is
 #: the same append-only file, and a worktree reads that one rather than skipping the test.
-PRIMARY_CHECKOUT_LEDGER = Path("/Users/hootie/src/v8/artifacts/benchmarks/benchmark_ledger.jsonl")
+PRIMARY_CHECKOUT_LEDGER = data_path("artifacts", "benchmarks", "benchmark_ledger.jsonl")
 
 
 def _canonical_ledger() -> Path:

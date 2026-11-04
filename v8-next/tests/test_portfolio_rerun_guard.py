@@ -19,7 +19,9 @@ from pathlib import Path
 
 import pytest
 
-TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+from v8_next.adapters.tape_paths import tape_path
+
+TAPE = tape_path("quad-1h-12m")
 BARS = "120"
 
 

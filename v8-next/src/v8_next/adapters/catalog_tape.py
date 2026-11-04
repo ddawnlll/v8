@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import time
 from dataclasses import dataclass
 from decimal import Decimal
@@ -43,16 +44,16 @@ from v8_next.adapters.trade_tape import trades_digest, trades_from_dump
 from v8_next.evaluation.multitape import MultiTape, load_multitape
 from v8_next.evaluation.tape_identity import TapeManifest, verify_manifest_against_file
 
-#: Real venue data (gitignored). Absolute on purpose: a relative default resolves
-#: against whatever cwd the caller runs from and silently finds nothing.
-QUAD_TAPE = Path("/Users/hootie/src/v8/research/tape/quad-1h-12m")
+#: Repository-relative defaults; external datasets remain optional and gitignored.
+REPO_ROOT = Path(__file__).resolve().parents[4]
+QUAD_TAPE = REPO_ROOT / "research" / "tape" / "quad-1h-12m"
 
 #: Verified public daily aggTrades archives (Binance data.binance.vision), keyed
 #: by raw instrument. Only carried into the catalog when a bounded trade window
 #: is requested.
 AGG_TRADES_DIRS: dict[str, Path] = {
-    "BTCUSDT": Path("/Users/hootie/src/v8/research/tape/btcusdt-agg-trades-2025-07"),
-    "ETHUSDT": Path("/Users/hootie/src/v8/research/tape/ethusdt-agg-trades-2025-07"),
+    "BTCUSDT": REPO_ROOT / "research" / "tape" / "btcusdt-agg-trades-2025-07",
+    "ETHUSDT": REPO_ROOT / "research" / "tape" / "ethusdt-agg-trades-2025-07",
 }
 
 #: Bar spec every leg is written with; the direct path uses the same string.
@@ -62,6 +63,23 @@ BAR_STEP = "1-HOUR-LAST-EXTERNAL"
 #: catalog cannot carry funding. Named here so a reader never has to guess why a
 #: catalog run has no funding settlements.
 FUNDING_CATALOG_SUPPORT = "ABSENT_NO_CATALOG_WRITER_FOR_FUNDING_RATE_UPDATE"
+
+
+def resolve_tape_path(explicit: Path | str | None = None) -> Path:
+    """Resolve explicit > V8_TAPE_PATH > repo default independently of cwd."""
+    selected = explicit if explicit is not None else os.environ.get("V8_TAPE_PATH")
+    if selected is None:
+        path = QUAD_TAPE
+    else:
+        if not str(selected).strip():
+            raise ValueError("empty tape path is not a valid override")
+        path = Path(selected).expanduser()
+        if not path.is_absolute():
+            path = REPO_ROOT / path
+    path = path.resolve()
+    if not path.exists():
+        raise FileNotFoundError(f"external tape not found: {path}")
+    return path
 
 
 def bar_type_str(instrument_id: str) -> str:
@@ -311,7 +329,7 @@ class CatalogBuild:
 def build_catalog(
     destination_base: Path | None = None,
     *,
-    tape_path: Path | str = QUAD_TAPE,
+    tape_path: Path | str | None = None,
     limit: int | None = 120,
     legs: tuple[str, ...] | None = None,
     currency: str = "USDT",
@@ -339,6 +357,7 @@ def build_catalog(
     ``require_protected_final`` that claim is refused outright.
     """
     started = time.monotonic()
+    tape_path = resolve_tape_path(tape_path)
     tape = load_multitape(tape_path, limit=limit)
     role_contract: dict[str, Any] | None = None
     if manifest is not None:

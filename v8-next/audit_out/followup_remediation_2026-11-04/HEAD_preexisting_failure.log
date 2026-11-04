@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________________ test_mechanics_metrics_and_capacity ______________________
+
+    def test_mechanics_metrics_and_capacity() -> None:
+        bars = _synth_bars()
+        fams = eb.compute_benchmark_family(bars, 10000.0, 0.0005)
+        eq: list[float] = fams["btc_buy_hold"]["equity"]
+        m = eb.metrics_for_curve(eq, fams["btc_buy_hold"]["exposure"], 1.0, 5.0, None, "ANALYTIC_MODEL", eq, 1)
+        assert m.net_return > 0 and m.max_drawdown <= 0.0
+        rows = eb.capacity_table(0.05, 2.0, 10000.0, 0.0005)
+        assert rows[0]["breakeven_extra_cost_bp"] == pytest.approx(0.05 * 10000.0 / 20000.0 * 1e4)
+        assert "L2" not in " ".join(rows[0]["modeled"])
+>       assert "OHLCV-derived ADV" in rows[0]["data_resolution"]
+E       AssertionError: assert 'OHLCV-derived ADV' in '1h OHLCV bars + derived ADV; no L2/tick dependency'
+
+tests/test_economic_benchmark.py:382: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_economic_benchmark.py::test_mechanics_metrics_and_capacity
+1 failed in 0.13s

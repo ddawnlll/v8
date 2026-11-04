@@ -12,20 +12,20 @@ No numba: stdlib+polars decomposition only.
 from __future__ import annotations
 
 import math
-from pathlib import Path
 from typing import Any
 
 import numpy as np
 import polars as pl
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.evaluation.economic_benchmark import (
     VOL_LOOKBACK,
     bars_from_candles,
     compute_benchmark_family,
 )
 
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 
 
 def _rolling_numpy(logrets: list[float]) -> list[float | None]:

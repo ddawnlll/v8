@@ -12,17 +12,17 @@ tape is absent. Per-bar invalidation: no state survives to the next bar.
 from __future__ import annotations
 
 from decimal import Decimal
-from pathlib import Path
 from typing import Any
 
 import pytest
 
+from v8_next.adapters.tape_paths import tape_path
 from v8_next.domain.market import Candle, frame_at
 from v8_next.economics.decisions import opportunity_at
 from v8_next.experts.features import _ACTIVE_LAZY
 from v8_next.experts.registry import CANONICAL_28_EXPERTS, observe_all_28, observe_expert
 
-BTC_TAPE = Path("/Users/hootie/src/v8/research/tape/btcusdt-1h-12m/tape.jsonl")
+BTC_TAPE = tape_path("btcusdt-1h-12m", "tape.jsonl")
 INSTRUMENT = "BTCUSDT-PERP.BINANCE"
 
 
