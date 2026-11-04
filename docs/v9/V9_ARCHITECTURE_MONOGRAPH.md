@@ -299,15 +299,22 @@ D4 state machine gerçek ve baseline'dan farklı davrandı, ama −36,12 USDT'li
 
 ---
 
+## 6.5 Sürekli opportunity evaluation — V9 ürün sözleşmesi
+
+§OpportunityBook§ yalnız hafıza değildir: yeni MarketBelief/ExpertStance, fill/cancel, risk/kapasite veya validity timer olayı §EvaluationSnapshot(opportunity_id, source_cut, belief_ref, stance_refs, price_feasibility, validity, decision_effect, reason)§ üretir. Birth snapshot değişmez. Bir fırsat zaman içinde §WATCH→ENTER§, §ENTER→WAIT§ veya §ACTIVE→INVALIDATED/EXPIRED§ karar girdisi olabilir; **durum değişimi otomatik yeni order değildir**. Aynı event replay'i duplicate opportunity/intent doğurmaz. En az iki bağımsız ve çakışan opportunity, mevcut açık position ve changed-market olayıyla shadow E2E fixture zorunludur.
+
+---
+
 # VII. Trader Decision Policy: çalıştırılabilir v0, araştırma hedefi vN
 
-## 7.0 Sürüm ayrımı ve karar yetkisi
+## 7.0 Ürün policy'si ve göç aşamalarının doğru ayrımı
 
-- `DecisionPolicyV0`: P0-A'da `strategy_class + config_hash + code_sha + execution_profile` ile tekil pinlenen mevcut V8 baseline ekonomik kararını korur; baseline içindeki legacy expert gate gerekiyorsa korunur, **yeni expert routing kapalıdır**. Kalıcı receipt/niyet kimlikleri ayrı execution sınırında eklenir. Parite ancak fixture geçerse `V0_PARITY` olur, **`ADAPTIVE_TRADER` değil**.
-- `DecisionPolicyV1`: yalnız `V9-M1_ENTRY_VETO` tek family ve explicit `feature_flag=OFF` varsayılanı; yalnız düz/flat hâlde **baseline girişini reddedebilir**, yeni ekonomik fırsat oluşturamaz.
-- `PositionPolicyV2`: ayrı ön-kayıtlı deney ve farklı bayrak. V1’in başarısı otomatik gerekmemekle birlikte aynı P0 audit + native safety şartlarını gerektirir. `HOLD` dışında reducer/exit yetkisi ancak ayrı doğrulama ve onayla.
+- **`V9TraderPolicy` — tek hedef karar otoritesi:** Sürüm, market belief, 28 expert'tan uygun stance'ler, tek OpportunityBook, açık PositionThesis, pending emirler, venue durumu, portföy ve gerçek risk/maliyet kısıtlarını **birleşik değerlendirme** içinde kullanır. Flat durumda `WAIT/ENTER/ABSTAIN`, açık pozisyonda `HOLD/REDUCE/EXIT/ABSTAIN` kararı verebilir; farklı intent türleri tek native writer'a gider.
+- **`V0 / DecisionPolicyV0` — parity adapter:** Pinli `strategy_class + config_hash + code_sha + execution_profile` ile **mevcut V8 stratejisini koruma / ölçme** aşaması. Legacy expert gate varsa korunur; yeni adaptive karar yetkisi yoktur; **V9 ürününün tamamlanma kriteri değildir**.
+- **`V9_INTEGRATED_SHADOW` — hedef ürünün ilk gerçek demosu:** MarketBelief + 28-expert inventory + OpportunityBook + TraderPolicy + Position/Portfolio değerlendirmesi **sentetik veya kwalifiye PIT event stream üzerinde tek döngüde** çalışır. Risk/venue gerçekliği modellenir fakat tüm adaptive action'lar `DIAGNOSTIC_ONLY`, native risk emri yoktur.
+- **`V9_ACTIVATED_POLICY` — kanıtlı sürüm:** Ayrı ayrı test edilmiş policy aileleri ve birleşik etkileşim etkisi, execution/accounting gates ve açık owner onayıyla **yalnız onaylanan kapsamda** canlı native yoluna öneri iletebilir. Başarısız `M1`, expert/position/portfolio hedef API'sini silmez.
 
-**Yetki tek yönlüdür:** gözlem ⇒ karar ancak izinli policy, risk ⇒ native side effect yalnız native adapter üzerinden. Hiçbir diagnostic-view, expert veya offline Pi tek başına emir veya stop mutasyonu tetiklemez.
+**Yetki tek yönlüdür:** Gelecek hakkında ekonomik görüş yalnız politika önerisidir; hard risk ve native venue authority üstün kalır. Shadow kararlar mevcut V8 order callback'lerini yönlendiremez. Aynı expert/market görünümleri deterministik olmalı, live feature promotion ayrı signed/configured policy versiyonuyla yapılmalıdır.
 
 ## 7.1 Dört farklı sözcük alanı: karar ≠ niyet ≠ olay ≠ gerekçe
 
@@ -324,43 +331,48 @@ Council'ın saptadığı `WAIT/WATCH`, `ADJUST/MODIFY` tutarsızlığı **bu rev
 
 `WATCH` insan için fırsat izleme anlatımıdır; V9 karar aksiyonu değildir. `MODIFY`, `ADJUST`, `PROTECT` ve `TIME_STOP` yüksek seviyeli `DecisionAction` değildir: `AMEND_PROTECTION` bir niyet, `TIME_STOP` bir neden, `CANCEL_TARGET` bir alt intent olabilir. `REJECT` ise hangi katmanda reddedildiğine göre `RiskDecision.REJECTED` veya `VenueOrderStatus.REJECTED` olur. Bu terminoloji farklı nesnelerin durumunu tek enum'da şişirmeyi önler.
 
-## 7.2 Otorite ve karar anı — V0'ın tek geçerli kod yolu
+## 7.2 Kanonik hedef trader döngüsü ve ayrı V0 parite yolu
 
-Bir karar tetikleyicisi `completed_bar_available`, risk/event update, order event, position event veya açıkça tanımlı timer olabilir. **Decision cut** tekdüze (`decision_cut_ns`) ve veri erişilebilirliğiyle bağlıdır: her input için `available_at_ns <= decision_cut_ns`. Native `ts_event`, snapshot'ın erişildiği an yerine geçmez.
-
-**V0 normatif yürütme çizimi (henüz implementasyon kanıtı değil):**
+`V9` **sürekli ve olay güdümlü** karar verebilir: tamamlanmış/erişilebilir market barı, venue order/fill/position değişimi, koruma/risk uyarısı, opportunity invalidation veya ön-kayıtlı timer yeniden değerlendirmeyi tetikler. Bütün input'ların `available_at_ns <= decision_cut_ns` olmalı; eşzamanlı callback sırası keyfi varsayılamaz.
 
 ```mermaid
 flowchart TD
-  M[Available PIT market events] --> F[Verified PIT frame]
-  F --> O[Existing V8 opportunity/signal path]
-  O --> V[Chosen pinned V8 baseline decision; legacy gate internal]
-  N[Verified venue position, fills and pending orders] --> R[Existing risk/admission and recovery operations]
-  V --> R
-  R -->|Allowed and durable intent reserved| A[Nautilus native adapter]
-  R -->|Refused or unknown| E[Typed decision/evidence receipt]
-  A --> E
-  A --> N
+  M[Available multi-horizon market and venue events] --> B[Versioned MarketBelief]
+  B --> X[28 context-conditioned ExpertStances or abstentions]
+  B --> O[Canonical OpportunityBook - recurring EvaluationSnapshot]
+  X --> O
+  O --> D[Unified V9 Trader Decision Policy]
+  X --> D
+  B --> D
+  P[Verified native positions plus PositionThesis evaluations] --> D
+  Q[Portfolio occupancy margin and opportunity constraints] --> D
+  D --> I[WAIT ENTER HOLD REDUCE EXIT ABSTAIN - typed intents]
+  I --> R[Hard risk venue and native order admission]
+  R -->|qualified and authorized| N[Single Nautilus native writer]
+  R -->|blocked or shadow| A[Immutable decision and refusal receipt]
+  N --> P
+  N --> A
+  N --> M
 ```
 
-`PITFeatureView`, `MarketBelief`, **yeni** expert stance routing, dynamic position manager, allocator ve Pi grafiğe yeni karar node'u olarak girmez. Seçilmiş V8 baseline'ın mevcut legacy expert gate'i onun *iç* hesaplamasıdır; kaldırmak baseline değişimidir. Daha sonraki V1/M1 challenger için ayrı preregistered shadow grafiği vardır ve `feature_flag=OFF` iken adapter'a ulaşamaz. Bu grafik mevcut V8 fonksiyonlarına eşlenmiş gerçek API adreslerinin yerine geçmez (§12.9).
+**Yukarıdaki grafik `V9 TARGET / SHADOW` grafiğidir, çalışan live sistem iddiası değildir.** V0 baseline parity aynı grafiğin “yeni MarketBelief/stance/active policy” decision edge'leri olmadan, pinli **mevcut V8 strategy→risk→native** akışını korur. Yeni graph V0 baseline'a paralel ikinci emir yolu olarak kurulamaz. Gerçek politika ve native fonksiyon adresleri `7.3.2`'nin P0-A source manifestinde kanıtlanır.
 
-`TraderDecision` hiçbir zaman native `Order`un gerçekleştiğini ilan edemez. Emir, pozisyon ve korumanın gerçek durumu Native adapter/venue reconciliation tarafından belirlenir. Hard risk, karar politikasından bağımsızdır. Aynı timestamp'li iki olay için veri kaynaklı `event_id`, tüketim sırası ve callback semantiği yoksa karar sırası biliniyor varsayılmaz.
+**State feedback:** Yeni fill/position, açık PositionEvaluation ve PortfolioView'u yeniler; bu, bir sonraki decision cut'ına girer. `TraderDecision` order accepted veya stop covered demek değildir; native callback/venue inquiry gerçeği ayrı otoritedir.
 
-## 7.3 Yasal eylem matrisi
+## 7.3 Yasal eylem matrisi — V9 target ve V0 parity ayrımı
 
-| Reconciled state | Yasal politika kararı | İzin verilmeyenler | Güvenli sonuç |
+| Reconciled state | V9 target policy (shadow until authorized) | V0 parity / hard-safety behavior | Mutlak invariant |
 |---|---|---|---|
-| `FLAT`, no pending order, PIT valid, baseline opportunity qualified | `ENTER` / `WAIT` | `HOLD`, `REDUCE`, `EXIT` | Baseline niyeti ancak hard risk onayından geçer |
-| `FLAT`, no qualified opportunity | `WAIT` | `ENTER` | No order; reason logged |
-| `FLAT`, input stale / source unavailable | `ABSTAIN` | Yeni risk | No new entry; stale reason |
-| `ENTRY_PENDING` veya `CANCEL_PENDING` | `WAIT` | İkinci entry, fill varsayımı | Venue reconcile; cancel sonucu henüz kesin değil |
-| `OPEN`, verified protection | V0 `HOLD`; `REDUCE/EXIT` yalnız **mevcut native operasyonel yol**, V0 DecisionAction değil | Koruma kaybı; ikinci entry by default | Mevcut bracket ve native callback'ler korunur |
-| `OPEN`, unverified / uncovered protection | `ABSTAIN` *policy plane* | Yeni risk, tahmini amends | **Mevcut risk/adapter operasyonel playbook**: venue sorgu, mevcut native protection bağlama veya önceden yetkili reduce/flatten; yeni karar beyni yok |
-| `UNKNOWN_AT_VENUE` / restart | `ABSTAIN` | New entry, local-state assumption | Risk-blok + venue inquiry + operator notice |
-| Kill switch / hard loss limit | `ABSTAIN` policy | Yeni risk artırımı | Mevcut hard-risk uygulamasının native reduce/flatten prosedürü; bilinmeyen miktarda otomatik flatten yok |
+| `FLAT` + PIT fresh + qualified opportunity | `ENTER / WAIT / ABSTAIN` | Pinli baseline `ENTER / WAIT` | Yeni emir yalnız risk, venue ve kalıcı ID kontrolüyle |
+| `FLAT` + no qualified opportunity | `WAIT` veya gerekçeli `ABSTAIN` | `WAIT` | Hayalî expected edge üretme |
+| `ENTRY_PENDING / CANCEL_PENDING` | Yeni giriş için `WAIT`, gerektiğinde `CANCEL_ENTRY` intent | Venue reconcile | Pending fill yok sayılmaz |
+| `OPEN` + verified protection | `HOLD / REDUCE / EXIT`; reason + PositionEvaluation | Mevcut native stop/target, V0 `HOLD` | Shadow policy native bracket'i iptal edemez |
+| `OPEN` + partial fill + pending entry | `HOLD / REDUCE / EXIT` yalnız doğrulanmış native qty, ayrı intent/protection | `PARTIAL_FILL_ENTRY_PENDING` | Exposure + pending aynı anda geçerli |
+| `OPEN` + protection unknown/gap | `ABSTAIN` yeni risk; native recovery ayrı | Verified venue state query | Bilinmeyen miktarda kör flatten yok |
+| `UNKNOWN_AT_VENUE`, restart | `ABSTAIN`, reconcile | No-new-risk + operator notification | New order yok; stop/fill callback döngüsü açık |
+| Kill switch / hard exposure limit | Ekonomik policy geri çekilir | Mevcut native risk playbook | Policy risk limitini override edemez |
 
-`WAIT` düz piyasa koşullarında aktif, meşru *no trade* kararıdır; `ABSTAIN`, hesap/venue/kanıt otoritesi yetersizliğinde ekonomik politika yargısının geri çekilmesidir. İkisi de istek atılmadı diye aynı nedenle raporlanmamalı.
+**Çekirdek ayrım:** `HOLD/REDUCE/EXIT` **V9 ürününün hedef kararlarıdır**; `DecisionPolicyV0`'ın bunları üretmemesi yalnız parity aşamasının sınırıdır, hedef mimaride yasak değildir. Safety correction native adapter yetkisidir, ikinci safety brain veya ekonomik karar motoru değildir.
 
 ### 7.3.1 Safety Binding Contract — ikinci politika yok
 
@@ -392,7 +404,21 @@ P0-A tamamlanmadan `baseline_decide()`, `existing_risk.*`, `native_reconcile()` 
 
 **Sembol haritası görünür şekilde boş tutulmuştur:** dosya/klasör adları referans arama yüzeyidir, çalıştığı iddia edilen fonksiyonlar değildir. Verilen SHA, `nautilus_version`, test fixture, input tape hash ve source code linki olmadan bir tablo hücresi `BOUND` olmaz. Birim testte sahte `flatten()` yazılması native güvenlik binding'i sayılmaz.
 
-## 7.4 V9 DecisionPolicyV0 — V8 parite yürütücüsü, adaptif trader değil
+## 7.4 Unified V9 Trader Decision Policy — hedef sözleşme
+
+`V9TraderPolicy` ilk olarak **pure, deterministic, side-effect-free, fully integrated SHADOW** evaluator olarak inşa edilir. Girdi `DecisionFrame = {cut, MarketBelief, OpportunityEvaluations, ExpertStances, NativePositionSnapshot, PositionEvaluations, PortfolioConstraints, CostAssumptions, PolicyVersion}`. Çıktı `TraderDecision = {action, typed_intents, causal_reasons, source_refs, policy_hash, confidence_status, execution_authority}`. `WAIT/HOLD/ABSTAIN` da immutable kayıt üretir.
+
+**Temel karar sırası:** (1) veri/venue gerçekliği ve stop koruması; (2) mevcut exposure ve açık tez; (3) pending emirlerin idempotent reconciliation'ı; (4) opportunity/experts/market bağlamının güncel değerlendirmesi; (5) feasible portfolio alternatifi; (6) izinli karar/intent. Risk limitine aykırı proposed action **ABSTAIN veya native hard-risk refusal** olur. Ekonomik utility hesaplanamıyorsa uydurma `argmax` yok; önceden tanımlı no-new-risk fallback ve `ESTIMATE_UNKNOWN` kaydı bulunur.
+
+**Aktif pozisyon:** PositionThesis invalidation, native protected qty, remaining risk ve alternatif fırsat **ayrı kanıtlardır**. Policy `HOLD/REDUCE/EXIT` önerisi yapabilir, fakat yalnız doğrulanmış risk/venue quantity ile onaylı policy versiyonu native intent yaratabilir. Aynı anda birkaç recommendation varsa hard-safety önceliği ve hesap-scope tek writer tekrar kontrol eder.
+
+**Shadow acceptance (asgari `V9-INT-001..006`):** (001) 15m/1h/4h completed event değişir, MarketBelief güncellenir; (002) 28 expert manifesti ve en az iki çelişkili stance izlenir; (003) aynı opportunity born/evaluated/invalidated/reevaluated olur; (004) açık pozisyonun eski tezi yeni kanıtla yeniden değerlendirilir ve `HOLD/REDUCE/EXIT` reason setleri ayrılır; (005) ikinci fırsat ve kıt margin kararı değiştirir; (006) aynı olay replay'i bitwise/semantic equivalent receipt üretir, **sıfır yeni native order**. Sentetik fixture **ekonomik edge kanıtı değildir**.
+
+**Deney yolu:** Önce bileşenlerin nedensel ve karar değiştiren katkısı ölçülür; sonra **birleşik trader policy** için interacting changes, aynı takvim ve sermayeyle full native replay yapılır. Tek başına başarılı M1/E1/P1 testleri birleştirilmiş policy'ye yetki vermez.
+
+### 7.4.1 DecisionPolicyV0 — sadece V8 parity/bridge, ürünün kendisi değil
+
+
 
 **Ekonomik otorite pinli V8 baseline'ıdır.** Aşağıdaki `baseline_decide`, `existing_risk` vb. adlar çalışan API değil, role pseudocode'dur. Legacy expert quorum baseline içinde kalabilir. **Mevcut native order/position/exit/stop/target/cancel callback'leri, V0 entry-only receipt'inden bağımsız olarak çalışır**. V0 native pozisyon yönetimini `HOLD` ile veto edemez.
 
@@ -457,17 +483,17 @@ def decision_policy_v0(pit_cut, verified_venue_snapshot, baseline_decide, existi
 
 JSON içindeki metinler **şema örneğidir**, gözlenmiş run değildir. Üretim alanı zaman, hash, native order/client ID ile gerçek veri üzerinden doldurulmalı; `UNKNOWN` gizlenmemelidir. Bir `decision_id`, farklı hesap/venue snapshot altında rastgele tekrar kullanılamaz. **Kalıcı idempotency otoritesi** §8.7’deki atomik intent/outbox işlemidir; `stable_idempotency_key.is_unused` veya bellekte set()/check-then-submit yaklaşımı yasaktır. Önerilen logical key `(venue, account, strategy, opportunity, intent_revision, policy_hash)` ancak gerçek NETTING/campaign ve OCO davranışıyla sınanır. Exchange’in kabul ettiği gerçek `client_order_id` **ilk intent doğum transaction’ında yalnız bir kez** saklanır.
 
-## 7.6 Öncelik, unknown ve eşitlik çözümü
+## 7.6 Öncelik, UNKNOWN ve çakışma çözümü
 
-Öncelik sırası: **(P0) exchange/venue gerçekliğini uzlaştır → (P1) kill-switch ve açık koruma bütünlüğü → (P2) açık fill/cancel/replace hareketini bitir → (P3) açık pozisyonu mevcut doğrulanmış statik kurallarla yönet → (P4) flat koşulda mevcut V8 baseline kararını değerlendir → (P5) new challenger kararını *yalnız deney bayrağı altında* sun.** Aynı anda tetiklenen olaylarda, at-most-once intent side-effect ve account-specific serial mutation garantisi verilir; pending venue order için yeni bağımsız intent açılmaz.
+**Ekonomik öneri önceliği:** P0 verified venue/fill snapshot → P1 kill-switch ve koruma bütünlüğü → P2 pending order/cancel reconcile → P3 açık pozisyonun PositionEvaluation'ı ve hard exposure → P4 MarketBelief/Expert/Opportunity context → P5 portfolio feasibility ve uygun yeni entry. Bu sıra `HOLD`'u otomatik sabit bracket'e zorlamaz: V9 policy'si gerekçeli `REDUCE/EXIT` önerebilir; yalnız native safety/activation koşulları sağlanırsa icraya girer. V0 aşamasında mevcut native bracket korunur.
 
-**Bilinmeyen ekonomik beklenti:** `expected_net_value=UNKNOWN` ise *yeni V9 utility-optimal allocation* açılamaz. Mevcut baseline'ın önceden onaylı mekanik koşullarını diagnostic veya yetkili mevcut deployment kontratı kapsamında taklit etmek `unknown EV = zero` varsayımı anlamına gelmez. Bilinmeyen liquidation distance ile canlı yeni risk açılmaz; diagnostic simülasyon ayrı etiketlenir. İki benzer ekonomik fırsatta edge-estimate yoksa **keyfi ID sırasıyla daha yüksek sermaye seçilmez**, mevcut baseline/occupancy politikası korunur.
+**UNKNOWN ekonomik tahmin:** `expected_net_value=UNKNOWN` yeni risk veya capital rotation yetkisi vermez. Shadow değerlendirme gerçekçi olmayan EV uydurmaz; karar için açık `ABSTAIN/WAIT` ve eksik veri nedenleri vardır. Aynı anda iki opportunity varsa deterministic identity dedup yapılır fakat ID sırası ekonomik üstünlük gibi sunulmaz.
 
-## 7.7 Optimizasyon hipotezinin normatif sınırı: Q ve rotator **yok**
+## 7.7 Optimizasyon ve allocator — hedef var, doğrulanmamış canlı yetki yok
 
-V9’un uzun vadeli ekonomik karar araştırması yalnız hedef olarak kalır. `Q_h(s,a)` gibi karşı-olgusal beklenen getiri sembolleri **V0/V1/V2 runtime API’sinde, konfigürasyonda, karar skorunda ve allocator’da bulunamaz**. Bu belge bir Q tahmin prosedürü, continuation policy veya kalibrasyon eğitimi sunmaz. Yeni bir optimizer ancak **ayrı RFC**, aynı sermaye ve takvim altında ex-ante uygulanabilir alternatifler, maliyet/funding/riski kapsayan bağımsız doğruluk ve owner yetkisiyle gündeme gelebilir.
+RFC 1.0'ın feasible-action utility görüşü V9'un **araştırılabilir karar hedefidir**, çalışan `argmax` fonksiyonu sayılmaz. `Q(s,a)`/learned ranker veya ex-ante allocation estimator istatistiksel/economical validation olmadan native karar veremez; buna karşılık **shadow interface, alternatifleri kaydeden occupancy-aware policy ve kontrollü simulator** V9 hedefinin parçası olarak inşa edilebilir. Başka bir motor, zorunlu optimizer veya live reinforcement agent eklenmez.
 
-`POSITION_OCCUPIED` kayıtları gerçek kısıtı sayar; gerçekleşmemiş alternatif PnL “kaçırılan kazanç” diye yazılmaz. Q hesaplaması/alternatif tanımı yoksa `OPPORTUNITY_COST_NOT_IDENTIFIABLE`; **rotation yetkisi yoktur**. Belirsizlik eksi veya sıfır utility değerine zorlanmaz.
+`POSITION_OCCUPIED` factual kayıt, karşıolgusal alternatif `SIMULATED_COUNTERFACTUAL`dır; gelmemiş fiyat yolu üzerinden geçmişte en iyi rotation seçilemez. Ex-ante utility tanımlı değilse risk artıran `ROTATE` action'ı yerine `ABSTAIN / existing baseline` uygulanır.
 
 ## 7.8 Karar sözleşmesi fixture seti
 
@@ -488,20 +514,23 @@ Bunlar gerçek koda karşı tests/specification hâline gelecek **expected cases
 
 ---
 
-## 7.9 Feature activation — bağlayıcı V0/V1/V2 kapısı
+## 7.9 Ürün yetenekleri ve güvenli aktivasyon matrisi
 
-| Yetki / çıktı | V0 (ilk önerilen runnable; henüz uygulanmadı) | V1 (ilk market challenger, disabled) | V2 (ayrı position challenger, disabled) |
+| Yetenek | V9 target / integrated shadow | V0 parity | Ekonomik/live activation |
 |---|---|---|---|
-| V8 baseline entry | Aynı | Aynı, tek koşul veto edebilir | V1’den bağımsız karşılaştırmada aynı |
-| MarketBelief / expert view | Diagnostic log | Sadece bir onaylanmış M1 koşulu | Position’ı değiştirmez, yeni izin gerek |
-| V8 native bracket / hard risk | Tek yürütme otoritesi | Tek yürütme otoritesi | Native amendment safety doğrulanmalı |
-| Entry quantity / stop / target | Baseline parity | Değişmez | Sadece ayrı testte stop amend önerilebilir |
-| Position HOLD/REDUCE/EXIT | Static native bracket; yeni adaptive yok | Static native bracket; yeni adaptive yok | Her mutation ayrı izin/deney ve fail-closed |
-| Expert routing, learned scores, allocator/rotation | OFF | OFF | OFF |
-| Q-optimizer / agentic live decision | YASAK | YASAK | YASAK |
-| Ekonomik iddia | YOK | Yalnız nitelikli costed challenger kanıtıyla | Yalnız ayrı nitelikli costed challenger kanıtıyla |
+| MarketBelief / multi-horizon updates | **REQUIRED**, immutable PIT state | Read-only, eski V8'e karışmaz | Her karar etkisi için ayrı evidence |
+| 28 expert candidate stances / habitat | **REQUIRED**, eligibility + abstain + clone/lineage | Legacy gate değişmez | E1 ve interaction evidence |
+| Opportunity re-evaluation | **REQUIRED**, immutable snapshots | Existing identity preserved | Bekleme/admission değişirse ayrı trial |
+| Unified Trader Decision | **REQUIRED**, `WAIT ENTER HOLD REDUCE EXIT ABSTAIN` | `DecisionPolicyV0` yalnız entry parity | Risk- and claim-scoped enabled policy |
+| Entry intents / price discipline | **REQUIRED**, shadow | Existing native submission | Qualifying native realistic-fill data |
+| Active PositionThesis | **REQUIRED**, snapshot → updated evaluation | Static existing native bracket | Safe stop/exit/reduce tests + policy evidence |
+| Portfolio opportunity constraints | **REQUIRED**, competing candidates and occupancy | Existing budget and capacity | Ex-ante capital allocation comparison |
+| Native risk, execution, ledger | **REQUIRED**, one writer/inquiry | Used-path repairs and parity | Mechanics, oracle, operator qualification |
+| Offline Pi/Kaizen | Optional second workflow | Not in native callbacks | No live order authority |
 
-**Bağlayıcı kapsamlı sıra:** Önce `PINNED_HEAD_INVENTORY` + tekil baseline; ilgili kullanılan native yolda `NATIVE_CALLBACK_AND_SAFETY_VERIFIED`, `DURABLE_IDEMPOTENCY_VERIFIED`, `V0_NATIVE_PARITY_VERIFIED`. İlgili **`claim × producer × dataset × execution_profile`** için ayrıca native lineage/equity/funding yeterliliği + tek-family preregistration olmadan `SHADOW → ECONOMICALLY_EVALUATED → OWNER_PROMOTION` yok. #491'in etkilediği equity producer bozukken ondan türetilen Sharpe/DD/net equity `BLOCKED` kalır; bağımsız sentetik mekanik fixture yazımı `V0_MECHANICS_ONLY` olarak ilerleyebilir. Kullanılmayan future consumer wiring'i ilk mekanik dilimi bütünüyle bloke etmez. Yeni ekonomik davranış default-off.
+**Yaşam döngüsü:** `TARGET_DESIGNED → SHADOW_IMPLEMENTED → MECHANICALLY_VERIFIED → ECONOMICALLY_EVALUATED (or NO_EDGE/INCONCLUSIVE/BLOCKED) → OWNER_PROMOTED_IN_SCOPED_POLICY → separately LIVE_AUTHORIZED`. Bir aşamada çalışmaması, **hedef şemayı silmek** değildir; bir sonraki aşamaya native yetki aktarılmaz.
+
+**V9 ürün testinin minimumu:** `V9-INT-001..006` deterministik E2E shadow döngüsü (yeni bilgi ile mevcut market belief, opportunity, expert stance, position thesis ve portfolio karar değişimi). **Sadece `V0_PARITY_VERIFIED` veya tek `V9-M1_ENTRY_VETO` başarıyla biten proje `PRODUCT_SCOPE_REGRESSION` sayılır.** Birleşik policy ekonomik kabulü ayrıca tam costed, same-capital, interaction-aware native replay gerektirir.
 
 # VIII. Entry & Order Management: gerçek durumun eşzamanlı nesneleri
 
