@@ -1,0 +1,40 @@
+{
+  "reality_check_p_value": [
+    {
+      "exceedances": 0,
+      "reps": 3,
+      "before": 0.0,
+      "after": 0.25
+    },
+    {
+      "exceedances": 2,
+      "reps": 3,
+      "before": 0.6666666666666666,
+      "after": 0.75
+    },
+    {
+      "exceedances": 0,
+      "reps": 19,
+      "before": 0.0,
+      "after": 0.05
+    },
+    {
+      "exceedances": 5,
+      "reps": 19,
+      "before": 0.2631578947368421,
+      "after": 0.3
+    }
+  ],
+  "g5_state": {
+    "before": "PASS (HEAD: passed = dsr_conf >= 0.95 and bonf_p <= 0.05)",
+    "after": "BLOCKED",
+    "after_passed": false,
+    "after_stress_diagnostic_passed": true,
+    "after_family_status": "MISSING_PROVENANCE_BOUND_SELECTION_HISTORY",
+    "multiplicity_trials": 4,
+    "diagnostic_family_size": 4,
+    "wrc_family": [
+      "champion"
+    ]
+  }
+}
