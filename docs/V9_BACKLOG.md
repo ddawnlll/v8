@@ -9,7 +9,7 @@ landed before this file was merged into main: PRs #506, #505, #504, #503, #502 a
 
 ## 1. Preamble
 
-**RFC 1.3.1 alignment note:** This is a historical preserved backlog, not a V0 ontology change mandate. `#491` blocks only the affected equity producer and claims; `#476` consumer wiring is scoped to the claims that use it. Used-path native cancel, partial fill protection, min-notional risk and fill-attribution repairs receive separate issues and evidence. References to a future Candidate ontology below are legacy issue descriptions, not binding V0 preconditions.
+**RFC 1.3.2 alignment note:** This is a historical preserved backlog, not a V0 ontology change mandate. `#491` blocks only the affected equity producer and claims; `#476` consumer wiring is scoped to the claims that use it. Used-path native cancel, partial fill protection, min-notional risk and fill-attribution repairs receive separate issues and evidence. References to a future Candidate ontology below are legacy issue descriptions, not binding V0 preconditions. **Cross-producer:** choose the primary economic producer and all upstream accounting dependencies before inspecting outcomes; unexplained same-estimand conflicts block affected economic claims. Side-effecting legacy baseline decision callbacks may not be invoked twice in V0.
 
 ### 1.1 Purpose
 
@@ -27,8 +27,8 @@ live-money activation, or a substitute artifact.
 
 The owner-supplied V9 architecture monograph is preserved in this repository at
 [`docs/v9/V9_ARCHITECTURE_MONOGRAPH.md`](v9/V9_ARCHITECTURE_MONOGRAPH.md)
-(`V9-ARCH-RFC-1.3.1`, status `COUNCIL REVIEW CANDIDATE / ARCHITECTURE NOT YET APPROVED /
-IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM`). It is a target architecture and a
+(`V9-ARCH-RFC-1.3.2`, status `OWNER DESIGN FROZEN FOR CONTROLLED P0 /
+INDEPENDENT COUNCIL APPROVAL NOT ESTABLISHED / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM`). It is a target architecture and a
 set of candidate executable contracts, not an implementation or an economic
 claim.
 
