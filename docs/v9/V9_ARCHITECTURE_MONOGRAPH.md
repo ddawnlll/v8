@@ -792,4 +792,40 @@ Bu plan araştırma raporunun varsayılan 30 günlük programıdır, katı takvi
 
 Bu monografın kabul edilmesi tek başına **profitable bot** veya production authorization değildir; ama V8'den V9'a geçişi soyut “daha akıllı trader” söyleminden çıkarıp kod eşleme, falsifiable interface, native mekanik test ve ekonomik benchmark setine dönüştürür. V9'un asıl ölçütü daha fazla kod değil, **kararların nedenlerini, alternatiflerini ve sonuçlarını daha doğru ölçüp güvenilir biçimde geliştirebilen bir trader sistemi** olmaktır.
 
+
+---
+
+# EK A — Safety & Evidence Contracts (bağlayıcı uygulama eki · 4 Kasım 2026)
+
+**Kapsam ve yorum.** Bu ek, orijinal RFC 1.0'ın *ne inşa edileceğini* belirleyen IV–XII. bölümlerini **değiştirmez**: MarketBelief, mevcut 28 expert'ın bağlama duyarlı görüşleri, tek OpportunityBook, sürekli Trader Decision Policy, açık pozisyonun aktif değerlendirilmesi ve portföy seçimi V9'un hedef ürünüdür. Ek yalnız *nasıl güvenli uygulanacağına* ve *hangi iddianın kanıtlanmış sayılacağına* sınır koyar. Başka bir normatif mimari, ikinci trader beyni veya V9'u V8 paritesi/tek giriş vetosuna indirgeyen ürün tanımı oluşturmaz. **Tasarım → shadow çalışma → native mekanik doğrulama → ekonomik değerlendirme → insan onaylı aktivasyon → ayrı canlı yetki** birbirinden farklıdır.
+
+## A.1 Emir ve risk otoritesi
+
+- **Tek native writer:** Emir gönderme, iptal, stop/target değişikliği, risk kabulü, pozisyon/koruma uzlaştırması ve hesap limitleri mevcut NautilusTrader + doğrulanmış V8-next adapter/risk yoluna bağlı kalır. Expert, OpportunityBook, MarketBelief, LLM veya ayrı bir SafetyController doğrudan exchange emri üretemez. Gerçek kaynak fonksiyonları işe başlanırken pinli commit + Nautilus sürümü + `module:line:symbol` ile eşlenir; bu belge bulunmayan API'yi var saymaz.
+- **Durable intent/idempotency:** Bir ekonomik niyet için account/venue-scope kalıcı logical key, tek doğan `client_order_id` ve intent/outbox kaydı **atomik** olacak biçimde uygulanır veya mevcut store'un eşdeğer atomikliği testle kanıtlanır. Bellek içi `seen_ids`, read-then-submit veya yalnız event timestamp'i exactly-once garantisi değildir. Restart, eşzamanlı callback ve aynı olayın tekrarı **ikinci emir yaratmamalıdır**. Yan etki içeren mevcut V8 decision callback'i bir shadow/parity wrapper için ikinci kez çağrılamaz.
+- **Gerçek exposure ve protective orders:** `OPEN` ile `ENTRY_PENDING`/partial fill eşzamanlı olabilir. Stop/target ve azaltma emri **gerçekleşmiş ve uzlaştırılmış native position ID, filled quantity, exchange/NETTING semantiği ve reduce-only koruması** ile ilişkilendirilmelidir; planlanan başlangıç miktarı gerçek filled quantity değildir. Stop reject/cancel/reconnect durumunda koruma varmış gibi `PASS` verilmez. Stop genişletme veya bilinmeyen exposure üzerinde kör market flatten yasaktır.
+- **UNKNOWN_AT_VENUE ve BLOCKED:** Submit timeout, `NOT_FOUND` veya boş active-order cevabı emrin hiç yaratılmadığını kanıtlamaz; native order **ve terminal fill geçmişi** sorgulanmadan aynı client/order niyetiyle kör submit yapılmaz. `BLOCKED` yeni risk ve kör recovery'yi durdurur; **mevcut native stop/fill/exit/cancel olay işleme, koruyucu emirler, cashflow uzlaştırması ve sınırlı salt-okunur venue sorguları devam eder**. Doğrulanmış exposure için önceden yetkilendirilmiş risk azaltma ayrıca mümkündür; tahmini miktar kullanılmaz.
+
+## A.2 Veri, ekonomi ve araştırma yetkisi
+
+- **PIT/no-lookahead:** Her market/expert/belief/decision girdisi gerçek `available_at <= decision_cut` koşulunu sağlamalıdır. Tamamlanmamış üst-zaman dilimi barı, daha sonra yayımlanan funding/mark veya gelecekteki OHLC hareketi geriye dönük karar girdisi olamaz. Aynı input+policy hash aynı karar ve reason kayıtlarını üretir; belirsiz veri `UNKNOWN/ABSTAIN` ile görünürdür.
+- **Bağımsız ekonomik mutabakat:** `opportunity → decision → intent → native order → fill → campaign/position → fee/funding/mark → cashflow/equity` zinciri native kimliklerle uzlaştırılır. Realized/unrealized, cash balance/marked equity ve funding settlement ayrı tutulur. Güncel kodda kanıtlanmamış tarihsel audit bulguları otomatik açık/kapalı kabul edilmez. **#491 veya yanlış mark/equity producer**, yalnız kullandığı ekonomik claim'i `BLOCKED` yapar; bağımsız shadow/mekanik çalışma devam edebilir.
+- **Ekonomik producer tutarlılığı:** Aynı estimand için canonical producer, transitive fee/funding/mark bağımlılıkları, dataset, execution profile, başlangıç equity ve tolerans **sonuç görülmeden** sabitlenir. Bağımsız oracle ile açıklanamayan uyuşmazlıkta daha iyi sonuç veren producer'a geçmek yasaktır: **etkilenen ekonomik iddia `CROSS_PRODUCER_CONFLICT/BLOCKED`**. İki farklı estimand zorla eşitlenmez; fark belgelenir.
+- **Gerçekçi native test ve küçük sermaye:** Bar-only `STOP-FIRST` temkinli bir diagnostic kuraldır, gerçek intrabar sıralama kanıtı değildir; limit touch ≠ fill. Maker/taker fee, slippage, spread, funding, mark ve fill authority açıklanır. 20 USDT altcoin perps için her sembolün PIT minNotional/minQty/stepSize/tickSize, margin/isolated mode ve liquidation mesafesi doğrulanır; uygun değilse **no-trade**, riski artırmak için yuvarlama veya leverage zorlama yok.
+- **Bilimsel sınır:** Hipotez/policy versiyonu, risk bütçesi, deney ailesi ve karşılaştırıcılar ön-kayıtlıdır; aynı sermaye/takvimle costed native replay, random-entry veya random-veto gibi uygun kontroller, walk-forward ve erişimi ayrılmış sealed OOS kullanılır. Negatif denemeler silinmez; `NO_EDGE`, `INCONCLUSIVE` ve `BLOCKED` geçerli sonuçlardır. Bağımsız bileşen faydası **birleşik adaptif policy** faydasının kanıtı değildir: birleşik model ayrıca interaction/equity testinden geçer. Offline Pi agent sealed OOS veya live order yetkisine sahip değildir.
+
+## A.3 Asgari test kapısı (uygulamadan önce kabul edilmeyen iddialar)
+
+| Fixture | Beklenen davranış |
+|---|---|
+| `SAFE-01` duplicate/restart/submit timeout | Aynı niyet ikinci order yaratmaz; `UNKNOWN_AT_VENUE` sorgu ve fail-closed üretir |
+| `SAFE-02` partial fill + cancel/replace + stop reject | Reconciled filled qty kadar koruma; orphan stop veya yanlış `reduce-only` PASS sayılmaz |
+| `SAFE-03` blocked-with-open-exposure | Yeni risk kapalı; mevcut koruma ve fill/exit olay işleme devam |
+| `SAFE-04` future-data/funding mutant | PIT ihlali ve yanlış campaign/mark/equity atfı tespit edilir |
+| `SAFE-05` independent two-campaign oracle + producer conflict | Yanlış ama dolu native join / tutarsız net equity claim `BLOCKED` |
+| `SAFE-06` venue minima + liquidation unknown | Uygun olmayan 20 USDT emri reddedilir, otomatik risk büyütülmez |
+| `SAFE-07` integrated trader shadow loop | MarketBelief → 28 expert stance/abstain → opportunity re-evaluation → `WAIT/ENTER/HOLD/REDUCE/EXIT` → position/portfolio geri beslemesi; **yeni native emir sıfır** |
+
+**Çıkış kuralı:** Bunlar bugün geçmiş testler değil, **uygulanacak acceptance fixture sözleşmeleridir**. Shadow ürün döngüsünün çalışması ekonomik edge veya live yetki değildir. Emri etkileyecek her yeni V9 politikası, kullanılan native safety kapılarını ve ilgili bağımsız ekonomik kanıtı geçmeden açılmaz.
+
 *Belge sonu · V9-ARCH-RFC-1.0-DRAFT · 2026-11-01*
