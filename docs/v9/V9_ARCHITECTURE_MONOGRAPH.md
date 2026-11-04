@@ -2,12 +2,12 @@
 
 ## Bilimsel mimari monografı · V9.1 tasarım revizyonu · V8-next evrim sözleşmesi
 
-**Sürüm:** `V9-ARCH-RFC-1.3.1` · **Tasarım dalı:** `V9.1` (monografın devam eden revizyonu, yeni ürün sürümü veya çalışan bot değil)  
-**Revizyon tarihi:** 3 Kasım 2026  
+**Sürüm:** `V9-ARCH-RFC-1.3.2` · **Tasarım dalı:** `V9.1` (monografın devam eden revizyonu, yeni ürün sürümü veya çalışan bot değil)  
+**Revizyon tarihi:** 4 Kasım 2026  
 **Dil:** Türkçe; kod, araştırma başlıkları ve teknik sözleşmeler İngilizce kimliklerini korur.  
 **Uygulama sınırı:** `ddawnlll/v8` → `v8-next/` (Python 3.12, NautilusTrader 2.0.0rc4; bu sürüm depoda pinlenmiştir).  
 **Belge türü:** bilimsel mimari monografı + hakem revizyonu + normatif aday sözleşmeler; kod, ekonomik sertifika veya otomatik uygulama izni değildir.  
-**Normatif durum:** **FINAL CANDIDATE FOR INDEPENDENT COUNCIL REVIEW / ARCHITECTURE NOT YET APPROVED / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM**. Owner'ın incelemeye sunduğu sürüm, runtime veya üretim onayı değildir. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
+**Normatif durum:** **OWNER-FROZEN DESIGN BASELINE FOR CONTROLLED P0 / INDEPENDENT COUNCIL APPROVAL NOT ESTABLISHED / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM**. Owner'ın tasarım sürümünü burada dondurması, dış hakem oybirliği, runtime doğrulaması, ekonomik destek veya canlı kullanım izni değildir. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
 **Kısa hüküm:** *V9.1'in ilk **önerilen** uygulanabilir dilimi, gerçek V8 fonksiyonlarıyla henüz bağlanmamış bir `DecisionPolicyV0` **parite sözleşmesidir**. Ne çalışan yeni trader ne de doğrulanmış mekanik kabul söz konusudur. Bağlama duyarlı trader, gerekli P0 kanıtları tamamlanırsa tek müdahaleli challengerlarda sınanacak **uzun vadeli araştırma hedefidir**. Bu taslak hiçbir uyarlamalı emir veya canlı yetki tanımaz.*
 
 > **Bilimsel dürüstlük bildirimi.** Bu çalışma, aynı belgeyi okuyan üç ilişkili Model Council görüşü ve revizyon sentezi ile kullanıcının ilettiği özgün V8 monografı, iki 2026 Deep Research raporu, araştırma handoff ZIP'i, D4 native raporu ve önceki bağımsız ham audit raporunu, erişilebilen GitHub kodunu ve doğrulanmış birincil akademik kaynakları sentezler. Bu belgede yeni bir backtest, sealed OOS sınaması, bağımsız çalıştırılmış V9 prototipi veya canlı işlem sonucu **üretilmemiştir**. Mevcut deneyler yalnız tanımlı BTCUSDT 1H geliştirme bandı ve test koşullarını temsil eder. Kanıt-iddia kapsamı kaynaklara sıkıca bağlı tutulur.
@@ -65,6 +65,16 @@ Bu sürüm **final bağımsız council incelemesi için sunulan tasarım adayıd
 **Gerçek kaynak bulguları ile kanıt düzeyi:** Üçüncü hakem, `c84fecbff3981ad2e6d4da3e0f974c81e2d80b61` altında cancel argümanı, partial-fill bracket miktarı, campaign sequence atfı, fill multiset ve min-notional sizing riskleri için mekanik probe raporladı. İlgili kaynak yolları bu denetimde incelendi; hakem fixture'ları bu belge revizyonunda bağımsız yeniden çalıştırılmadı. Bunlar çözülmüş sayılmaz; ilgili yürütme yolundaki `SAFETY_REPAIR/AUDIT_REPAIR` kapılarıdır (§3.3.3).
 
 **Yanlış genelleme filtresi:** 123/123 expert konsensüsü bütün expert kodunun değersizliğini; D4 sonucu OpportunityBook kimliğinin gereksizliğini; #491 bütün mekanik testlerin geçersizliğini; 20 USDT belirsizliği her sembolde TP1/TP2'nin imkânsızlığını kanıtlamaz. Nitelikli sonuç ancak sınandığı kapsam için verilir.
+
+## RFC-1.3.2 — Owner design freeze ve son bağımsız kontrol
+
+**Amaç:** V9 trading core'unu yeniden tasarlamadan, uygulama sırasında pahalı onarımlara yol açabilecek kalan *sözleşme* belirsizliklerini kapatmak. Bu sürümden sonra genel mimari council döngüsü varsayılan iş akışı değildir; P0-A/B/C kod ve kanıt çıktıları esas alınır. Yeni ve somut mimari çelişki kanıtlanırsa owner hedefli değişiklik açabilir. **Bu editoryal turda yeni native replay/backtest, bağımsız kod fixture'ı veya venue deneyi çalıştırılmadı.**
+
+**Son council kanıtının doğru kapsamı:** RFC 1.3.1 için gelen üç metin üç tamamlanmış bağımsız denetim değildir: raporlardan biri GitHub/kanonik Markdown erişimi olmadan koşullu bir olumlu mimari hüküm vermiştir; diğer iki ek aynı içerikli, kaynak koduna kısmen erişmiş fakat tam monograf ve plan incelemesini tamamlayamadığı için nihai hüküm vermemiştir. Bu görüşler `THREE_INDEPENDENT_APPROVALS` sayılmaz. Önceki RFC 1.3 incelemeleri tarihsel tasarım eleştirisi; test kanıtı değildir.
+
+**Final hedefli kararlar:** (1) Aynı estimand'ı üreten ekonomik kaynaklar uyuşmazsa, sonuç seçerek producer değiştirmek yasaktır; ekonomik iddia ilgili bağımlılık grafiği çözümlenene kadar `BLOCKED` (§12.9). (2) Mevcut V8 baseline'ın yan etkili karar callback'i V0 içinde ikinci kez çağrılamaz; yalnız bir mevcut execution yolu kullanılabilir (§7.4). (3) `BLOCKED` ekonomik yeni-risk kapısıdır; canlı native fill/exit/protection olay işleme döngüsünü durdurmaz; kör düzeltme de açmaz (§8.2.1). (4) `#491` ilgili equity/ekonomik estimand'ı bloke eder; bağımsız `V0_MECHANICS_ONLY` geliştirmesi için genel veto değildir (P0-B/C). (5) 20 USDT'de geçersiz TP1/TP2 otomatik başka ekonomik politika seçmeye zorlamaz (§11.5.2).
+
+**Owner kararı:** Dondurulan şey **tasarım sorumlulukları ve aktivasyon sınırlarıdır**, herhangi bir V8/V9 kodunun güvenliği veya kârlılığı değil. Bütün yeni risk/venue/live yetkileri önceden tanımlı native test, veri ve ayrı operatör onayı gerektirir.
 
 ## Belge onayının beş ayrı düzeyi
 
@@ -359,7 +369,7 @@ flowchart TD
 | `FLAT`, no qualified opportunity | `WAIT` | `ENTER` | No order; reason logged |
 | `FLAT`, input stale / source unavailable | `ABSTAIN` | Yeni risk | No new entry; stale reason |
 | `ENTRY_PENDING` veya `CANCEL_PENDING` | `WAIT` | İkinci entry, fill varsayımı | Venue reconcile; cancel sonucu henüz kesin değil |
-| `OPEN`, verified protection | `HOLD` veya yetkili `REDUCE/EXIT` | Koruma kaybı; ikinci entry by default | Mevcut bracket korunur |
+| `OPEN`, verified protection | V0 `HOLD`; `REDUCE/EXIT` yalnız **mevcut native operasyonel yol**, V0 DecisionAction değil | Koruma kaybı; ikinci entry by default | Mevcut bracket ve native callback'ler korunur |
 | `OPEN`, unverified / uncovered protection | `ABSTAIN` *policy plane* | Yeni risk, tahmini amends | **Mevcut risk/adapter operasyonel playbook**: venue sorgu, mevcut native protection bağlama veya önceden yetkili reduce/flatten; yeni karar beyni yok |
 | `UNKNOWN_AT_VENUE` / restart | `ABSTAIN` | New entry, local-state assumption | Risk-blok + venue inquiry + operator notice |
 | Kill switch / hard loss limit | `ABSTAIN` policy | Yeni risk artırımı | Mevcut hard-risk uygulamasının native reduce/flatten prosedürü; bilinmeyen miktarda otomatik flatten yok |
@@ -400,6 +410,8 @@ P0-A tamamlanmadan `baseline_decide()`, `existing_risk.*`, `native_reconcile()` 
 
 **Ekonomik otorite pinli V8 baseline'ıdır.** Aşağıdaki `baseline_decide`, `existing_risk` vb. adlar çalışan API değil, role pseudocode'dur. Legacy expert quorum baseline içinde kalabilir. **Mevcut native order/position/exit/stop/target/cancel callback'leri, V0 entry-only receipt'inden bağımsız olarak çalışır**. V0 native pozisyon yönetimini `HOLD` ile veto edemez.
 
+**Tek çağrı/tek yan etki invariantı:** Pinli legacy V8 `baseline_decide` gerçekte order submit, cache mutation, journal write veya risk rezervasyonu yapıyorsa onu **ikinci kez** çalıştıran saf wrapper kurmak yasaktır. P0-A mevcut kararın native submission öncesindeki gerçekten saf seam'ini kanıtlar; varsa V0 orada tek kez karar üretir. Böyle bir seam yoksa V0 ilk dilimde yalnız **mevcut tek karar akışının yanında salt-okunur receipt/instrumentation** olur veya saf candidate extraction ayrı `SAFETY_REPAIR/REFACTOR` + parity fixture'ıyla doğrulanır. İkinci entry/order/risk mutator yaratılmaz, callback sırası sessizce değişmez; saf arayüz yoksa `PURE_BASELINE_BINDING_BLOCKED` ve no-new-risk. Bu kural role pseudocode'u var olmayan API kabul etmeyi önler.
+
 ```python
 # PURE, ENTRY-ONLY ROLE PSEUDOCODE; NOT AN IMPLEMENTED API.
 def decision_policy_v0(pit_cut, verified_venue_snapshot, baseline_decide, existing_risk):
@@ -419,7 +431,7 @@ def decision_policy_v0(pit_cut, verified_venue_snapshot, baseline_decide, existi
         return receipt("HOLD", "BASELINE_NATIVE_MANAGEMENT_UNCHANGED")
     if not pit_cut.valid or not pit_cut.market_fresh:
         return receipt("ABSTAIN", "DATA_UNAVAILABLE", no_new_risk=True)
-    candidate = baseline_decide(pit_cut.baseline_inputs)  # pinned legacy baseline
+    candidate = baseline_decide(pit_cut.baseline_inputs)  # ONLY a proven pure seam; never a second live strategy invocation
     if candidate is None:
         return receipt("WAIT", "NO_BASELINE_ENTRY")
     admission = existing_risk.admit_baseline_candidate(candidate, v)
@@ -556,7 +568,7 @@ Niyet/Order/Position/Protection birbirinin yerine geçebilen dört “karar beyn
 | `UNKNOWN_AT_VENUE` | Venue position+orders+fills reconciled | `RECONCILED` | Yerel cache ile uydurma `FLAT` |
 | `PROTECTION_GAP` | Existing native recovery accepted, qty verified | `COVERED` veya verified `FLAT` | Kabul edilmemiş korumayı saymak |
 
-**Bounded recovery:** Mevcut native işlemler yalnız doğrulanmış exposure üzerinde, önceden belirlenmiş en çok `N` sorgu/deneme ve backoff ile uygulanabilir; `N`, timeout ve eylem türü konfigürasyonu gerçek API testi öncesinde dondurulur. Süre biterse `BLOCKED + operator escalation + no-new-risk` kalır; **aktif recovery ve yeni risk durur, mevcut exposure/protection için salt-okunur düşük frekanslı, rate-bounded venue inquiry ve operator notice devam eder**. Bu heartbeat yeni emir, bilinmeyen qty ile flatten veya sonsuz retry yetkisi vermez. Venue ulaşılamazsa güvenli flatten işleminin sonlu sürede *garanti* olacağı iddia edilmez. Otomatik reduce/flatten yalnız native miktar, yön, reduce-only ve yetki doğrulanmışsa denenebilir; aksi hâlde kör emir yasak. Böylece ABSTAIN sonsuz sessiz döngü değil, görülebilir bir bloke durumudur.
+**Bounded recovery / `BLOCKED` ayrımı:** Mevcut native işlemler yalnız doğrulanmış exposure üzerinde, önceden belirlenmiş en çok `N` **otomatik corrective inquiry/retry** ve backoff ile uygulanabilir; `N`, timeout ve eylem türü konfigürasyonu gerçek API testi öncesinde dondurulur. Sınır dolunca `BLOCKED + operator escalation + no-new-risk`: **yeni entry/scale-in, otomatik kör re-submit ve limitsiz corrective retry yasaktır**. Ancak halihazırda venue'de çalışan native protective stop/target, native event/fill/cancel işleme ve idempotent cashflow reconciliation **kapanmaz**; mevcut exposure/protection için düşük frekanslı, rate-bounded salt-okunur inquiry ve operator notice sürer. Yalnız venue snapshot'ı, yönü, miktarı, reduce-only yetkisi ve ayrı recovery playbook'u kanıtlanmış **operator-authorized veya önceden açıkça izinli native risk azaltımına** kontrollü yeniden giriş yapılabilir; bu `N` sayacını sessizce sıfırlamaz, yeni controller yaratmaz. Venue ulaşılamazsa güvenli flatten'ın sonlu sürede garanti edileceği iddia edilmez; bilinmeyen qty ile kör market flatten yasaktır. Bu ayrımı doğrulayan `BLOCKED-with-open-exposure`, late-fill ve stop-reject fixture'ları P0-SAFETY için zorunludur.
 
 ## 8.3 Olay kimlikleri ve otorite
 
@@ -622,7 +634,7 @@ NativeEvent (dedup by venue+account+order+trade/event identity):
 ```
 
 1. **Pure policy / tek native execution writer:** Policy DB yazmadan immutable proposal/receipt üretir. Adapter'ın account-scoped risk/admission'ı tekrar doğrulamasından sonra `decision receipt + immutable intent + unique logical key + client_order_id + outbox` tek atomik transaction'da kaydedilir. `read unused → send → store` anti-pattern'dir. Native submit commit'ten sonra olur; proposal sipariş değildir.
-2. **Submit:** exchange işlemi DB transaction’ının dışındadır; TCP timeout veya crash durumunda `UNKNOWN` olabilir. Tekil client ID korunur; yeni ID ile ikinci risk gönderilmez. Venue inquiry olmadan “not submitted” varsayımı kurulmaz.
+2. **Submit:** exchange işlemi DB transaction’ının dışındadır; TCP timeout veya crash durumunda `UNKNOWN` olabilir. Tekil client ID korunur; yeni ID ile ikinci risk gönderilmez. Venue inquiry olmadan “not submitted” varsayımı kurulmaz. **`NOT_FOUND` veya boş açık-emir listesi tek başına “hiç gönderilmedi” kanıtı değildir:** terminal emir/fill geçmişi, venue sorgu penceresi ve snapshot completeness değerlendirilir; kesinlik yoksa `UNKNOWN_AT_VENUE + no-new-risk + operator escalation`. Yeni client ID'yle kör retry yapılmaz.
 3. **Recovery:** restart `UNKNOWN/ACKED` emirleri, açık position ve active native protection’ı gerçek venue kaynaklarından uzlaştırır; local-only `FLAT` çıkarmaz. Reconcile epoch account+venue kapsamındadır.
 4. **Dedup:** aynı trade/event identity aynı nakit ve qty sonucunu iki kere yazamaz. Aynı timestamp’te farklı trade ID’ler meşru farklı fill’lerdir.
 5. **NETTING/OCO:** client ID sınır/uzunluk/tekillik ve position-ID yaşam döngüsü pinned venue/adaptor fixtures’ıyla doğrulanır. Kısmi fill ilk sıfır olmayan qty’de açık risk doğurur.
@@ -892,13 +904,18 @@ Aşağıdaki testler için **hiç sonuç uydurulmaz**; her biri repo implementas
 
 ## 12.9 RFC kapısı ve belgelendirilmiş bilinmezler
 
-**P0 evidence-gate'leri** yalnız ilgili `claim × producer × dataset × execution_profile` kapsamında zorunlu ve izlenebilirdir. `P0-A` tekil baseline belirler. Kullanılmayan future consumer veya bozuk equity producer bağımsız sentetik mekanik fixture yazımını otomatik yasaklamaz. Ekonomik promotion ise ilgili end-to-end bağımsız lineage/equity/funding nitelendirmesi olmadan yasaktır. Aşağıdaki tablo her satırın kapsadığı hüküm için kullanılır:
+**P0 evidence-gate'leri** yalnız ilgili `claim × producer × dataset × execution_profile` kapsamında zorunlu ve izlenebilirdir. `P0-A` tekil baseline belirler. Kullanılmayan future consumer veya bozuk equity producer bağımsız sentetik mekanik fixture yazımını otomatik yasaklamaz. Ekonomik promotion ise ilgili end-to-end bağımsız lineage/equity/funding nitelendirmesi olmadan yasaktır.
+
+**Çapraz-producer ekonomik tutarlılık ve seçim yasağı (RFC 1.3.2):** Sonuçlara bakmadan önce, her ekonomik claim için **birincil canonical producer**, bütün *transitive* cashflow/mark/funding/fee kaynak bağımlılıkları, `dataset_hash`, execution profile, başlangıç equity, zaman penceresi, metric/estimand tanımı, aynı sermaye, fiyat/mark yöntemi ve bağımsız oracle seçilip immutable trial/claim kaydında sabitlenir. Residual toleransı `epsilon`, para/precision/fee semantiğinden **ex ante** gerekçelendirilir; sonradan sonuç lehine büyütülemez. Claim'e giden tüm producer DAG'ı o claim için nitelendirilir; eksik settlement veya mark sıfır varsayılamaz. Aynı estimand, aynı veri, aynı execution ve aynı accounting basis üzerinde iki bağımsız producer açıklanamayan biçimde `epsilon`'dan fazla ayrışırsa **etkilenen bütün ekonomik claim'ler `CROSS_PRODUCER_CONFLICT/BLOCKED` kalır**; farkın nedenini ve hangisinin yetkili olduğunu bağımsız event oracle'ı çözmeden, daha iyi sonuç veren producer'a geçilmez, aynı hatalı upstream bağımlılık yeni adla aklanamaz. Üretici farklı bir estimand ölçüyorsa eşitlik zorlanmaz; farklı tanım ve farkın köprüsü belgelenir. Bağımsız mekanik fixture'lar bu nedenle topluca bloke olmaz. Bu kural `AUD-011` wrong-producer-substitution ve `AUD-012` equal-population-divergent-producers mutantıyla test edilir.
+
+Aşağıdaki tablo her satırın kapsadığı hüküm için kullanılır:
 
 | ID | Soru | Gerekli fiziksel kanıt | Başarısızlıkta sonuç |
 |---|---|---|---|
 | `P0-HEAD` | Hangi kod? | Verified branch/SHA, Nautilus pin, dirty state | `BLOCKED` |
 | `P0-LINEAGE` | Doğru native join? | Wrong-but-populated mutation, independent two-campaign oracle, native ID census | `BLOCKED` |
 | `P0-EQUITY` | #491 kapandı mı? | Real-window exit/fees/funding/mark reconciliation, independently derived residual identity | `BLOCKED` |
+| `P0-CROSSPRODUCER` | Economic producer alternatifleri çelişiyor mu? | Preregistered primary producer + transitive DAG + independent oracle + `AUD-011/012` | `CROSS_PRODUCER_CONFLICT/BLOCKED` for affected claims |
 | `P0-WIRING` | #476 gerçek consumer edge var mı? | Producer→benchmark→receipt→HTML/readiness E2E, `audit_wiring` ve non-orphan semantics | `BLOCKED` |
 | `P0-SAFETY` | Risk azaltımının native çağrısı nedir? | Risk/adapter symbol map + stop/reduce golden | `BLOCKED` |
 | `P0-IDEMP` | Client ID tek sefer kalıcı mı? | Existing-store one-transaction uniqueness, concurrent writers, crash/retry/native inquiry | `BLOCKED` |
@@ -1025,7 +1042,7 @@ Bu program takvim sayısından çok **evidence gates** ile yönetilir. `Phase co
 - Safety order/position/protection state machines ve restart reconciliation; exact Nautilus callback order; `UNKNOWN_AT_VENUE`, duplicate suppression.
 - **Gate:** eski yanlış campaign join/doubled cashflow/protective false PASS'ın *mekanik olarak tespit edildiği* kanıtlanmadan ekonomik politika testi yetki kazanmaz. Bir local test geçişi gerçek venue güvenliği sertifikası değildir.
 
-**V9.1 kapı eklemesi:** P0-B sırasında güncel HEAD/native lineage ve `#491` eşitliği ayrı verdict olarak ölçülür. `#491` gerçek veri eksikliğiyle BLOCKED ise ancak **read-only / no-new-risk** V0 kodu ve fixture geliştirmesi yapılabilir; `V0_ACCEPTED`, ekonomik marked-equity karşılaştırması, V1/V2 **karar yetkisi/promotion** kurulamaz. Native safety binding, submit→ACK→fill→protection ve client-ID kalıcılığı §7.3/§8.7/§8.8 testlerine bağlanır.
+**RFC 1.3.2 claim-scoped P0-B:** Güncel HEAD/native lineage, native protection ve `#491` equity **ayrı verdict** alır. `#491` gerçek veri eksikliğiyle `BLOCKED` ise ilgili marked-equity/SR/DD ve ekonomik parite/promotion **yasaktır**, fakat P0-A envanteri, bağımsız deterministik oracle, salt-okunur V0 receipt, shadow ve no-new-risk mekanik fixture geliştirmesi sürer. Native side effect içeren fixture yalnız kullanılan adapter/rc4 güvenlik ve idempotency test ortamında (ayrı `SAFETY_REPAIR` profiliyle) yürütülür; ekonomik blokaj tek başına mekanik test yasağı değildir. `V0_ECONOMIC_PARITY_VERIFIED` denemez; bağımsız `V0_MECHANICS_ONLY` statüsü saklanır.
 
 ## P0-C — DecisionPolicyV0 vertical slice (trading P0)
 
@@ -1036,7 +1053,7 @@ Bu program takvim sayısından çok **evidence gates** ile yönetilir. `Phase co
 
 **V0 çıkış şartı (parite adıyla):** `V0_NATIVE_PARITY_VERIFIED` ve `DURABLE_INTENT_VERIFIED` kayıtları olmadan ilk adaptif giriş-veto **kapalıdır**. V0 acceptance **V9 davranış veya ekonomik kabulü değildir**. Karar kimliği ve ledger doğruluğu ile ekonomik net edge ayrı raporlanır.
 
-**P0-C başlamadan önce:** P0-A gerçek symbol map ve native event authority başarıyla kaydedilmiş olmalı. P0-B'de event identity veya native safety **FAIL/BLOCKED** ise V0 native side effect'li implementasyon yürütülemez; sadece fixture/gölge geliştirmesi yapılabilir. `#491` residual veya funding coverage `BLOCKED` ise ekonomik V0 paritesi ilan edilmez: `V0_MECHANICS_ONLY` ile sınırlandırılır ve M1 yalnız *offline diagnostic* olur. Bu ayrım fixture yazmayı sonsuza kadar yasaklamaz; sahte canlı/kâr yetkisini engeller.
+**P0-C başlamadan önce:** P0-A gerçek symbol map, seçili baseline ve native event authority belgelenmiş olmalı. P0-B'de kullanılan yolda event identity veya native safety **FAIL/BLOCKED** ise V0 native side-effect'li yeni ürün yolu açılmaz; yalnız fixture/gölge geliştirme ve kontrollü `SAFETY_REPAIR` testleri yapılır. `#491` residual veya funding coverage `BLOCKED` ise ekonomik V0 paritesi ilan edilmez: `V0_MECHANICS_ONLY` ile sınırlandırılır ve M1 yalnız *offline diagnostic* olur. **V0 policy entegrasyonu mevcut legacy karar callback'ini ikinci kez çalıştıramaz** (§7.4). Bu ayrım fixture yazmayı sonsuza kadar yasaklamaz; sahte canlı/kâr yetkisini engeller.
 
 ## P1-A — Market Intelligence V1 single-use challenger
 
@@ -1375,6 +1392,6 @@ Bu sürüm iki yeni kullanıcı iletili adversarial hakem raporunu **eleştiri k
 
 **Son ölçüt:** daha fazla bileşen değil; **gerçekten değişen ekonomik kararı**, o kararın native yaşam döngüsünü, maliyetini ve geçerlilik sınırını doğru gözleyip kontrol edebilmek.
 
-**Yazarın council'e önerdiği kapsam:** uygulanabilir olduğu ileri sürülen ancak **bağımsız mimari onay almamış** bir P0 tasarım adayı. `ARCHITECTURALLY ACCEPTABLE, IMPLEMENTATION UNVERIFIED` bu belgenin verilmiş dış hakem hükmü değildir. İlgili native kod kusurları `OPEN`; hiçbir V9 fixture bu revizyonda geçmedi. **Council kabulünden sonra** sonraki teslim P0-A/B/C commit + fixture + receipt olacaktır.
+**RFC 1.3.2 final owner hükmü:** Temel sorumluluk sınırlarını yeniden tasarlamayı gerektiren kanıtlanmış yeni bir `DESIGN_BLOCKER` bu editoryal kaynak incelemesinde saptanmadı; fakat *tam bağımsız council onayı* elde edilmiş değildir. Owner tasarımı **kontrollü P0 kod haritalaması, güvenlik/audit onarımı ve mekanik fixture geliştirmesi için** burada dondurur. Açık kaynak-kod kusurları `OPEN`; hiçbir V9 fixture veya ekonomik/production kapısı bu revizyonla geçmez. **Sonraki teslim yeni monograf turu değil, P0-A/B/C kod + native fixture + bağımsız oracle + receipt olacaktır.**
 
-*Belge sonu · V9-ARCH-RFC-1.3.1 / INDEPENDENT COUNCIL REVIEW CANDIDATE · 2026-11-03*
+*Belge sonu · V9-ARCH-RFC-1.3.2 / OWNER DESIGN FREEZE FOR CONTROLLED P0 · 2026-11-04*
