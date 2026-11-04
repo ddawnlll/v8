@@ -39,9 +39,14 @@ DEFAULT_FUNDING_INTERVAL_HOURS = 8.0
 @dataclass(frozen=True, slots=True)
 class FundingRow:
     instrument: str  # e.g. BTCUSDT
+    #: Venue settlement instant (the economic boundary of the funding charge).
     funding_time_ms: int
     funding_rate: Decimal
     interval_hours: float
+    #: Local receipt instant, when the capture recorded one. None means the
+    #: tape cannot say when the record became knowable, so no receipt-time
+    #: attribution is claimed for it.
+    received_ns: int | None = None
     #: True when the record carried no interval key and the venue convention
     #: was applied to the engine feed. The assumption is reported, not hidden.
     interval_defaulted: bool = False
