@@ -667,11 +667,15 @@ Fixture grupları: `ORD-001..009` + `NET-001..004` (partial fill coverage, unkno
 
 # IX. Dynamic Position Management: sürekli değerlendirme, sınırlı eylem
 
-## 9.1 Hedef ve mevcut kanıtın sınırı
+## 9.1 Sürekli position thesis değerlendirmesi — V9 ürün gereği
 
-V9 pozisyon açıkken piyasa değişimini gözlemlemeyi bırakmamalıdır. **Bu, her market-state güncellemesinde stop'u değiştirmek veya pozisyonu kapatmak anlamına gelmez.** Native stop güncelleme mekanikleri ve C4'te raporlanan 21 amend, bir davranışın mekanik araştırmasını destekler. C4 eşleştirilmiş tahmin farkı +0,1008R ve CI sıfırı kapsar; üstünlük kanıtı değildir [P3]. İlk v0 **mevcut statik bracket** davranışını korur. Dinamik policy default-off sürümlü challenger'dır.
+Bir V9 trader pozisyon açıldıktan sonra sadece native stop ve hedefi bekleyemez. **MarketBelief, expert dissent, opportunity validity, açık risk, gerçekleşen fill ve sermaye alternatifleri değiştikçe pozisyonun tezi yeniden değerlendirilir**. Bu, her değerlendirmede market emri gönderilmesi ya da stop oynatılması demek değildir.
 
-**V0 ve V1 pozisyon sınırı:** Belief rejim değiştirdi diye `HOLD → EXIT` yoktur; mevcut native stop/target devam eder. V2 ilk konum-yönetim araştırması, V0 parity ve pinned native amend/restart fixtures yeşil olmadan emir yoluna bağlanamaz. V1 giriş veto testinin kazanması V2 yetkisi vermez. İlk V2 müdahalesi tek ailesiyle (ör. BE stop amend), flag OFF + ayrı preregistered comparison altında sınanır; `REDUCE` ve `EXIT` bunun da otomatik parçası değildir.
+`PositionEvaluationSnapshot = {position_ref, native_qty_and_protection, original_thesis_ref, latest_belief_ref, relevant_stance_refs, validity: VALID|WEAKENED|INVALID|UNKNOWN, candidate_action: HOLD|REDUCE|EXIT|ABSTAIN, evidence, decision_cut, policy_version}`; ilk shadow dikey dilim için zorunlu sözleşmedir. Girişin tarihsel `PositionThesis` kaydı immutable kalır, yeni değerlendirme onun üzerine yazılmaz.
+
+**Ayrı yetkiler:** V0 parity mevcut statik bracket'i aynen korur. Integrated shadow, yeni rejim/kanıtla `HOLD/REDUCE/EXIT` önerilerini **sıfır native emirle** gösterebilir. Bu önerilerin canlı native reduce/exit/stop amend yaratması ancak doğrulanmış qty/identity, pinned callback/protection fixtures, ön-kayıtlı maliyetli policy comparison ve owner activation ile olur. Bir `regime flip` otomatik çıkış emri değildir.
+
+C4'ün 21 reported amend'i ve +0.1008R eşleşmiş fakat güven aralığı sıfırı kapsayan sonucu pozitif edge kanıtı değildir. `PositionPolicy`'yi tasarımdan çıkarmak için de kanıt değildir. Risk artıran stop widen, kontrolsüz churn ve native protection boşluğu yasaktır.
 
 ## 9.2 Immutable PositionThesis ve reconciliation
 
@@ -710,26 +714,29 @@ Kıyas: aynı takvim, başlangıç sermayesi, giriş, ücret, funding, maliyet/f
 
 D4'te `POSITION_OCCUPIED=38` ve iki kapasite reddi oluştu [P4]. Bu **hangi fırsatların reddedildiğini** kanıtlar; kabul edilselerdi net kazanç yazacağını kanıtlamaz. V9 v0, `blocked_by_position`, açık risk, candidate expiry, risk-conflict ve applicable quantity/venue constraints kayıtlarını tutar. Mümkün kılınmamış ikinci bir portföyün sonradan fiyat yolu üzerinden kazanılmış sayılması **gerçekleşmiş PnL değildir**.
 
-## 10.2 İki ayrı miktar: factual exposure ve modeled alternative
+## 10.2 Native gerçek exposure ve ex-ante portfolio alternatifleri
 
-| Ölçü | Kaynak | İşlem kararına etkisi (v0) |
+| Ölçü | Kaynak | V9 target policy kullanımı |
 |---|---|---|
-| Factual occupied time | Native position/order timestamps | Raporla, baseline tek-pozisyon politikasını değiştirme |
-| Factual available margin | Venue/account snapshot | Hard risk gating |
-| Counterfactual trade opportunity | Frozen competing policy simulation | `SIMULATED_COUNTERFACTUAL`, realizasyon iddiası yok |
-| Estimated opportunity cost | Ex-ante conditional model, time-aligned alternatives | **UNKNOWN** → rotation yasak; kendi başına allocator yetkisi yok |
+| Factual occupied time and positions | Native order/fill/position events | Başlangıç durumunun uzlaştırılması, nedenli capital constraints |
+| Actual free margin / pending exposure | Verified venue/account snapshot | Hard risk gating; uydurma available equity yok |
+| Competing OpportunityBook proposals | Same PIT cut, validated snapshots | Shadow candidate feasibility and deterministic bounded choice |
+| Simulated alternative policy | Frozen same-capital full replay | `SIMULATED_COUNTERFACTUAL`, realised PnL değildir |
+| Estimated opportunity cost | Ex-ante available model with uncertainty | UNKNOWN ise live rotation yok; model kanıt ister |
 
-Portföy alternatifleri ex-ante hesaplanacaksa aynı risk, sermaye, işlem maliyetleri, entry/exit fees, exposed time ve realized fill constraints korunmalıdır. Hindsight ile `best replacement` seçimi veri sızıntısıdır. Aynı simbolde NETTING, farklı altcoinlerde hedge/margin constraints ayrı senaryolardır.
+**V9'un tamamlanma hedefi**, aynı anda en az iki fırsat ve bir açık pozisyon varken hangi ekonomik seçeneklerin **feasible/blocked/unknown** olduğunu ve hangi gerekçenin kararı değiştirdiğini açıklayan bir `PortfolioEvaluation` sağlamaktır. Sadece `POSITION_OCCUPIED` saymak yeterli değildir. Bu hedef için zorunlu learned Q/ranker şart değildir: kısıtlı deterministic allocation baseline ve abstention mümkündür.
 
-**V9.1 normatif yasak:** modelled alternative / `Q` hesaplanmadan allocator veya rotator runtime kodu yok. Factual `blocked_by_position`, `margin_occupied` ve `notional_rejected` kayıtları tutulabilir; hindsight alternatif equity toplamı raporlarda realized fırsat maliyeti olarak geçemez.
+Hindsight `best replacement`, gerçekleşmiş kaçırılan kâr gibi gösterilemez. Aynı sermaye/margin, fee/funding, execution profile, zaman ufku, qty quantization ve NETTING/venue kısıtları korunur. Shadow/diagnostic alternatif inşa edilebilir; ekonomik veya native rotation yetkisi önceden nitelendirilmiş policy olmadıkça yoktur.
 
 ## 10.3 Risk üstünlüğü ve 20 USDT fizibilitesi
 
 Risk guard; equity/margin, max loss, kill-switch, liquidation distance, mark quality, venue minQty/minNotional, tickSize/stepSize, fee/funding buffer ve isolated mode varsayımlarını, politika ne önerirse önersin tekrar doğrular. `qty` step'e yuvarlanınca sıfır olursa `NOTIONAL_TOO_SMALL/QUANTITY_ROUNDS_TO_ZERO` bir **geçerli no-trade**dir. Küçük bakiye/kaldıraç daha yüksek EV üretmez. `liquidation_distance` eldeki bar verisiyle ve venue-specific account model olmadan kesin hesaplanamıyorsa `UNKNOWN`; canlı risk yetkisi doğmaz.
 
-## 10.4 İlk allocator:
+## 10.4 Trader ile birleşik portfolio policy
 
-Herhangi bir öğrenilmiş ranker/rotation eklenmez. Mevcut `risk/admission`, `economics/allocation` ve native campaign logic korunur; telemetry çevresi genişler. **Aktif allocator için gerekli deney**: dondurulmuş ex-ante alternatife göre fiyat/kapasite/admission karşılaştırması, same-capital event-driven replay, ücret, funding, mark/equity, giriş gecikmesi, yeni risk açma ile mevcut pozisyonu kapatmanın opportunity cost'u; sealed OOS'a kadar default-off.
+`PortfolioEvaluation` ve `TraderDecision` **aynı decision cut'ındaki** fırsat/pozisyon/risk nedenlerini paylaşır; ikinci bir sovereign allocation/trader brain kurulmaz. İlk ürün dikey diliminde aynı anda gelen fırsatların kaynak kıtlığı nedeniyle ayrışması, bütçe tutulumu, uygun olmayan symbol ve `ABSTAIN` sonucu deterministik shadow fixture ile gösterilir.
+
+Öğrenilmiş ranker, position rotation veya net fayda `argmax` modeli **zorunlu değildir**. Ancak V9'un ileride sermaye tahsis edebilmesi hedef mimari sorumluluğudur; “yalnız telemetry” ile V9 ürün tamamlandı denemez. Aktif allocator/rotation için ex-ante alternatif, same-capital event-driven replay, fee/funding/mark, margin/liq, valid native fill ve birleşik policy interaction testi şarttır.
 
 ## 10.5 Birincil ekonomik karşılaştırma
 
@@ -888,24 +895,26 @@ Birincil karşılaştırma **aynı takvimde, aynı başlangıç bakiyesi ve risk
 
 İkinci raporlar: gross/net cash, fee, funding, slippage, protected exposure, time-in-position, aborted orders, queued/cancelled intents, `blocked_by_position`, reason-code distributions, R denominator, entry delay, latency sensitivity, liquidation feasibility. Cost estimate eksikse net profitability iddiası `BLOCKED` olur. Revenue/trading return ve business OPEX attribution ayrı tutulur.
 
-## 12.6 Araştırma hipotezi ve çoklu test sözleşmesi
+## 12.6 Bileşen hipotezleri ve birleşik V9 değerlendirmesi
 
-İlk V9 deneyleri aşağıdaki **tek değişiklik** ilkesini taşır; önerilen isimler repo üzerinde mevcut run değil, gelecekteki araştırma kayıtlarıdır:
+**Bir değişiklik ilkesi ilk *nedensel* deneyler için korunur; bütünleşik V9 ürününü tek vetoya indirgemez.**
 
-| Family | Tek fark | Baseline | Primary claim and no-go |
-|---|---|---|---|
-| `V9-M1` | Bir PIT market-state observation'ının entry gate'e etkisi | V8 baseline ve raw threshold | Aynı takvim net marked equity; mekanik gate geçse de ekonomik fark yoksa diagnostic |
-| `V9-E1` | Bir dependency-group expert contribution | Grammar-only / current expert policy | Altered decision count, portfolio difference; clone inflation başarısız |
-| `V9-I1` | Fiyat bound/TTL policy | Native baseline entry | Fill authority ve price/timing; invalid execution profile → invalid outcome |
-| `V9-P1` | Tek stop-management amendment policy | Static bracket | Protection integrity ve churn; post-cost portfolio difference |
-| `V9-A1` | Ex-ante occupancy allocation | Single-position baseline | Matched-capital schedule; estimated utility UNKNOWN → rotation yok |
-| `V9-K1` | Bounded research automation | Manual/scripted bounded task | Verified answer per wallclock/token; bu trading alpha testi değildir |
+| Family | İlk falsifiable müdahale | Comparator / ekonomik sınır |
+|---|---|---|
+| `V9-M1` | Market context'in tek karar etkisi (ilk ucuz aday veto olabilir) | V8, raw feature threshold, same-capital/full replay |
+| `V9-E1` | Context-conditional expert group, abstention/clone contribution | Legacy self-gating/grammar-only ve altered decisions |
+| `V9-O1` | Opportunity recurrent evaluation/expiry/admission | Immediate baseline ve D4 waits'in maliyeti |
+| `V9-I1` | Price bound / TTL entry discipline | Native fill realism, no touch=fill |
+| `V9-P1` | Thesis-driven HOLD/REDUCE/EXIT ya da tek stop amendment | Static bracket, native stop coverage ve churn |
+| `V9-A1` | Constraints + opportunity allocation | Single-position, ex-ante alternatives, same capital |
+| `V9-INT` | **Integrated market/expert/opportunity/position/portfolio policy** | Bileşenleri kapalı/yalın baseline ve joint interactive full replay |
+| `V9-K1` | Optional offline agent productivity/quality | Manual script baseline; trading alpha değil |
 
-**Özellikle M1 veto karşılaştırması:** Baseline işlem defterinden kaybeden satırları silmek gerçek counterfactual değildir. Veto, occupancy ve sonraki fırsat dizisini değiştirir. `V9-M1` için **aynı başlangıç sermayesi / aynı takvim / tam yeniden yürütme**, `cash/no-trade`, bütçe ve coverage eşlenmiş `random-veto` ve aynı PIT girdisiyle `raw-feature/ATR-threshold` karşılaştırıcıları, ex-ante power/stopping/meaningful-improvement sınırı zorunludur. Negatif baseline'a göre daha az zarar, kendi başına pozitif net expectancy kanıtı değildir.
+**M1 veto kontrolü:** Kaybeden baseline trade'lerini defterden silmek counterfactual değildir. Same-calendar, same-initial-capital **tam native replay** ile occupancy ve sonraki fırsatlar yeniden hesaplanır; `cash/no-trade`, coverage-matched `random-veto` ve raw ATR threshold karşılaştırılır. Negatif baseline'a göre az kaybetmek pozitif net expectancy kanıtı değildir.
 
-Her family için deneyden **önce**: `data_role`, eligible universe + PIT membership, observation availability policy, baseline revision/hash, challenger revision/hash, single altered behavior, parameter candidates, full family register, equity estimand, smallest economically meaningful improvement (predeclared; value must be *justified*, not invented), risk ceiling, block/cluster scheme, budget, stopping rule, negative null, sealed OOS access authority kayıt edilir. **Sonuç görülerek** eşik geriye dönük optimize edilmez. Yetersiz independent effective sample → `INCONCLUSIVE`, yoktan oluşturulan p-value yok.
+**Integrated interaction gate:** Bileşenlerin ayrı testlerde başarılı olması birleşimde ücretsizdir anlamına gelmez. `V9-INT` için dondurulmuş combined policy/version, dependency graph, conflict precedence, risk budget, opportunity coverage, position thesis action, margin/occupancy, same-calendar net marked equity, fees/slippage/funding, trade turnover, stop coverage ve altcoin feasibility birlikte ölçülür. Preregistered plain V8 and staged simpler-policy baseline ile karşılaştırılır. Birlikte NO_EDGE sonucu, mekanik shadow ürününü silmez fakat ekonomik activation'ı kapalı tutar.
 
-**Çoklu test istatistikleri:** White WRC [L06], Hansen SPA [L07], DSR [L08], PBO/CSCV [L09] *aday yöntemlerdir*. Bunların veri/örneklem varsayımları mevcut kolda sağlanmadan otomatik `PASS` sayılmaz. Trial sayısı, valid outcomes ve effective independence ayrı kavramlar; ajanın sevdiği `N_eff`yi seçmesine izin verilmez. Test `NO_EDGE`, `INCONCLUSIVE`, `INVALID`, `BLOCKED` ile tamamlanabilir. `SUPPORTED_EDGE` yalnız korunan veri ve nitelikli execution ile bağımsız operatör kararına sunulabilir; hiçbir arXiv yöntemi kâr sertifikası değildir.
+**Ön kayıt:** Her family ve integrated policy için `data_role`, PIT eligible universe, baseline/challenger hash, exact changed behavior, parameter candidates, family/multiple-testing registry, estimand, justified smallest meaningful effect, risk budget, blocks/cluster units, stopping rule, sealed OOS authority, negative-null kaydedilir. Veri/örneklem yetersizliği `INCONCLUSIVE`; yanlış join `INVALID/BLOCKED`; model görüş birliği empirical replication sayılmaz. WRC/SPA/DSR/PBO örneklem varsayımları uygun değilse sahte p-değeri yok.
 
 ## 12.7 OOS izolasyonu ve selection-debt
 
@@ -1039,101 +1048,77 @@ Aşağıdaki tablo, GitHub'da önceki incelemelerde gözlenen dosyalarla ve proj
 
 ---
 
-# XVI. Aşamalı uygulama ve bağımlılık kapıları: önce doğru, sonra adaptif
+# XVI. Aşamalı uygulama — ürün merkezli, kanıta bağlı
 
-Bu program takvim sayısından çok **evidence gates** ile yönetilir. `Phase complete` tarihi verilmez; ancak belgedeki sözleşmenin repo-yerel versiyonları testle doğrulandığında statü değişir.
+**Plan kuralı:** İlk V0 parity işleri ile integrated V9 shadow mimarisini ayrı ayrı görünür kıl. Güvenlik engeli native yeni riski durdurur, **read-only/synthetic adaptif tasarım inşasını engellemez**. Issue ve milestone planları yalnız `docs/v9/V9_ARCHITECTURE_MONOGRAPH.md` içindeki bu ürün tanımından türetilir; tarihsel v1.0 ayrı ikinci spesifikasyon yapılmaz.
 
-## P0-A — Repo-grounded current state envanteri
+## M0 — V8 source mapping + native safety/accounting foundation
 
-- `ddawnlll/v8` doğru local HEAD, dirty files, branch, son D4 commitleri/uzak dal farkları; v8-next aktif uygulama mı ve Nautilus pin değişmiş mi kaydedilir.
-- Her V9 önerisi için `KEEP / REFINE / REFACTOR / ADD / DEFER`, mevcut class/function, owner, affected tests ve proof of absence ile **traceability** hazırlanır.
-- `site/index.html` tarihi V8 kaynağıdır. `docs/v9/V9_ARCHITECTURE_MONOGRAPH.md` kaynak belge, `site/v9.html` generated çıktı olarak korunur.
-- **Gate:** yanlış repo/branch üzerinden kaydedilmiş çalışma olmayacak; baseline native fill counts ve audit artefakt digestleri sabit olacak.
+- Pinli source SHA, gerçek class/function/native callback ve owner haritası; legacy V8 baseline config/strategy/execution profile.
+- Cancel API, partial-fill coverage, idempotent durable client ID, unknown-at-venue, `BLOCKED` koruma sürekliliği ve qty rounding riskini kullanılan kod yollarında doğrula/onar.
+- Fill/campaign/cashflow, mark/funding ve `#491` için bağımsız oracle + mutant; ekonomik claim producer DAG'ını ex-ante sabitle.
+- **M0 gate:** native used-path safety ve `V0_PARITY` mekanikleri kanıtlanır; henüz edge yok. `#491` yalnız bağlı ekonomik claim'i bloke eder, shadow V9'i değil.
 
-## P0-B — Audit/venue safety repair (trading P0)
+## M1 — Market + 28 Expert Intelligence (shadow)
 
-- F01–F08 eski audit bulgularının hangileri bugünkü kodda var, hangileri kapatılmış, `UNVERIFIED` mi commit+test bazında belgele.
-- Per fill native IDs, campaign/opportunity/decision refs, funding/mark/cash reconciliation, independent hand-computed oracle ve 10 mutation/fault fixtures.
-- Safety order/position/protection state machines ve restart reconciliation; exact Nautilus callback order; `UNKNOWN_AT_VENUE`, duplicate suppression.
-- **Gate:** eski yanlış campaign join/doubled cashflow/protective false PASS'ın *mekanik olarak tespit edildiği* kanıtlanmadan ekonomik politika testi yetki kazanmaz. Bir local test geçişi gerçek venue güvenliği sertifikası değildir.
+- Tek PIT-safe, sürümlü multi-horizon `MarketBelief`; transition/UNKNOWN/stale ve replay tests.
+- Mevcut **28 expert** manifesti ve adapter/stance/abstain, dependency grouping, habitat conditional logic, context event ile re-evaluation.
+- **M1 gate:** Yeni completed market observation en az iki farklı context/stance sonucu doğurur; belirsizlik/yinelenen evidence yanlış bağlanmaz; **native side effect = 0**.
 
-**RFC 1.3.2 claim-scoped P0-B:** Güncel HEAD/native lineage, native protection ve `#491` equity **ayrı verdict** alır. `#491` gerçek veri eksikliğiyle `BLOCKED` ise ilgili marked-equity/SR/DD ve ekonomik parite/promotion **yasaktır**, fakat P0-A envanteri, bağımsız deterministik oracle, salt-okunur V0 receipt, shadow ve no-new-risk mekanik fixture geliştirmesi sürer. Native side effect içeren fixture yalnız kullanılan adapter/rc4 güvenlik ve idempotency test ortamında (ayrı `SAFETY_REPAIR` profiliyle) yürütülür; ekonomik blokaj tek başına mekanik test yasağı değildir. `V0_ECONOMIC_PARITY_VERIFIED` denemez; bağımsız `V0_MECHANICS_ONLY` statüsü saklanır.
+## M2 — Continuous Trader Brain (shadow, V9'un zorunlu dikey dilimi)
 
-## P0-C — DecisionPolicyV0 vertical slice (trading P0)
+- Canonical OpportunityBook'un birth + recurrent `EvaluationSnapshot` state'i.
+- Tek unified `V9TraderPolicy`, open `PositionThesis` ve native state, portfolio candidates ile **WAIT ENTER HOLD REDUCE EXIT ABSTAIN** hedef davranışı.
+- `V9-INT-001..006` synthetic E2E: belief update → expert stance change → opportunity re-evaluation → open position thesis revision → capital-constrained decision; event replay deterministic; **0 live orders**.
+- **M2 gate:** `V9_INTEGRATED_SHADOW_VERIFIED`. **Yalnız V0 parity veya tek entry-veto bu milestone'u kapatamaz.**
 
-- §7'deki kanonik action/intent/event/reason sözlüğünü existing code API'lerine **minimum müdahale** ile bağla.
-- Immutable decision receipt, native order intent key, causally available MarketState/venue snapshot.
-- `DEC-001..010`, `ORD-001..009`, `POS-001..010` testleri; *baseline-off* parity. Correct safety repair nedeniyle fark gerekirse gerekçe/fixed scenario ayrı `SAFETY_REPAIR` kayıtla.
-- **Gate:** Aynı source snapshot→same action, duplicate→no additional order, open position→no unverified protection, Pi-off trading unchanged. Bu aşama **ekonomik iyileştirme değil**, mekanik sözleşme doğrulamasıdır.
+## M3 — Adaptive Trade Management / Economic Challengers
 
-**V0 çıkış şartı (parite adıyla):** `V0_NATIVE_PARITY_VERIFIED` ve `DURABLE_INTENT_VERIFIED` kayıtları olmadan ilk adaptif giriş-veto **kapalıdır**. V0 acceptance **V9 davranış veya ekonomik kabulü değildir**. Karar kimliği ve ledger doğruluğu ile ekonomik net edge ayrı raporlanır.
+- Entry bound/TTL; active position policy HOLD/REDUCE/EXIT/AMEND; optional context-aware expert policy; competing opportunity allocation.
+- Her değişiklik default-off, ayrı family prereg, native safe order lifecycle ve owner activation gates. No learned utility magic, no uncontrolled stop widen.
+- Feasible 20 USDT per-symbol venue minima, isolated margin, quantized qty and funding/cost filters.
+- **M3 gate:** ayrı mekanik fixture ve ekonomik claim scope; başarısız family `NO_EDGE` olarak kalır, tüm V9 ürün tasarımı silinmez.
 
-**P0-C başlamadan önce:** P0-A gerçek symbol map, seçili baseline ve native event authority belgelenmiş olmalı. P0-B'de kullanılan yolda event identity veya native safety **FAIL/BLOCKED** ise V0 native side-effect'li yeni ürün yolu açılmaz; yalnız fixture/gölge geliştirme ve kontrollü `SAFETY_REPAIR` testleri yapılır. `#491` residual veya funding coverage `BLOCKED` ise ekonomik V0 paritesi ilan edilmez: `V0_MECHANICS_ONLY` ile sınırlandırılır ve M1 yalnız *offline diagnostic* olur. **V0 policy entegrasyonu mevcut legacy karar callback'ini ikinci kez çalıştıramaz** (§7.4). Bu ayrım fixture yazmayı sonsuza kadar yasaklamaz; sahte canlı/kâr yetkisini engeller.
+## M4 — Integrated Trader Interaction + Qualified Evaluation
 
-## P1-A — Market Intelligence V1 single-use challenger
+- `V9-INT` birleştirilmiş policy için same-capital/calendar costed native replay; baseline, simpler-policy, component ablation ve interaction testleri.
+- Sealed OOS ayrı izinle, negative trials immutable; prospective shadow ve tek açık risk otoritesi.
+- **M4 gate:** Integrated mechanical+scientific verdict **ayrı**; kârlılık yoksa `NO_EDGE`, uygulama tamamlandı diye gerçek emir yetkisi verilmez.
 
-- Önce yalnız PIT quality/volatility view; calibrated regime probs, BOCPD ve learned router default-off.
-- `V9-M1` preregistration: one behavior, raw feature baseline, simple threshold baseline, test edilen olay, changed-decision accounting, costed calendar equity.
-- **Gate:** Mekanik valid bir view, ekonomik faydasızsa diagnostic kalır; yeni state sistemi ekonomik authority kazanmaz.
+## Ayrı yetkiler — Offline Kaizen ve Production
 
-**Intervention family sınırı:** M1 yalnız `FLAT baseline ENTER → WAIT/REJECT_VETO` değiştirebilir. Başka karar ailesi, posterior thresholds sweeping, açık pozisyon exit veya stop amend eş zamanlı denenmez. Expert clone-graph ve position policy kodu tek bir baseline giriş veto sonuç paketine eklenemez; her birine yeni preregistration, yeni default-off flag ve kendi test kapısı gerekir.
+- İsteğe bağlı Kaizen tek bounded offline pilotla başlayabilir; 7/24 agent/LLM market callbacks ve sealed OOS erişimi yoktur.
+- Production qualification: reconnect, venue API failure, cancel/ACK race, native protection, operational kill switch, on-call, actual symbol/account authorization. Bu RFC hiçbir live izin vermez.
 
-## P1-B — Entry / Expert / Position ayrı ablations
+**Milestone bağımlılığı:** M0 native repairs ekonomik deneyden önce; M1/M2'nin **shadow** inşası M0 ekonomik equity çözümlerini beklemeyebilir. M3 ve M4 native ekonomik claim'leri ancak ilgili safety + accounting + data gates ile ilerler. Tek target vardır, tek V9 ürün tanımı vardır.
 
-- `V9-E1`: correlated expert family ablation ve clone testleri.
-- `V9-I1`: entry price cap veya TTL *bir tane*, fill profile nitelikli olmadan net edge iddiası yok.
-- `V9-P1`: static bracket karşısında *bir* protective amendment challenger; safety gate ve churn budget hard.
-- **Gate:** Her family ayrı baseline, aynı ekonomi/riske bağlı karar impact, failure reason ve trial debt.
+# XVII. Kabul kriterleri — V9 ürünü ve ayrı runtime yetkileri
 
-## P1-C — Portfolio observability ve altcoin feasibility
-
-- Önce occupancy/id-reason/capacity/margin telemetry; optimizer veya position rotation default-off.
-- PIT listing/delist/volume universe, exchange minimum notional, margin/liquidation distance ve altcoin data coverage qualified dataset.
-- **Gate:** Gelmemiş fiyatı bilerek hindsight rotation seçen allocator yasak. 20 USDT live feasibility **ayrı** test edilir, BTC 10k fixture genel geçer kanıt değil.
-
-## P2 — Ayrı kapsam: Autonomous Kaizen araştırma altyapısı (V9.1 implementation dışı)
-
-- V9.1 trading implementation RFC ve ilk challenger ailesi için **hiçbir Kaizen kodu zorunlu değildir**. Ayrı, sonradan onaylanacak pilot istenirse Pi + mevcut audit/store/CLI ile tek bounded task, negative/blocked outcomes ve evidence-linked Issue/PR çalışır.
-- Same-budget manuel/script baseline. Reviewer yalnız riskli kod/audit değişiminde; deterministic result override edemez.
-- **Gate:** Ledger ve ekonomik kanıt temeli bozukken otomatik araştırma family üretimi yok; Pi olmadan native engine aynı çalışır; OOS ve live order credential erişimi yok; kalıcı scheduler ancak ayrı yetki ve ölçülmüş ihtiyaç sonrasında.
-
-## P3 — Production qualification ayrı bir proje kapısı
-
-- True venue lifecycle: reconnect, rate limits, order protection, transfer/fee/margin metadata, emergency halt, on-call protocol, shadow/paper and prospective evidence.
-- Risk boundaries ve exact capital/instrument approval. V9 monografı tek başına live mandate değildir.
-
-**Çalışma ayrımı:** P0 safety düzeltmeleri ile Pi'nin salt geliştirme üretkenliği pilotu bazı görevlerde paralel olabilir; ancak ekonomik araştırma verdictlerinin promotion'a yönlendirilmesi P0 evidence-gated olmadan yapılamaz. Büyük mimari hedef korunur, fakat her davranış kademeli etkinleşir.
-
----
-
-# XVII. Kabul kriterleri: fikir değil, sınanabilir davranış
-
-| ID | Sorumluluk | Mekanik gate | Ekonomik gate / statü |
+| ID | Asgari ürün davranışı | Sınanabilir mekanik kabul | Ekonomik/live kabul |
 |---|---|---|---|
-| `G-MKT-01` | Market belief PIT | Future-data mutation test sonucu değiştirmez; UNKNOWN yasal | Rejim edge'i iddiası için ayrı comparison |
-| `G-EXP-01` | Expert contribution | Clone invariance; attribution + ablation | Marjinal net utility; no effect → KEEP/DEFER |
-| `G-OPP-01` | Opportunity lifecycle | No episode duplicate; event/time validity | D4 kuralı yalnız candidate |
-| `G-DEC-01` | Trader decisions | Her native order intent bir `decision_id` ile bağlı; duplicate/unknown fixtures geçerli | Decision delta + portfolio accounting |
-| `G-ENT-01` | Execution | Same-bar disclosure; partial fill/stop join | Realistic profile invalid → BLOCKED |
-| `G-POS-01` | Position | Native stop updates correct and idempotent | C4 OOS olmayan +0.1008R yeterli değil |
-| `G-POR-01` | Portfolio | No over-risk; occupancy and blocked candidate lineage | Calendar-aligned costed marked equity |
-| `G-AUD-01` | Audit correctness | Independent full-join oracle + mutation detection; MFE native bounds | Audited receipt required for economic claim |
-| `G-KAI-01` | Offline Kaizen, bu uygulama dilimi dışı | Sadece ayrı pilotta negative/blocked receipt bütünlüğü ve yetki izolasyonu | `NOT_APPLICABLE_TO_V0`; hız ekonomik gate veya promotion ölçütü değildir |
-| `G-OPS-01` | Live readiness | Restart, venue risk, native protection proven | Ayrı production authority; RFC ≠ approval |
+| `G-MKT-01` | Multi-horizon MarketBelief ve sürümlü transition | PIT, stale/UNKNOWN, changed event, deterministic replay | Ekonomik etkisi separate |
+| `G-EXP-01` | Mevcut 28 expert manifesti, habitat-aware stance ve abstention | All inventoried, clone-invariant, conflicting evidence visible | Marginal after-cost impact |
+| `G-OPP-01` | Canonical OpportunityBook recurring evaluation | Birth immutable, evaluation changes, no duplicated episode | No mandatory D4 wait |
+| `G-DEC-01` | Unified Trader Policy for flat/open with `WAIT ENTER HOLD REDUCE EXIT ABSTAIN` | `V9-INT-001..006` full integrated shadow + reasons | Costed joined-policy replay |
+| `G-POS-01` | Active immutable PositionThesis + current snapshot | Thesis invalidation reacts to market event, confirmed native protection | Safe exit/reduce/amend policy qualification |
+| `G-POR-01` | Competing opportunities and portfolio capacity | Two candidates + open position produce reasoned feasible/blocked choices | Same-capital allocation comparison |
+| `G-ENT-01` | Native single-writer typed intent boundary | Exact order/fill/position IDs, restart/idempotency | Qualified fill profile |
+| `G-AUD-01` | Independent audit, fee/funding/equity oracle | Wrong-but-populated join & producer conflict mutants FAIL | Economically eligible receipt |
+| `G-KAI-01` | Offline research optional | Cannot mutate live policy or access OOS | No alpha claim |
+| `G-OPS-01` | Production safety separate | Risk/stop/reconnect/operator coverage | Explicit live authorization |
 
-### 17.0 V9.1 davranış ve yetki kabul matrisi
+### 17.0 Ayrı ürün ve yetki statüleri
 
-| Aşama | Ölçüm ve test | İzin verilen hüküm |
+| Statü | Başarı için gereken | Bu statünün sağlamadığı |
 |---|---|---|
-| V0 parity | Pinli baseline, aynı event→same native decision/intent/order/bracket/filled qty ve replay-safe ID; sadece ilgili native yolu | `V0_PARITY_VERIFIED` mekanik kapsamla sınırlı; ekonomik kıyas gerekiyorsa bağımsız equity/funding gate ayrıca şart |
-| Safety binding | Mevcut native ops map, fail-closed risk, crash/unknown | `MECHANICS_VERIFIED` (kapsamlı) |
-| M1 diagnostic | PIT immutable `PITFeatureView` ve 0 native side effect | `INSTRUMENTED_DIAGNOSTIC` |
-| M1 entry veto | Tek prereg family, changed decisions, same-calendar net equity | `ECONOMICALLY_EVALUATED` / `NO_EDGE` / `INCONCLUSIVE` |
-| Position V2 | rc4 amend/stop coverage, separate prereg | Sadece ilgili challenger verdict |
-| Portfolio rotation | Bu sürümde YASAK | `NOT_IMPLEMENTED_BY_DESIGN` |
-| 20 USDT feasibility | PIT per-symbol venue minima + margin/liquidation tests | `FEASIBLE` veya `REJECT/BLOCKED`; canlı yetki değil |
+| `V0_PARITY_VERIFIED` | Pinli V8 baseline ve native safety/parity fixtures | **V9'un ürün olarak tamamlanması** |
+| `V9_INTEGRATED_SHADOW_VERIFIED` | MarketBelief + 28 expert manifest + opportunity + open position + capital decision + full events, 0 native orders | Ekonomik edge veya live |
+| `V9_INTEGRATED_ECONOMICALLY_EVALUATED` | Full native same-capital/costs, interactions, valid data, baselines, OOS protocol | Pozitif sonuç garantisi |
+| `NO_EDGE / INCONCLUSIVE / BLOCKED` | Geçerli olumsuz/eksik kanıt | İlgili policy için promotion |
+| `OWNER_PROMOTED_IN_SCOPED_POLICY` | Her canlı davranışın önce safety, evidence, owner ve venue sınırı | Sınırsız risk / production yetkisi |
+| `LIVE_AUTHORIZED` | Bağımsız P3 venue/operations/account onayı | Gelecek kâr garantisi |
 
-**Geriye dönük iddia kontrolü:** V8 dev-band sonuçları (B3 INVALID, C4 inconclusive, D4 baseline’a üstün değil) V9.1 pozitif ekonomik kanıtı sayılamaz.
+**Hüküm:** Tamamlanmış V0 migration veya yalnız `V9-M1_ENTRY_VETO` sunan proje `PRODUCT_SCOPE_REGRESSION` kabul edilir. 28 expert'ın tamamını kârlı göstermek gerekmez; ancak hedef observer/intelligence altyapısı olmadan `V9_INTEGRATED_SHADOW_VERIFIED` denemez. Integrated failure sonucu dürüstçe `NO_EDGE` olabilir.
 
 ## 17.1 Anti-regression invariant'ları
 
@@ -1197,8 +1182,8 @@ Bu program takvim sayısından çok **evidence gates** ile yönetilir. `Phase co
 
 ---
 
-### ADR-010 — V0 parity is not adaptive behaviour
-**Karar:** V0 yalnız mevcut V8 ekonomik politikasını izlenebilir yürütme paritesiyle kapsar. Adaptif trader iddiası tek müdahale family challenger kapısında başlar; V0 test PASS yeni ekonomik karar değildir.
+### ADR-010 — V0 parity is not the V9 product
+**Karar:** V0 yalnız V8 ekonomik politikasının izlenebilir yürütme paritesidir; asıl V9 ürünü MarketBelief, 28 expert, canonical opportunity, active position ve portfolio ile bütünleşik karar çevrimidir. İlk native müdahale tek-family olabilir, fakat ürünün sınırını veto çizmez.
 
 ### ADR-011 — Safety is an operational binding, not a policy brain
 **Karar:** mevcut risk/native adapter çağrılarına SHA+symbol+fixture map; ikinci safety controller veya alternatif OMS yok. Açık exposure bilinmiyorsa kör reduce/flatten yok.
@@ -1206,8 +1191,8 @@ Bu program takvim sayısından çok **evidence gates** ile yönetilir. `Phase co
 ### ADR-012 — Durable single-birth intent and fail-closed native identity
 **Karar:** Atomik kalıcı intent+client order ID+outbox; NETTING/OCO ve pinned rc4 callback testleri. Memory set ve `is_unused` güvenlik otoritesi sayılmaz.
 
-### ADR-013 — Research components remain physically deactivated
-**Karar:** V0/V1 runtime’da expert routing, Q-optimizer, allocation rotation, belief exit, Kaizen live callback kapalıdır; tek challenger ön-kayıtlı ve default-off. Uygulama kapsamı büyütmek yeni RFC/gate gerektirir.
+### ADR-013 — Integrated design is mandatory; native promotion is gated
+**Karar:** MarketBelief, 28 expert stances, recurring opportunity, PositionThesis ve portfolio evaluations V9 integrated SHADOW runtime'ında **tasarlanır ve doğrulanır**; V0 legacy native behavior unchanged kalır. Belief-driven exit, expert routing, Q/rotation yalnız ayrı önkayıtlı native policy promotion ile risk yetkisi alabilir. Kaizen live callback her durumda yasaktır.
 
 ### ADR-014 — Council is critical commentary, not replication
 **Karar:** üç korelasyonlu model görüşü düzeltme önerisidir, bağımsız test/araştırma kanıtı değildir. Hükümleri mutasyon testi, native olay ve costed evaluation olmadan gerçeklik statüsü kazanmaz.
@@ -1238,20 +1223,21 @@ ddawnlll/v8/
 
 ---
 
-# XXI. Uygulama dizisi — takvim değil, kanıt ve bağımlılık sırası
+# XXI. Milestone/issue teslim dizisi — tek V9 tasarımından türet
 
-**Gün 1–30 takvimi geçersizdir.** Süre etiketleri bir implementasyonun kanıt kapısını bypass edemez. MarketBelief, PositionThesis değerlendirme veya Pi pilotu “gün geldi” diye emir koduna bağlanmaz.
+**Gün 1–30 takvimi bir gate değildir.** İlk planlama agent'ı önce pinned source manifest + V9 hedef kabiliyetlerine bire bir traceability çıkarır, 5 milestone ve dependency ilişkili küçük issue önerir. **Yalnız audit/V0 issue'ları çıkarıp V9'u tamamlandı ilan etmesi `PRODUCT_SCOPE_REGRESSION`dür.**
 
-| Düğüm | Girdi | Zorunlu somut çıktı | Bir sonraki düğümün açılma şartı |
+| Milestone | Gerekli somut çıktılar | Bağımlılık | Kapatma kanıtı |
 |---|---|---|---|
-| **P0-A / OBSERVE** | Pinli repository, rc4 sürümü, dirty state, tape/fee/funding metadata | Gerçek kaynak `symbol:line`, intent/stop/reduce/flatten/map, store transaction kapasitesi; test harness | `P0_SYMBOL_BOUND` ve `P0_ENV_PINNED` |
-| **P0-B / CORRECT** | Gerçek native event trace + bağımsız golden/mutant | Lineage, order protection, funding/mark ve equity ayrı verdict; slow reds classified | Identity/safety `PASS`; equity unresolved ise ekonomi `BLOCKED` |
-| **P0-C / PARITY** | Doğrulanmış mevcut native order path | `DEC/ORD/POS` fixture, durable ID, baseline outcome parity; `V0_MECHANICS_ONLY` veya verified result | Ancak bütün ekonomik P0 gate'leri ve qualified data tamamlanırsa M1 economic trial |
-| **P1-A / CHALLENGE** | Tek prereg entry-veto ailesi, same-calendar costed data | Changed decisions, raw-feature/eşik baseline, net equity ve negative outcomes | Ayrı owner approval ile yalnız test edilen tek policy aile |
-| **P1-B / RESEARCH** | Bağımsız verified native safety ve prereg | Entry/expert/position family başına tek müdahale ve maliyet testi | Hiçbir otomatik promotion yok |
-| **P2 / SEPARATE** | P0 ledger integrity ve ayrı owner project decision | Offline Kaizen pilot (isteğe bağlı) | Trading policy authority yok |
+| M0 Foundation | Actual source bindings, native safety/lineage, `#491` kapsamı, V0 parity | Repo SHA | Native fixtures + immutable receipts |
+| M1 Market/Expert | MarketBelief PIT multi-horizon + **28 expert** adapter/stance inventory | V8 world/experts | Shadow event-driven tests |
+| M2 Continuous Trader | Opportunity lifecycle + unified TraderDecision + PositionThesis + portfolio feasibility | M1 + canonical IDs; M0 native reality is read-only | **`V9-INT-001..006`**, 0 new native orders |
+| M3 Trade Management | Entry + position + allocation challengers, native safe scoped policy implementations | M0 safety, M2 integrated contracts | Individual prereg + native mechanic tests |
+| M4 Integrated Validation | Joint/interaction native replay, sealed OOS policy, independent accounting, shadow | M3 selected families + claim-specific P0 gates | Qualified economic verdict; live separate |
 
-**Stop rule:** Yanlış ama dolu join mutantı yakalanmıyorsa, native koruma API'si bulunamıyorsa veya rc4 callback sırası bilinmiyorsa işlev eklemek yerine `BLOCKED`, teşhis ve no-new-risk. `#491` equity farkı açıkken marked-equity/SR ekonomik kıyası yapılmaz. Dış venue/funding/L2/holdout veri eksikliğinde protokolü değiştirmek yerine ilgili family `NOT_IDENTIFIABLE` olarak kalır.
+**No fake completion:** An issue can close when its code/fixture and scope match; every milestone has product-visible behavior. `BLOCKED` native claim doesn't prevent harmless M1/M2 shadow work, but does stop unsafe deployment and economic promotion.
+
+**Stop condition:** Wrong native join mutant is undetected, stop ownership cannot be shown, rc4 callback unresolved, conflicting economic producers or missing mark/funding -> affected execution/economic claim `BLOCKED`. No data substitution, no bypass from model confidence; no second OMS/brain.
 
 # XXII. Sınanabilir başarısızlık koşulları / Projeyi nasıl yanlışlarız?
 
@@ -1329,7 +1315,7 @@ ddawnlll/v8/
 
 ---
 
-# XXV. Model Council hakem cevapları ve değişiklik izi
+# XXV. Model Council hakem cevapları ve değişiklik izi (HISTORICAL / NON-NORMATIVE)
 
 Üç blind review belgenin **aynı sürümünü** okudu; onların fikir birliği dış kodu doğrulamak için bağımsız emprik kanıt sayılamaz. Birinci hakem `Pasted text(10).txt` [C1], ikinci hakem `Pasted text (2)(2).txt` [C2], üçüncü hakem `Pasted text (3).txt` [C3]. Editorial synthesis [C4] yeni mimari hedefin korunması ama broad implementation izninin verilmemesi yönündedir.
 
@@ -1376,7 +1362,7 @@ V9'un piyasa zekâsı iddiası yanlışlanabilir: `M1` feature/belief karar kali
 
 ---
 
-## XXV-D. RFC-1.3 üçüncü hakem turu — test edilmemiş mimariyi daraltma
+## XXV-D. RFC-1.3 tarihsel hakem turu — test edilmemiş ilk dilim (NON-NORMATIVE)
 
 Bu sürüm iki yeni kullanıcı iletili adversarial hakem raporunu **eleştiri kaydı** olarak kullanır; bunlar yeni piyasa veri kümesi, backtest veya bağımsız runtime doğrulaması değildir.
 
@@ -1395,18 +1381,16 @@ Bu sürüm iki yeni kullanıcı iletili adversarial hakem raporunu **eleştiri k
 
 **Hüküm:** `PROMISING BUT REQUIRES REVISION`. Monografın bu sürümü daha güçlü **P0 uygulama sınırı** tanımlar; **hiçbir fixture çalıştırılmış kabul edilmez** ve `P0-A/B/C` bitmeden çalışan V9 trader hükmü yoktur.
 
-# XXVI. Nihai sentez — V9.1 tasarım revizyonu
+# XXVI. Nihai sentez — RFC 1.4 unified V9 adaptive trader
 
-**V8'in değerli çekirdeği korunur:** PIT market state, expert observer, canonical opportunity, hard risk, Nautilus native order lifecycle, immutable evidence ve audit. **V9.1'in ilk çalışabilir yürütümü V0, V8’in ekonomik davranışının izlenebilir paritesidir**; yeni sinyal, yeni pozisyon kararı veya model-ağırlıklı allocator değildir. Bu **henüz koşul olarak yazılmış** hedef bilinçli ve dar kapsamlıdır: önce olayın ne zaman bilindiğini, hangi intent’in hangi native emri yarattığını ve fonun nereye yazıldığını yanlışsız ölçmeliyiz.
+**V9'un ana ürünü:** RFC 1.0'ın bilimsel/ürün vizyonundaki **sürekli piyasa + 28 expert + opportunity + unified trader + açık pozisyon + portföy** karar döngüsüdür. `DecisionPolicyV0` geçiş kontrolüdür; `M1_ENTRY_VETO` ancak ilk deney ailesidir. Ne biri ne diğeri V9'un tanımı veya teslimatının sonu değildir.
 
-**V9’un esas hedefi iptal edilmez:** PIT bir `PITFeatureView`/gelecekte kanıtlanırsa MarketBelief modelinin deneyle doğrulanmış tek bir karar değişimine, daha sonra bağımsız position ve portfolio deneylerine dönüştüğü **bağlama duyarlı trader**. Ancak `M1` entry-veto, `P1` dynamic stop, Expert ablation ve allocators birbirinden ayrı kontrollü ailelerdir; test başarısı olmadan otomatik üretim etkinleştirmesi yoktur. Korunmayan/ölçülemeyen ekonomik sonuç `BLOCKED/NO_ECONOMIC_CLAIM`, kâr tahmini veya sessiz sıfır değildir.
+**V9'un güvenliği:** RFC 1.3.2'den gelen tek native authority, PIT availability, durable ID/outbox, callback idempotence, partial-fill protection, fail-closed/no blind retry, cross-producer oracle, anti-leakage/OOS ve ekonomik authority sınırları **tamamen geçerlidir**. Açık implementation kusurları (cancel, bracket qty, campaign/fill joins, `#491`, venue minimumları) test edilmeden çözülmüş sayılmaz.
 
-**P0 gerçeği:** geçmiş ZIP audit’i otomatik bug kanıtı değildir; güncel HEAD lineage mutasyonları, bilinmeyen native position/protection ID ve #491 equity residual ayrı kaynaklarla test edilmeli. Safety yeni bir ekonomist değil, mevcut native risk yolunun deterministik operasyonudur. Durable client-order-id ve pinned rc4 callback sırası doğru veri ile dondurulur. 20 USDT minimum notional + margin + liquidation filtresi ayrı fail-closed kapıdır.
+**Tasarım ile canlı yetki farklıdır:** İlk integrated V9 shadow path en az altı zorunlu kabiliyeti birlikte çalıştırır, ama 0 native side effect üretir. Sonraki deneyler net ekonomik değer üretemiyorsa `NO_EDGE` dürüst kabul edilir ve kâr iddiası yapılmaz; hedef ürün sözleşmesi kaybolmaz.
 
-**Otonom Kaizen yalnız çevrimdışı yardımcıdır.** Negatif ve inconclusive sonuçları saklamak, görev/saat üretmekten daha temel dürüstlük kriteridir. V9 monografının kabulü hiçbir finansal yetki veya canlı deploy izni vermez.
+**Tek kanonik belge:** Tarihsel v1.0–1.3.2 sürümleri Git geçmişi / review kayıtlarıdır, ayrı bağlayıcı mimari otorite yoktur. Issue ve milestone planı bu **tek** RFC 1.4 belgesinden türetilir. Yeni agent işinin ilk adımı implementasyon değil, frozen pinned code üstünde product→source→issue traceability'dir.
 
-**Son ölçüt:** daha fazla bileşen değil; **gerçekten değişen ekonomik kararı**, o kararın native yaşam döngüsünü, maliyetini ve geçerlilik sınırını doğru gözleyip kontrol edebilmek.
+**Durum:** Bu PR yalnız tasarım dokümanıdır; native test, V9 runtime, OOS kanıtı, council tam onayı ve canlı permission bu revizyonda üretilmedi. PR merge edilene kadar draft/review statüsü korunur.
 
-**RFC 1.3.2 final owner hükmü:** Temel sorumluluk sınırlarını yeniden tasarlamayı gerektiren kanıtlanmış yeni bir `DESIGN_BLOCKER` bu editoryal kaynak incelemesinde saptanmadı; fakat *tam bağımsız council onayı* elde edilmiş değildir. Owner tasarımı **kontrollü P0 kod haritalaması, güvenlik/audit onarımı ve mekanik fixture geliştirmesi için** burada dondurur. Açık kaynak-kod kusurları `OPEN`; hiçbir V9 fixture veya ekonomik/production kapısı bu revizyonla geçmez. **Sonraki teslim yeni monograf turu değil, P0-A/B/C kod + native fixture + bağımsız oracle + receipt olacaktır.**
-
-*Belge sonu · V9-ARCH-RFC-1.3.2 / OWNER DESIGN FREEZE FOR CONTROLLED P0 · 2026-11-04*
+*Belge sonu · V9-ARCH-RFC-1.4 / SINGLE CANONICAL ADAPTIVE TRADER ARCHITECTURE · 2026-11-04*
