@@ -1,80 +1,63 @@
 # V9 — Market-Aware Adaptive Trading Intelligence
 
-## Bilimsel mimari monografı · V9.1 tasarım revizyonu · V8-next evrim sözleşmesi
+## Tek kanonik hedef mimari · sürekli bağlama duyarlı trader · V8-next evrim sözleşmesi
 
-**Sürüm:** `V9-ARCH-RFC-1.3.2` · **Tasarım dalı:** `V9.1` (monografın devam eden revizyonu, yeni ürün sürümü veya çalışan bot değil)  
-**Revizyon tarihi:** 4 Kasım 2026  
-**Dil:** Türkçe; kod, araştırma başlıkları ve teknik sözleşmeler İngilizce kimliklerini korur.  
-**Uygulama sınırı:** `ddawnlll/v8` → `v8-next/` (Python 3.12, NautilusTrader 2.0.0rc4; bu sürüm depoda pinlenmiştir).  
-**Belge türü:** bilimsel mimari monografı + hakem revizyonu + normatif aday sözleşmeler; kod, ekonomik sertifika veya otomatik uygulama izni değildir.  
-**Normatif durum:** **OWNER-FROZEN DESIGN BASELINE FOR CONTROLLED P0 / INDEPENDENT COUNCIL APPROVAL NOT ESTABLISHED / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM**. Owner'ın tasarım sürümünü burada dondurması, dış hakem oybirliği, runtime doğrulaması, ekonomik destek veya canlı kullanım izni değildir. V8 Anayasası'nı veya geçmiş immutable kanıtları tek başına değiştirmez.  
-**Kısa hüküm:** *V9.1'in ilk **önerilen** uygulanabilir dilimi, gerçek V8 fonksiyonlarıyla henüz bağlanmamış bir `DecisionPolicyV0` **parite sözleşmesidir**. Ne çalışan yeni trader ne de doğrulanmış mekanik kabul söz konusudur. Bağlama duyarlı trader, gerekli P0 kanıtları tamamlanırsa tek müdahaleli challengerlarda sınanacak **uzun vadeli araştırma hedefidir**. Bu taslak hiçbir uyarlamalı emir veya canlı yetki tanımaz.*
+**Sürüm:** `V9-ARCH-RFC-1.4` — RFC 1.0 ürün vizyonu + RFC 1.3.2 güvenlik/kanıt sözleşmelerinin **tek normatif kaynakta birleştirilmesi**.  
+**Revizyon tarihi:** 4 Kasım 2026.  
+**Kanonik kaynak:** `docs/v9/V9_ARCHITECTURE_MONOGRAPH.md`. Eski sürümler Git geçmişinde tarihidir; paralel bağlayıcı bir RFC yoktur.  
+**Uygulama sınırı:** `ddawnlll/v8` / `v8-next/`; gerçek commit, Python ve Nautilus sürümleri işe başlanırken pinlenir.  
+**Normatif durum:** **OWNER-DIRECTED UNIFIED TARGET DESIGN / IMPLEMENTATION UNVERIFIED / NO ECONOMIC CLAIM / NO LIVE AUTHORITY**. Bu belge çalışır bot, council oybirliği, ekonomi veya canlı güvenlik sertifikası değildir.
 
-> **Bilimsel dürüstlük bildirimi.** Bu çalışma, aynı belgeyi okuyan üç ilişkili Model Council görüşü ve revizyon sentezi ile kullanıcının ilettiği özgün V8 monografı, iki 2026 Deep Research raporu, araştırma handoff ZIP'i, D4 native raporu ve önceki bağımsız ham audit raporunu, erişilebilen GitHub kodunu ve doğrulanmış birincil akademik kaynakları sentezler. Bu belgede yeni bir backtest, sealed OOS sınaması, bağımsız çalıştırılmış V9 prototipi veya canlı işlem sonucu **üretilmemiştir**. Mevcut deneyler yalnız tanımlı BTCUSDT 1H geliştirme bandı ve test koşullarını temsil eder. Kanıt-iddia kapsamı kaynaklara sıkıca bağlı tutulur.
+**Ürün tanımı (bağlayıcı):** V9, yeni piyasa ve venue bilgileriyle `MarketBelief`'ini güncelleyen, **28 mevcut expert'ı bağlama göre aday kanıt üreticisi** olarak değerlendiren, tek `OpportunityBook`'taki fırsatları sürekli yeniden yorumlayan, açık pozisyon tezini ve sermaye kısıtlarını da hesaba katarak **WAIT / ENTER / HOLD / REDUCE / EXIT / ABSTAIN** kararı üreten **sürekli çalışan adaptif trader'dır**. Her ekonomik karar tek Nautilus native risk ve execution otoritesinden geçer.
+
+**İlk dilim ≠ ürün:** `DecisionPolicyV0` yalnız V8'le mekanik parite ve güvenli geçiş kontrolüdür; **V9 tamamlanma ölçütü değildir**. `M1` tek entry veto deneyidir; **V9 adaptasyon yeteneğinin tanımı veya üst sınırı değildir**. Market intelligence, expert intelligence, fırsatın yeniden değerlendirilmesi, active position ve portfolio policy **opsiyonel gelecek fikirler değil hedef ürünün zorunlu tasarım yetenekleridir**. Bunlar erken aşamada shadow olarak inşa edilir; ekonomik kanıt olmadan gerçek risk yetkisi kazanmazlar.
+
+> **Kanıt ve güvenlik ayrımı:** Tasarımın mevcut olması, modülün shadow ortamda çalışması, native mekanik doğruluğu, maliyetler sonrası ekonomik üstünlük ve live authorization ayrı hükümlerdir. Eski V8 geliştirme bandı veya model görüşleri V9 edge kanıtı değildir. Emri ve stop'u yalnız doğrulanmış native adapter yürütür. Offline Pi/Kaizen bir trading karar beyni değildir.
 
 ---
 
 # Özet / Abstract
 
-**Araştırma problemi.** Finansal piyasa koşulları durağan değildir; fırsat gözlemi, işlem seçimi, giriş fiyatı, sermaye işgali, pozisyonun sonraki yönetimi ve emir gerçekleşmesi birbirleriyle etkileşir. Bir sistemin çok sayıda uzman modülü veya ayrıntılı audit üretmesi, gözlemlediği değişikliklere doğru ekonomik tepki verdiğini göstermez. V8-next'in native keşif deneyleri, mevcut konsensüsün seçimde etkisiz kaldığı bir örneği; gecikmeli doğrulamanın ekonomik zararını; dinamik stop yönetiminin belirsiz fakat araştırmaya değer sonuçlarını; gerçek kalıcı fırsat durumunun tek başına ekonomik avantaj sağlamadığını ortaya koymuştur. Temel soru, **V8'in hangi yeteneklerinin daha tutarlı bir karar döngüsüne dönüşmesi gerektiği** ve bunun nasıl yanlışlanacağıdır.
+**Problemin özü.** V8'in MarketState, 28 expert, OpportunityBook, pozisyon, risk, execution ve audit parçaları vardır; ancak bunların yeni koşullarla **tekrar tekrar karar alan bütünleşik bir trader'a** dönüştüğü henüz kanıtlanmış değildir. V9'un ürün hedefi raporlama veya daha az giriş yapan bir V8 değil; fırsatı doğmadan önce bağlam hazırlayan, doğduğunda değerlendiren, açık pozisyonu izlemeyi sürdüren ve risk/sermaye koşullarında kararını güncelleyen trader'dır.
 
-**Yöntem.** Tarihsel mimari belgeleri kodla eşleştirildi; A/B/C/D4 yerel deneylerinin iddia sınırları ayrıştırıldı; piyasa rejimleri, çevrimiçi değişim tespiti, seçici tahmin, maliyetli yürütme, çoklu test ve otonom araştırma literatürü tarandı; tasarım sözleşmeleri, durum makineleri, güvenlik sınırları, test matrisi ve geçiş planı oluşturuldu. Kaynaklar *birincil akademik yayın / repoda gözlenmiş / yerel rapor / tasarım çıkarımı / açık soru* olarak etiketlendi.
+**Kanonik hedef döngü:** PIT market + verified venue observations → multi-horizon MarketBelief → canonical OpportunityBook + context-conditioned 28 ExpertStances → birleşik Trader Decision Policy ← open position thesis + portfolio state → typed entry/position/exit intent → hard risk + single native Nautilus writer → fill/position/equity evidence → bir sonraki olayda yeniden değerlendirme.
 
-**Öneri.** Tek ürün çekirdeği korunur; **önerilen, henüz fixture ile kanıtlanmamış V0 yolu**: PIT market observations → canonical opportunities / mevcut V8 karar algoritması → mevcut risk kabulü → native NautilusTrader → olay/karar receipt’i ve bağımsız doğruluk denetimi. **Hedef V1/V2 yolu**: ölçülmüş MarketBelief → tek sınırlı challenger → doğrulanmış native risk ve yürütme. Expert routing, dinamik position ve portfolio rotation ilk dilimde emir üretemez. **Otonom Kaizen** bu uygulama diliminin dışındadır; ileride ayrı bir araştırma operasyonu olarak ele alınabilir. Hiçbir LLM canlı trading risk kapısını atlayamaz.
+**Metot:** Hedef davranış **ürün sözleşmesidir**; ilk güvenli uygulama ise V8 parity/safety düzeltmeleri ve baştan sona çalışan **shadow integrated trader vertical slice** ile başlar. Bağımsız market, expert, entry, position ve portfolio deneyleri ekonomik iddiaları ayrıştırır; birleşik sistem ayrıca interaction-aware native replay ve prospective shadow ile sınanır.
 
-**Sonuç statüsü.** Bu, *ekonomik edge'in kanıtı* değil, **test edilebilir hedef mimari ve daraltılmış uygulanabilir davranış sözleşmesidir**. Kabul, yalnız kontrol edilen davranışların ve ilgili ekonomik sonuçların yeni, geçerli deneylerle doğrulanmasına bağlıdır.
-
-**Anahtar terimler:** PIT feature view, market-belief research hypothesis, non-stationarity, point-in-time, behavioral experts, opportunity sovereignty, selective decisions, native execution, endogenous occupancy, post-entry management, economic attribution, falsification, autonomous Kaizen, audit lineage.
+**Sonuç statüsü:** Bu belgeyi kabul etmek kârlılığı, doğru maker fill'i, funding doğruluğunu veya canlı deploy'u doğrulamaz. `NO_EDGE`, `INCONCLUSIVE` ve `BLOCKED` sonuçları geçerlidir. Bununla birlikte bu sonuçlar **ürünün hedef yeteneklerinin tasarımdan silinmesi** anlamına gelmez.
 
 ---
 
-# Hakem sonrası editoryal karar ve revizyon kapsamı
+# Tek normatif mimari — ürün hedefi ve aktivasyon sınırları
 
-Üç modelin **aynı monografı** okuyarak yaptığı, ortak öncülleri nedeniyle korelasyonlu sayılabilecek incelemeler aynı üst hükmü verdi: `PROMISING BUT REQUIRES REVISION` [C1–C3]. Bu raporlar **tasarım eleştirisi kayıtlarıdır**; kod doğrulaması, istatistiksel tekrar veya bağımsız bilimsel kanıt değildir. Bulgular içinde belgenin kendi üzerinde gösterilebilen kusurlar ile bugünkü `v8-next/` kodunda gerçekten sürüp sürmediği bilinmeyen tarihsel audit sorunları ayrılmıştır. Kararların ayrıntılı izi [C4] sentezinde korunur.
+## A. Bağlayıcı ürün tamamlanma sözleşmesi (RFC 1.0'ın özü)
 
-**v1.1 revizyon tarihçesinde kabul edilen on temel düzeltme (v1.2 öncesi):** (1) sembolik ekonomik `argmax` üretim algoritması olmaktan çıkarıldı; (2) tek kanonik karar/niyet/venue olayı/neden sözlüğü ve izin matrisi tanımlandı; (3) baseline-equivalent `DecisionPolicyV0` algoritması yazıldı; (4) opportunity, intent, order ve position durumları ortogonal ayrıldı; (5) partial fill, cancel/replace, unknown venue ve restart için güvenlik kuralları kondu; (6) `MarketBelief` ölçülebilir, test edilmemiş bir view olarak sınırlandı; (7) yalnızca tarihsel artefakta ilişkin audit kusurları canlı implementasyon kusuru gibi gösterilmedi; (8) funding, fill ve mark otoritesi matrisi eklendi; (9) ilk deneyde aynı takvim equity, deneme ailesi ve karar değiştiren tek müdahale şart koşuldu; (10) Pi Kaizen çekirdeğin yanında, yetkisiz bir eklenti olarak korundu.
+1. **Market intelligence:** PIT çoklu zaman ufukları, state/structure/volatility/uncertainty/değişim geçmişi; yeni olayda bağımlı görüşlerin güncellenmesi.
+2. **28 expert intelligence:** Mevcut 28 expert envanterde korunur ve uygun veri/bağlamı olanlar `support / contradict / abstain` üretir; aynı kanıtın kopyaları çoğunluk yaratmaz. Hiçbir expert'ın para kazandırdığı varsayılmaz.
+3. **Canonical OpportunityBook:** Bir fırsatın tek kimliği ve immutable doğumu vardır; sonraki market/expert değerlendirmeleri tekrar kaydedilir; D4'ün bekleme kuralı zorunlu değildir.
+4. **Unified Trader Decision:** Tek sürümlü politika hem flat hem open context'te **WAIT, ENTER, HOLD, REDUCE, EXIT, ABSTAIN** gibi yasal kararlar üretir; cancel/protect gibi eylemler typed intent'tir. Sırf V8 entry veto V9 değildir.
+5. **Active position thesis:** Fills/position/protection native gerçekliğine bağlı olarak giriş tezinin hâlâ geçerli olup olmadığı **her ilgili yeni olayda yeniden değerlendirilebilir**. Risk artıran amend veya exit ekonomik olarak varsayılan açılmaz.
+6. **Portfolio choice:** Aynı anda izlenen fırsatlar ile fiilî exposure, margin, sermaye işgali ve kısıtlar birleşik karara girer; ex-post hayali kâr gerçekleşmiş fırsat maliyeti sayılmaz.
+7. **One native authority:** Risk/venue veto mutlak; tek writer, idempotent intent, konum/stop doğrulama ve fail-closed durumlar bu hedefi değiştirmez.
+8. **Evidence and integration:** Tekil bileşen ablation'ları + **birleşik politika etkileşim testi** + tam takvim/maliyetli portföy replay'i ve uygun OOS; sonuç olumsuzsa yeni politika üretime alınmaz.
 
-**Hakemlerden kısmen ayrıldığımız nokta:** İlk implementasyonda çalıştırılmayacak diye `Market Intelligence`, `Dynamic Position` ve `Portfolio` sorumluluklarını V9'un nihai vizyonundan çıkarmıyoruz. `TARGET_DESIGNED`, `INSTRUMENTED`, `MECHANICALLY_VALIDATED`, `ECONOMICALLY_EVALUATED`, `PROMOTABLE` durumlarını birbirine karıştırmadan ilerliyoruz. Başarısız deney mimari hipotezi reddedebilir; bir sınıfın varlığı ekonomik faydayı kanıtlamaz.
+**V9 ürün olarak tamamlanma:** `V9_INTEGRATED_SHADOW_VERIFIED`, altı trading sorumluluğunun gerçek kanıt zinciriyle birlikte çalıştığını ispatlar; `V9_INTEGRATED_ECONOMICALLY_EVALUATED` ise ayrı ekonomik sonuçtur. **V0_PARITY_VERIFIED, V9_COMPLETE anlamına gelmez.** Bir politikaya canlı yetki ancak ayrı production gate ile verilir.
 
-## V9.1 (RFC-1.2) revizyon notu — aynı monograf, yeni sözleşme katmanı
+## B. Tek otorite ve yorum sırası
 
-Bu sürüm v1.1’in I–XXVI bölümlerini, A/B/C/D4 deney özetlerini, tarihsel denetim şüphelerini, bilimsel literatürünü ve kaynakçayı **koruyarak** ilgili normatif paragrafları revize eder. Ayrı bir küçük RFC, yeni motor veya V8 geçmişinin yeniden yazımı değildir. Yerel `V9_1_ARCHITECTURE_DESIGN_RFC.md` tasarım notları bu monografın ilgili bölümlerine **soğurulmuştur**; paralel bir normatif kaynak doğurulmaz.
+**Bu dosya tek normatif RFC'dir.** Bölüm IV–XII'deki **birleşik hedef mimari ve bu bölümdeki ürün sözleşmesi** ürün kapsamını belirler; `7`/`8`/`11`/`12`'deki safety/evidence kuralları **emir, test claim'i ve promotion yetkisini** sınırlar. `V0`/`M1`/`P0` ifadeleri birer **aşama**dır, nihai ürün tanımı değildir. Tarihsel council/revizyon notları veya önceki sürümden kalan örnekler bu hedefi daraltamaz. Belirsizlikte hem ürün yeteneğini hem risk izolasyonunu koruyan çözüm uygulanır; güvenlik override edilemez, tasarım yeteneği silinmez.
 
-**Hakem düzeltme kayıtları:** (R1) V0 paritesi ve V1/V2 adaptif yetki ayrıldı; (R2) ikinci safety politikası yasaklandı; (R3) güncel HEAD native lineage testine zorunlu kapı kondu; (R4) council kanıt sayılmıyor; (R5) belief/position/allocator aktivasyonu açılıp kapanan açık feature gate’e bağlandı; (R6) expert V0 karar girdisinden çıkarıldı; (R7) client order ID’nin tek kalıcı doğum işlemi normatif kılındı; (R8) optimizasyon modeli ve ex-post regret karar yetkisinden çıkarıldı; (R9) pinned Nautilus rc4 callback/NETTING fixture zorunlu; (R10) Kaizen accepted-task/hour terfi veya reversal ölçütünden çıkarıldı.
+**Sorumluluk ile otorite farklıdır:** MarketBelief/Expert/Opportunity/TraderPolicy/Position/Portfolio bileşenleri shadow ortamda geliştirilebilir; tek başlarına order oluşturamaz. Yalnız kanıtlı, sınırlandırılmış, sahibi tarafından açılmış policy versiyonu native execution’a öneri sunar. Aynı policy bileşenini tasarlamak ile o bileşene sermaye yetkisi vermek iki ayrı olaydır.
 
-**Çelişki çözüm kuralı:** Bu sürümde aşama izin tablosu (`§7.9`), **Safety Binding Contract** (`§7.3`), **durable order outbox** (`§8.7`) ve **P0 kanıt kilidi** (`§12.9`) önceki hedef mimari tasvirlerinin üstündedir. Bir diyagramda ilerideki modül gösterilmesi, V0 emir yetkisi vermez.
+## C. Tarihsel revizyonların doğru okunması (normatif olmayan kayıt)
 
-**Versiyon semantiği:** `V9.1` tasarım iterasyonunun adı; `RFC-1.2` belgenin revizyonudur. Birbirlerinin yerine kullanılamaz. GitHub `main` ve yerel entegrasyonun 3 Kasım 2026 kullanıcı operasyon raporu `f07d9e21…` temelini bildirir; **bu monograf çalıştırılabilir test veya doğrulanmış güncel native olay çıktısı üretmez**. Gerçek envanter uygulama başlamadan SHA ile yeniden sabitlenmelidir.
+- **1.0:** Sürekli market→expert→opportunity→decision→position/portfolio→native execution döngüsünü ürün vizyonu yaptı.
+- **1.1:** Kanonik karar sözlüğü, ortogonal native state, unknown/partial fill ve araştırma/kanıt semantiğini netleştirdi.
+- **1.2–1.3:** V8 parity ile adaptif politika yetkisini ayırdı; evidence gate ve actual source mapping zorunluluğunu ekledi.
+- **1.3.1–1.3.2:** Legacy expert gate paritesi, tek kalıcı order doğumu, `BLOCKED` koruma sürekliliği, yan etkili baseline'ın ikinci defa çağrılmaması ve ekonomik producer conflict kurallarını koydu.
+- **1.4:** Bu güvenlik kazanımlarını koruyup, V0/veto merkezli **ürün kapsamı daralmasını geri aldı**. Önceki sürümler ayrıca yorum otoritesi değildir.
 
-## V9.1 monograf revizyonu — RFC-1.3 ve hakem cevapları
-
-İki ek adversarial değerlendirmenin ortak sonucu `PROMISING BUT REQUIRES REVISION`dır. **Bu görüşler çalıştırılmış test değildir.** Değerlendirmeler üç uyuşmazlığı belirginleştirir: (i) henüz gerçek fonksiyonlara bağlanmamış V0 parite fikrini çalışan sistem sanmak, (ii) eski ZIP audit riskini veya #491 residual'ını GitHub issue kapanışı ile çözülmüş saymak, (iii) piyasa zekâsı hedefini fiilî karar yolu gibi çizmek. Bu sürüm yeni özellik eklemek yerine ilk uygulama diliminin fiziksel sınırını daraltır.
-
-**Bağlayıcı revizyonlar:** V0 akışında belief/expert/router okları yok (§7.2); yeni Safety Reconciler aktörü yok (§8.3); Kaizen hız eşikleri kabul ölçütü değil (§17); gün bazlı takvim tamamen kaldırıldı (§XXI); gerçek sembol/API adresi ve durum sahipliği P0-A çıktısı (§7.3.2, §8.2.1, §12.9); mark ve equity residual ayrık fiziki gate (§3.3.1, §12.1.2); outbox ayrı bir DB zorunluluğu değil, mevcut transaction'ın kanıtlanması (§8.7); M1'de önce `PITFeatureView` / basit eşik kıyası (§4.3, §4.7); 20 USDT feasibility yalnız native filtre ve risk testleriyle (§11.5.1).
-
-**Hakemlerin önerilerinden ayrıldığımız noktalar:** 123/123 consensus sonucu, *o development penceresinde seçim katkısının sıfır olduğunu* kanıtlar; tüm expert kodunun değersizliğini ve silinmesi gerektiğini kanıtlamaz. D4 gecikmesinin olumsuzluğu OpportunityBook kimliğiyle zorunlu bekleme politikasını özdeşleştirmez. Pi'nin araştırma projesi olarak mevcut olması canlı trading yetkisi gerektirmez. Dolayısıyla bu modüller **V0 uygulamasında yok veya unreachable** olur; tarihsel kanıt ve deney araçları silinmez. Yeni bir modülü meşrulaştırmak için yalnız daha hoş adlandırma değil, davranışsal bilgi katkısı gerekir.
-
-**Bu monografın bu turda ürettiği kanıt:** Kaynak metinleri ve kullanıcı tarafından iletilmiş raporlar üzerindeki editoryal analiz; **yeni native run, benchmark, HEAD doğrulaması veya store transaction testi yoktur**. Bu tür kanıtları gerektiren kabul hücreleri `UNVERIFIED / BLOCKED` olarak kalır.
-
-## RFC-1.3.1 — Son inceleme adayı ve hedefli düzeltmeler
-
-Bu sürüm **final bağımsız council incelemesi için sunulan tasarım adayıdır; mimari kabul, runtime PASS, edge veya production izni henüz yoktur**. Üç RFC 1.3 council raporunun tekrarlanan `UNVERIFIED` bulguları yeni RFC'ye değil, pinli kaynak ve fixture içeren P0 issue'larına devredilir. Council kanıtlı kritik bir tasarım çelişkisi bulursa hedefli revizyon ve yeniden değerlendirme gerekir; yalnız uygulama kanıtı eksikliği tasarım kusuru sayılmaz. Sonraki mühendislik kanıtı kod/test/receipt olarak kaydedilir.
-
-**Netleştirilen dört uyuşmazlık:** (i) V0 paritesinin öznesi tekil pinli `strategy_class + config_hash + code_sha + execution_profile`'dır; eski V8 ensemble içindeki *legacy* expert gate korunabilir, ancak V9'a **yeni** routing eklenmez. (ii) `OPEN_EXPOSURE + ENTRY_PENDING` birlikte mümkündür; entry-only V0 receipt native exit/cancel/stop işlemlerini susturamaz. (iii) karar üretimi side-effect-free kalır; durable intent ve outbox atomik yazımı mevcut native execution sınırındadır. (iv) P0 kanıtı `claim × producer × dataset × execution_profile` kapsamlıdır; bozuk equity yolu ekonomik kıyası bloke eder, izole mekanik fixture'ı değil.
-
-**Gerçek kaynak bulguları ile kanıt düzeyi:** Üçüncü hakem, `c84fecbff3981ad2e6d4da3e0f974c81e2d80b61` altında cancel argümanı, partial-fill bracket miktarı, campaign sequence atfı, fill multiset ve min-notional sizing riskleri için mekanik probe raporladı. İlgili kaynak yolları bu denetimde incelendi; hakem fixture'ları bu belge revizyonunda bağımsız yeniden çalıştırılmadı. Bunlar çözülmüş sayılmaz; ilgili yürütme yolundaki `SAFETY_REPAIR/AUDIT_REPAIR` kapılarıdır (§3.3.3).
-
-**Yanlış genelleme filtresi:** 123/123 expert konsensüsü bütün expert kodunun değersizliğini; D4 sonucu OpportunityBook kimliğinin gereksizliğini; #491 bütün mekanik testlerin geçersizliğini; 20 USDT belirsizliği her sembolde TP1/TP2'nin imkânsızlığını kanıtlamaz. Nitelikli sonuç ancak sınandığı kapsam için verilir.
-
-## RFC-1.3.2 — Owner design freeze ve son bağımsız kontrol
-
-**Amaç:** V9 trading core'unu yeniden tasarlamadan, uygulama sırasında pahalı onarımlara yol açabilecek kalan *sözleşme* belirsizliklerini kapatmak. Bu sürümden sonra genel mimari council döngüsü varsayılan iş akışı değildir; P0-A/B/C kod ve kanıt çıktıları esas alınır. Yeni ve somut mimari çelişki kanıtlanırsa owner hedefli değişiklik açabilir. **Bu editoryal turda yeni native replay/backtest, bağımsız kod fixture'ı veya venue deneyi çalıştırılmadı.**
-
-**Son council kanıtının doğru kapsamı:** RFC 1.3.1 için gelen üç metin üç tamamlanmış bağımsız denetim değildir: raporlardan biri GitHub/kanonik Markdown erişimi olmadan koşullu bir olumlu mimari hüküm vermiştir; diğer iki ek aynı içerikli, kaynak koduna kısmen erişmiş fakat tam monograf ve plan incelemesini tamamlayamadığı için nihai hüküm vermemiştir. Bu görüşler `THREE_INDEPENDENT_APPROVALS` sayılmaz. Önceki RFC 1.3 incelemeleri tarihsel tasarım eleştirisi; test kanıtı değildir.
-
-**Final hedefli kararlar:** (1) Aynı estimand'ı üreten ekonomik kaynaklar uyuşmazsa, sonuç seçerek producer değiştirmek yasaktır; ekonomik iddia ilgili bağımlılık grafiği çözümlenene kadar `BLOCKED` (§12.9). (2) Mevcut V8 baseline'ın yan etkili karar callback'i V0 içinde ikinci kez çağrılamaz; yalnız bir mevcut execution yolu kullanılabilir (§7.4). (3) `BLOCKED` ekonomik yeni-risk kapısıdır; canlı native fill/exit/protection olay işleme döngüsünü durdurmaz; kör düzeltme de açmaz (§8.2.1). (4) `#491` ilgili equity/ekonomik estimand'ı bloke eder; bağımsız `V0_MECHANICS_ONLY` geliştirmesi için genel veto değildir (P0-B/C). (5) 20 USDT'de geçersiz TP1/TP2 otomatik başka ekonomik politika seçmeye zorlamaz (§11.5.2).
-
-**Owner kararı:** Dondurulan şey **tasarım sorumlulukları ve aktivasyon sınırlarıdır**, herhangi bir V8/V9 kodunun güvenliği veya kârlılığı değil. Bütün yeni risk/venue/live yetkileri önceden tanımlı native test, veri ve ayrı operatör onayı gerektirir.
+Bağımsız council review metinleri uygulama testleri sayılmaz. RFC 1.3.1 için üç *tamamlanmış ve bağımsız* kaynak-temelli onay elde edilmiş değildir. Bu revizyon çalıştırılmış V9 testi, replay veya ekonomik kanıt üretmez.
 
 ## Belge onayının beş ayrı düzeyi
 
@@ -217,33 +200,30 @@ Her market/derived event için en az `event_time`, `exchange_publication_time` (
 
 olmak üzere, belirli politika sürümü için `Action_t = π(F_t, Portfolio_t, PolicyVersion)` verisi ile tekrar üretilebilir olmalıdır. Retroaktif `funding`, `OI` veya dış veri eklemek, mevcut hipoteze yeni veri bilgisi kazandırıyorsa yeni dataset/version ve ayrı deney kimliği gerektirir.
 
-## 4.3 MarketBelief: sınırlı ve yanlışlanabilir temsil
+## 4.3 MarketBelief — birinci sınıf hedef runtime sorumluluğu
 
-**Geleceğe ait araştırma şeması (V2+):** Aşağıdaki `MarketBeliefV0`, V0/V1'de kodlanacak runtime sözleşmesi değildir. Mevcut PIT `MarketState` veya gerekli ise salt-okunur `PITFeatureView` ilk diagnostic arayüzüdür. Yeni bir belief class'ı, kalibre edilmemiş rejim motoru veya ikinci karar otoritesi **yazılmaz**. Hiçbir yeni belief değişkeni, varsayılan V8 giriş/çıkış davranışını kendiliğinden değiştiremez. Representation, prediction ve decision-utility ayrı araştırma hedefleridir.
+`MarketBelief` **V9 hedef ürününde zorunludur**; yalnız “belki V2+ araştırması” değildir. İlk inşa aşamasında mevcut `MarketState`/`world` yollarından PIT-safe, read-only, **shadow** bir projection/adaptor olarak üretilebilir; yeni büyük ML servisi şart değildir. MarketBelief, yalnız expert'a etiket dağıtan rejim sınıflandırıcısı değil; **piyasa koşulları, veri kalitesi, belirsizlik ve tez değişiminin sürümlü durumu**dur.
 
 ```text
-MarketBeliefV0  # FUTURE RESEARCH ONLY; NOT V0/V1 RUNTIME
-  instrument_id: String
-  decision_cut_ns: Int
-  source_event_ids: List[EventId]
-  input_available_max_ns: Int
-  market_state_ref: StateRef
+MarketBeliefV1  # REQUIRED TARGET CONTRACT; may be SHADOW / no order authority
+  instrument_id, interval_set, decision_cut_ns, input_available_max_ns
+  market_state_ref, state_id, state_version, source_event_ids
   data_quality: VALID | STALE | INCOMPLETE | UNKNOWN
-  volatility_context: Optional[VersionedObservation]
-  structure_context: Optional[VersionedObservation]
-  regime_labels: List[VersionedScore]  # NOT calibrated probabilities
-  invalidation_events: List[EventId]
-  measurement_version: ContentHash
-  confidence_semantics: NONE | VALIDATED_MEASURE_ID
+  structure: {direction, swing_state, breakout_state, support_resistance_ref}
+  volatility: {level, percentile, change_state}
+  context_scores: {trend, range, shock, transition, unknown}
+  liquidity_context: {proxies, availability, missingness}
+  horizon_alignment: {15m, 1h, 4h, unknown}
+  evidence_changes: {previous_state_id, changed_fields, trigger_event_ids}
+  uncertainty: {measure_id, definition, calibrated_if_available}
+  provenance: {source_hash, feature_version, model_version, data_role}
 ```
 
-`trend`, `range`, `shock`, `transition` birbirini dışlamak zorunda olmayan **özelliklerdir**. Basitçe birim-toplamlı dağılım adı vermek matematiksel hata olur: kalibre edilmiş ve açıkça birbirini dışlayan olaylar olmadan `regime_distribution` alanı **yoktur**. Şok sırasında trend de olabilir. `confidence=0.91` gibi çıplak sayı yasaktır; confidence ancak neye ilişkin olduğu, referans olayı, penceresi ve validasyon verisiyle yorumlanır. Mevcut bar OHLCV'den çıkarılmış likidite proxy'si L1/L2 emir defteri olarak adlandırılamaz.
+**Sözleşme:** Gözlemler yalnız `available_at <= decision_cut` ise kullanılabilir; incomplete higher-TF bars ve backfilled funding decision input'u olamaz. Context skorları keyfi şekilde toplamı 1 olan “kalibre rejim olasılığı” diye sunulamaz; doğrulanmış ve birbirini dışlayan olay/probability modeli yoksa `scores` ve `UNKNOWN` kullanılır. L1/L2 olmayan likidite proxy'si book fill doğruluğu iddiası değildir.
 
-**Birincil kullanım iki farklı yetki ailesidir:** `DATA_QUALITY_REFUSAL` bayat/eksik PIT veri nedeniyle **mevcut risk güvenliği** kapsamındaki ret; ekonomik adaptasyon başarısı **değildir**. `V9-M1_ENTRY_VETO` ise ön-kayıtlı, varsayılan kapalı **tek** volatilite/rejim koşulu altında *baseline’ın açacağı yeni girişi* veto eden ve yeni giriş üretemeyen challenger’dır. `HOLD/EXIT`, stop veya sermaye miktarı M1 ile değişmez. Aynı deneyde `baseline V8` / `raw-feature threshold` / `belief-view condition` karşılaştırılır. Yeni temsil her iki basit karşılaştırıcıyı geçemiyorsa **diagnostic-only** kalır.
+**Event-driven update:** PIT market/venue event, önemli risk/pozisyon değişimi veya geçerlilik süresi dolması ilgili bağımlılıkları invalidate eder; her tick'te bütün 28 expert'ı çalıştırmak zorunlu değildir. Aynı kaynak/version/event kesiti deterministik MarketBelief üretmeli; farklı görüş, yeni sürüm ve neden kaydı ister.
 
-**İkinci aşama:** İşe yarayan tek değişken kanıtlanırsa zaman içi stabilite, değişim algılama, multi-horizon etkileşim, kalibrasyon ve conditional outcome distribution ayrı family olarak araştırılır. Adams–MacKay [L01] yalnız aday change-point yöntemi; yararlı trading kararı kanıtı değildir.
-
-**Adlandırma ve kanıt eşiği (RFC-1.3):** V0 için `MarketBelief` diye ayrı bir çalışma zamanı sınıfı **yazılmaz**. Mevcut `MarketState` üzerinde PIT doğruluğu kanıtlanmış özellikleri isimlendirmek gerekiyorsa araştırma/diagnostic yüzeyi `PITFeatureView` olarak tanımlanır. `trend/range/shock/transition` etiketleri kalibre edilmiş posterior değildir. Gizli durum modeli/`MarketBelief` adı ancak model varsayımları, kalibrasyon, drift, basit threshold karşılaştırması ve karar değiştirme değeri ayrı deneyle gösterildikten sonra kazanılır. BOCPD/HMM birincil seçenek değil, ayrı ve yanlışlanabilir model ailesidir; salt yöntem literatüründen edge çıkmaz.
+**Yetki:** MarketBelief'in **shadow ve integrated policy input** olması ürün hedefidir. Canlı girişi, stop'u veya çıkışı değiştirmesi ayrı policy activation/ablation/native safety kapısı gerektirir. BOCPD/HMM/learned router zorunlu başlangıç algoritması değildir; ham özellik/threshold karşılaştırması korunur.
 
 ## 4.4 Multi-horizon ve market state çevrimi
 
@@ -263,23 +243,29 @@ Rejim tahminleri hatalı olabilir. False transition ile yanlış expert yönlend
 
 ---
 
-### 4.7 V0 → V1 davranış geçidi
+### 4.7 Market intelligence ürün yolu ve ekonomik aktivasyon
 
-`MarketBeliefV0` veya `PITFeatureView` V0 karar yoluna **argüman olarak bile geçirilemez**. Salt immutable diagnostic/view ve shadow karar kaydı üretir. V1 economic-entry veto aktifleştirme sırayla `P0-B AUDIT_VERIFIED`, `P0-C V0_PARITY_VERIFIED`, `PINNED_NATIVE_CALLBACK_VERIFIED`, `M1_SINGLE_FAMILY_PREREGISTERED`, `FEATURE_FLAG_DEFAULT_OFF`, `EVIDENCE_QUALIFIED` ve ayrı `OWNER_PROMOTION_APPROVAL` gerektirir. `DATA_QUALITY_REFUSAL` bu karşılaştırmanın içine ekonomik getiriyi iyileştiren feature diye karıştırılmaz. Açık pozisyonda regime flip, V0/V1 için yalnız kayıt/diagnostic olup native stop/target yolunu değiştirmez.
+MarketBelief + `PITFeatureView`, **V9 integrated shadow trader'a ilk dikey dilimden itibaren girdi** olarak bağlanır; V0 legacy native route ile karıştırılmaz. Yeniden değerlendirme yalnız yeni entry veto için değil, **bekleyen fırsatın geçerliliği, expert stance değişimi, açık pozisyon tezi ve portföy risk/kapasitesi** için de tasarlanır.
 
-**M1 bilimsel ayırma kapısı:** Ekonomik veto denenmeden önce `PITFeatureView`un gerçek bir ölçüm ekleyip eklemediği, aynı PIT kesitlerinde ham volatilite/ATR özelliği ve ön-kayıtlı tek basit eşik karşısında sınanır. Ayrışma yoksa yeni belief modeli veya sınıfı yazılmaz; mevcut özellik üzerinde `M1_ENTRY_VETO` ablation araştırılabilir ama buna “piyasa anlayışı” denmez. Veto için örnek biçim `eligible_entry_t = baseline_enter_t AND NOT(quality_valid_t AND x_t >= theta)` yalnız **test hipotezi**dir: `x`, `theta`, ön bilgi süresi, time-cut, maliyet ve durdurma kuralı **sonuçları görmeden** dondurulmalıdır. Bayat/eksik veri retleri ayrı safety population'dır; ekonomik başarıya yazılamaz.
+Ekonomik karar otoritesine geçişte her kullanım ailesi kendi `claim × producer × dataset × execution_profile` kapsamıyla test edilir. İlk ucuz deney `M1_ENTRY_VETO` olabilir ancak **zorunlu tek V9 market intelligence ürünü veya tavanı değildir**. Market context→position/entry/portfolio davranışları da tasarımda yer alır; ayrı denemeler ve birleşik replay'e kadar shadow/default-off kalır.
+
+PIT validity, raw-feature threshold karşılaştırması, drift, calibration (olasılık iddiası varsa), changed decision count, calendar-aligned net equity ve bağımsız holdout ekonomi hükmünün gereğidir. Tutarsız sonuç `NO_EDGE`/`INCONCLUSIVE` doğurabilir; MarketBelief'in gözlem ve deterministik ürün API'sini ortadan kaldırmaz.
 
 # V. Expert intelligence: uzmanların görüşü, hakikatin çoğalması değil
 
-## 5.1 Kimlik ve rol
+## 5.1 Kimlik, 28 expert kapsamı ve görevleri
 
-Expert bir *observer*dır; ekonomik opportunity ID üretmez, sermaye tahsis etmez, emir göndermez. `ExpertStance = {expert_id, version, habitat_id, opportunity_id, support/contradict/abstain, reason_code, observed_features, availability_bounds, lineage}`. Aynı kanıta dayanarak oy veren kopya expert'ların çoğunluk oluşturması bilgi üretmez. Orijinal V8'in clone invariance ve opportunity sovereignty ilkeleri korunur [P1].
+28 mevcut expert **V9'un hedef expert intelligence evrenidir**. Her biri `expert_id`, `version`, davranış/kanıt ailesi, `habitat`, erişilebilir PIT feature ve `support/contradict/abstain` nedeni ile envanterlenir. `ExpertStance = {expert_id, version, habitat_id, opportunity_id, support/contradict/abstain, reason_code, observed_features, availability_bounds, lineage}`.
 
-**V0 uygulama kilidi:** **Yeni** `ExpertStance`, clone-graph, consensus ve habitat-route çıktıları `DecisionPolicyV0` wrapper'ına karar girdisi olamaz. Ancak seçilmiş ve pinlenmiş mevcut V8 baseline strategy'si legacy expert quorum kullanıyorsa o özgün hesap **baseline içinde aynen kalır**: kaldırılması V0 paritesi değil ayrı ve kaydı tutulan bir baseline değişikliğidir. Wrapper expert'ları yeniden hesaplamaz veya yeni routing uygulamaz. İlk expert katkısı `E1` adında bağımsız ablation ailesiyle, duplicate-observer ve gerçek altered-decision kontrolüyle açılır. Bu bölümü anlatan 28-stance şeması çalışır yetenek sayılmaz.
+Expert emir veya yeni opportunity kimliği yaratmaz; yalnız **bağlama bağlı, zamana duyarlı ekonomik karar kanıtı** sağlar. Aynı feature'dan üretilmiş korelasyonlu oylar bağımsız gözlem sayılamaz. V8'in legacy gate'i V0 karşılaştırmasında saklanır; yeni V9 expert intelligence hedefinden çıkarılmaz.
 
-## 5.2 Context-aware uzmanlık
+**Asgari teslim:** Bütün mevcut 28 expert için `INVENTORIED / EXECUTABLE / INCOMPATIBLE_WITH_REASON` statüsü, immutable stance veya tipli abstention, her relevant market change için dependency-aware re-evaluation, clone invariance ve altered-decision attribution. Eksik expert gizlice silinmez ya da “28/28 faydalı” denmez. Başarısız bir expert'in üretim ağırlığı sıfır olabilir; tarihsel kanıt ve hedef interface kaybolmaz.
 
-Önerilen V9 davranışı: expert önce kendi habitatına uygunluğunu belirtir; uygunluk yoksa `ABSTAIN`. `MarketBelief` expert görüşü için ortak bilgi bağlamıdır, ancak **sabit ve yanlış olabilecek bir regime-router'ın expert'ları zorla susturması** varsayılan değildir. Yeni routing, consensus, confidence calibration veya learned scorer ancak mevcut self-gating baseline'a karşı testten sonra ekonomik karar yoluna alınır.
+## 5.2 Context-aware expert intelligence (V9 target)
+
+`MarketBelief` bağlamı ve `OpportunityBook`'un son evaluation snapshot'ı her uygun expert'a sunulur. Expert kendi habitatında destek/çelişki/çekimserlik bildirir; hatalı bir sabit regime classifier'ın bütün expert'ları susturması varsayılan politika değildir. Çakışan kanıtlar **kaynak bağımlılıklarıyla** temsil edilir; çoğunluk oyu tek başına fiyat tahmini veya sermaye emri değildir.
+
+V9 Trader Policy, **kanıt gruplarını, karşıt expert görüşlerini ve abstention'ı** uygun risk/kapasite altında kullanabilecek şekilde tasarlanır. İlk shadow testinde context değişince stance'lerin ve decision reason'ın değişmesi izlenebilir olmalıdır. Economic promotion için legacy self-gating, basit raw-feature ve dependency-adjusted ablation karşılaştırmaları gerekir. Learned weights/consensus/routing yalnız doğrulanmış sürümlü policy olarak canlıya açılır; hedef interface'in inşası bu kanıtı beklemek zorunda değildir.
 
 ## 5.3 A deneyinden çıkarılan gerçek ders
 
